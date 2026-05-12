@@ -1,0 +1,51 @@
+---
+const stocks = [
+  { name: 'Portra 400', family: 'Kodak', swatch: '#E8C4A0' },
+  { name: 'Portra 160', family: 'Kodak', swatch: '#D4B896' },
+  { name: 'Portra 800', family: 'Kodak', swatch: '#D4A878' },
+  { name: 'Gold 200', family: 'Kodak', swatch: '#DAB36E' },
+  { name: 'Ultramax 400', family: 'Kodak', swatch: '#C4A854' },
+  { name: 'Ektar 100', family: 'Kodak', swatch: '#D4665A' },
+  { name: 'HP5 Plus', family: 'Ilford', swatch: '#9A9A9A' },
+  { name: 'Tri-X 400', family: 'Kodak', swatch: '#B0B0B0' },
+  { name: 'Delta 3200', family: 'Ilford', swatch: '#787878' },
+  { name: 'Pan F Plus 50', family: 'Ilford', swatch: '#B8B8B8' },
+  { name: 'Provia 100F', family: 'Fuji', swatch: '#7BA3C9' },
+  { name: 'Velvia 50', family: 'Fuji', swatch: '#5A9E6A' },
+  { name: 'Superia 400', family: 'Fuji', swatch: '#7EB89A' },
+  { name: 'CineStill 800T', family: 'CineStill', swatch: '#C9956A' },
+];
+---
+
+<section class="materials">
+  <div class="materials-header">
+    <div class="section-label">Materials</div>
+    <h2 class="section-heading center">Thirty-seven stocks. Five chemistries.</h2>
+    <p class="section-body" style="margin: 0 auto;">
+      Real film stocks, modeled by their actual behavior — grain structure, color
+      response, contrast curve, halation. Not filters. Not LUTs. Material choices,
+      the same way you would choose them in a lab.
+    </p>
+  </div>
+
+  <div class="stocks-grid">
+    {stocks.map((stock) => (
+      <div class="stock">
+        <div class="stock-swatch" style={`background:${stock.swatch}`}></div>
+        <div class="stock-info">
+          <div class="stock-name">{stock.name}</div>
+          <div class="stock-family">{stock.family}</div>
+        </div>
+      </div>
+    ))}
+    <div class="stock" style="grid-column: span 2; justify-content: center;">
+      <div class="stock-info" style="text-align:center; color: var(--text-ghost); font-family: var(--font-body); font-style: italic; font-size: 13px;">
+        + 23 more
+      </div>
+    </div>
+  </div>
+
+  <p class="scanner-line">
+    And five scanners — <span class="accent">Noritsu, Frontier, Pakon, Flatbed, DSLR</span> — because the scanner is half the look.
+  </p>
+</section>
