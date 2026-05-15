@@ -22,9 +22,11 @@
         }
       },
       {
-        // Element must be 15% above the bottom of the viewport before it
-        // counts as visible. Stops things firing as they peek in.
-        rootMargin: '0px 0px -15% 0px',
+        // Trigger 200px BEFORE the element reaches the viewport bottom.
+        // By the time the scroll brings the element into actual view,
+        // it's already most of the way through its fade-up — feels like
+        // things "are" rather than "happen".
+        rootMargin: '0px 0px 200px 0px',
         threshold: 0,
       }
     );
