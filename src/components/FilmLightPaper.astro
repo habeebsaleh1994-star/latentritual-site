@@ -1,6 +1,9 @@
 ---
 import { Picture } from 'astro:assets';
 import darkroom from '../assets/darkroom.png';
+import workbench from '../assets/workbench.png';
+import lighttable from '../assets/lighttable.png';
+import studio from '../assets/studio.png';
 ---
 
 <section class="ritual" id="ritual">
@@ -59,7 +62,14 @@ import darkroom from '../assets/darkroom.png';
         </p>
       </div>
       <div class="stage-image reveal" style="--reveal-delay: 320ms">
-        <img src="/images/workbench.png" alt="Light stage — tone, dye density, color spectrum" />
+        <Picture
+          src={workbench}
+          formats={['avif', 'webp']}
+          widths={[480, 800, 1200, 1600]}
+          sizes="(min-width: 900px) 800px, 100vw"
+          alt="Light stage — tone, dye density, color spectrum"
+          loading="lazy"
+        />
       </div>
     </div>
 
@@ -81,7 +91,14 @@ import darkroom from '../assets/darkroom.png';
         </p>
       </div>
       <div class="stage-image reveal" style="--reveal-delay: 320ms">
-        <img src="/images/lighttable.png" alt="Paper stage — enlarger, wash, fall-off, finish" />
+        <Picture
+          src={lighttable}
+          formats={['avif', 'webp']}
+          widths={[480, 800, 1200, 1600]}
+          sizes="(min-width: 900px) 800px, 100vw"
+          alt="Paper stage — enlarger, wash, fall-off, finish"
+          loading="lazy"
+        />
       </div>
     </div>
 
@@ -97,7 +114,14 @@ import darkroom from '../assets/darkroom.png';
         </p>
       </div>
       <div class="stage-image reveal" style="--reveal-delay: 320ms">
-        <img src="/images/studio.png" alt="Retouch stage — spotting and clone" />
+        <Picture
+          src={studio}
+          formats={['avif', 'webp']}
+          widths={[480, 800, 1200, 1600]}
+          sizes="(min-width: 900px) 800px, 100vw"
+          alt="Retouch stage — spotting and clone"
+          loading="lazy"
+        />
       </div>
     </div>
 

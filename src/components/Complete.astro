@@ -1,4 +1,6 @@
 ---
+import { Picture } from 'astro:assets';
+import studio from '../assets/studio.png';
 ---
 
 <section class="complete">
@@ -12,7 +14,14 @@
   </p>
 
   <div class="complete-screen reveal" style="--reveal-delay: 240ms">
-    <img src="/images/studio.png" alt="Latent the Ritual — the Studio" />
+    <Picture
+      src={studio}
+      formats={['avif', 'webp']}
+      widths={[640, 1024, 1600, 2560]}
+      sizes="(min-width: 1432px) 1352px, 100vw"
+      alt="Latent the Ritual — the Studio"
+      loading="lazy"
+    />
   </div>
 
   <div class="complete-list">
