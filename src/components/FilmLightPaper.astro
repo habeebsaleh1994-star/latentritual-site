@@ -1,4 +1,6 @@
 ---
+import { Picture } from 'astro:assets';
+import darkroom from '../assets/darkroom.png';
 ---
 
 <section class="ritual" id="ritual">
@@ -29,7 +31,14 @@
         </p>
       </div>
       <div class="stage-image">
-        <img src="/images/darkroom.png" alt="Film stage — stocks, chemistry, scanner, paper" />
+        <Picture
+          src={darkroom}
+          formats={['avif', 'webp']}
+          widths={[480, 800, 1200, 1600]}
+          sizes="(min-width: 900px) 800px, 100vw"
+          alt="Film stage — stocks, chemistry, scanner, paper"
+          loading="lazy"
+        />
       </div>
     </div>
 
