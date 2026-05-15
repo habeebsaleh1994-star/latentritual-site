@@ -19,9 +19,9 @@ const stocks = [
 
 <section class="materials">
   <div class="materials-header">
-    <div class="section-label">Materials</div>
-    <h2 class="section-heading center">Thirty-seven stocks. Five chemistries.</h2>
-    <p class="section-body" style="margin: 0 auto;">
+    <div class="section-label reveal">Materials</div>
+    <h2 class="section-heading center reveal reveal-heading" style="--reveal-delay: 80ms">Thirty-seven stocks. Five chemistries.</h2>
+    <p class="section-body reveal" style="margin: 0 auto; --reveal-delay: 160ms">
       Real film stocks, modeled by their actual behavior — grain structure, color
       response, contrast curve, halation. Not filters. Not LUTs. Material choices,
       the same way you would choose them in a lab.
@@ -29,23 +29,23 @@ const stocks = [
   </div>
 
   <div class="stocks-grid">
-    {stocks.map((stock) => (
-      <div class="stock">
-        <div class="stock-swatch" style={`background:${stock.swatch}`}></div>
+    {stocks.map((stock, i) => (
+      <div class="stock reveal" data-swatch={stock.swatch} style={`--reveal-delay: ${240 + i * 30}ms`}>
+        <div class="stock-swatch" style={`background:${stock.swatch}; color:${stock.swatch}`}></div>
         <div class="stock-info">
           <div class="stock-name">{stock.name}</div>
           <div class="stock-family">{stock.family}</div>
         </div>
       </div>
     ))}
-    <div class="stock" style="grid-column: span 2; justify-content: center;">
+    <div class="stock reveal" style={`grid-column: span 2; justify-content: center; --reveal-delay: ${240 + stocks.length * 30}ms`}>
       <div class="stock-info" style="text-align:center; color: var(--text-ghost); font-family: var(--font-body); font-style: italic; font-size: 13px;">
         + 23 more
       </div>
     </div>
   </div>
 
-  <p class="scanner-line">
+  <p class="scanner-line reveal" style={`--reveal-delay: ${320 + stocks.length * 30}ms`}>
     And five scanners — <span class="accent">Noritsu, Frontier, Pakon, Flatbed, DSLR</span> — because the scanner is half the look.
   </p>
 </section>

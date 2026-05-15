@@ -100,8 +100,14 @@ nav ul a.cta { color: var(--amber); }
   top: 50%; left: 50%;
   transform: translate(-50%, -50%);
   width: 800px; height: 800px;
-  background: radial-gradient(circle, rgba(232, 196, 160, 0.04) 0%, transparent 60%);
+  background: radial-gradient(circle, rgba(232, 196, 160, 0.06) 0%, transparent 60%);
   pointer-events: none;
+  animation: safelight 8s ease-in-out infinite;
+}
+
+@keyframes safelight {
+  0%, 100% { opacity: 0.55; }
+  50% { opacity: 1; }
 }
 
 .hero-mark {
@@ -163,7 +169,14 @@ nav ul a.cta { color: var(--amber); }
   text-transform: uppercase;
   color: var(--text-ghost);
   opacity: 0;
-  animation: rise 1.4s cubic-bezier(0.16, 1, 0.3, 1) 1.6s forwards;
+  animation:
+    rise 1.4s cubic-bezier(0.16, 1, 0.3, 1) 1.6s forwards,
+    bob 2.4s ease-in-out 3.4s infinite;
+}
+
+@keyframes bob {
+  0%, 100% { transform: translate(-50%, 0); }
+  50% { transform: translate(-50%, 4px); }
 }
 
 @keyframes rise {
@@ -718,4 +731,92 @@ footer {
   .complete-list { grid-template-columns: repeat(2, 1fr); }
   .stocks-grid { grid-template-columns: repeat(2, 1fr); }
   .price-grid { grid-template-columns: 1fr; }
+}
+
+/* ─── QUIET MOTION ─────────────────────────────────────────────────── */
+
+/* Reveal-on-scroll base state. Elements wait at opacity 0 and 16px down
+   until the IntersectionObserver in scripts/quiet.js flips `.is-visible`,
+   then they rise into place with the same eased curve the hero uses. */
+.reveal {
+  opacity: 0;
+  transform: translateY(16px);
+  transition:
+    opacity 600ms cubic-bezier(0.16, 1, 0.3, 1) var(--reveal-delay, 0ms),
+    transform 600ms cubic-bezier(0.16, 1, 0.3, 1) var(--reveal-delay, 0ms),
+    letter-spacing 800ms cubic-bezier(0.16, 1, 0.3, 1) var(--reveal-delay, 0ms),
+    color 200ms ease;
+  will-change: opacity, transform;
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Major headings get a tiny rack-focus on their letter-spacing as they
+   reveal — like an enlarger resolving. Subtle enough to feel like the
+   text "settling" rather than a separate movement. */
+.reveal-heading {
+  letter-spacing: 0.025em;
+}
+.reveal-heading.is-visible {
+  letter-spacing: -0.01em;
+}
+
+/* Stock swatches lift slightly on hover and glow with their own color. */
+.stock {
+  cursor: default;
+}
+.stock-swatch {
+  transition: transform 180ms ease-out, box-shadow 180ms ease-out;
+}
+.stock:hover .stock-swatch {
+  transform: scale(1.12);
+}
+
+/* Materials heading inherits a tint from the currently-hovered stock.
+   The script writes --hover-tint onto the .materials parent; the heading
+   reads it. With no hover, falls back to --text. */
+.materials .section-heading {
+  color: var(--hover-tint, var(--text));
+  transition: color 200ms ease;
+}
+
+/* The Founding price card breathes — quiet differentiation without a
+   shouting "MOST POPULAR" tag. */
+.price-card.featured {
+  animation: card-breath 5s ease-in-out infinite;
+}
+
+@keyframes card-breath {
+  0%, 100% { border-color: var(--amber); }
+  50% { border-color: rgba(232, 196, 160, 0.55); }
+}
+
+/* Reduced-motion override. The site becomes fully static for users who
+   ask for it — including disabling the hero rise-in. The static layout
+   is the gold standard here. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0ms !important;
+    animation-delay: 0ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0ms !important;
+    transition-delay: 0ms !important;
+  }
+  .reveal {
+    opacity: 1;
+    transform: none;
+    letter-spacing: inherit;
+  }
+  .hero-mark,
+  .hero-designation,
+  .hero-tagline,
+  .hero-screen,
+  .scroll-cue {
+    opacity: 1;
+  }
 }

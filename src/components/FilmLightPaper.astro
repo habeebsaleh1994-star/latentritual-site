@@ -5,9 +5,9 @@ import darkroom from '../assets/darkroom.png';
 
 <section class="ritual" id="ritual">
   <div class="ritual-header">
-    <div class="section-label">The Ritual</div>
-    <h2 class="section-heading center">Film. Light. Paper. Retouch.</h2>
-    <p class="section-body" style="margin: 0 auto;">
+    <div class="section-label reveal">The Ritual</div>
+    <h2 class="section-heading center reveal reveal-heading" style="--reveal-delay: 80ms">Film. Light. Paper. Retouch.</h2>
+    <p class="section-body reveal" style="margin: 0 auto; --reveal-delay: 160ms">
       Four stages, in the order a photograph is actually made. Source.
       Interpretation. Realization. Mend.
     </p>
@@ -17,10 +17,10 @@ import darkroom from '../assets/darkroom.png';
 
     <div class="stage">
       <div class="stage-text">
-        <div class="stage-marker">Stage One · Origin</div>
-        <h3 class="stage-name">Film</h3>
-        <div class="stage-subtitle">Choose where the photograph comes from.</div>
-        <p class="stage-body">
+        <div class="stage-marker reveal">Stage One · Origin</div>
+        <h3 class="stage-name reveal reveal-heading" style="--reveal-delay: 80ms">Film</h3>
+        <div class="stage-subtitle reveal" style="--reveal-delay: 160ms">Choose where the photograph comes from.</div>
+        <p class="stage-body reveal" style="--reveal-delay: 240ms">
           Start in Pure RAW — your file as the camera saw it — or in Origin,
           Latent's own signature blend. Then put it through emulsion:
           thirty-seven film stocks, five chemistries (C-41, ECN-2, E-6, K-14,
@@ -30,7 +30,7 @@ import darkroom from '../assets/darkroom.png';
           Nothing is a filter.
         </p>
       </div>
-      <div class="stage-image">
+      <div class="stage-image reveal" style="--reveal-delay: 320ms">
         <Picture
           src={darkroom}
           formats={['avif', 'webp']}
@@ -44,10 +44,10 @@ import darkroom from '../assets/darkroom.png';
 
     <div class="stage">
       <div class="stage-text">
-        <div class="stage-marker">Stage Two · Interpret</div>
-        <h3 class="stage-name">Light</h3>
-        <div class="stage-subtitle">Bring the image forward.</div>
-        <p class="stage-body">
+        <div class="stage-marker reveal">Stage Two · Interpret</div>
+        <h3 class="stage-name reveal reveal-heading" style="--reveal-delay: 80ms">Light</h3>
+        <div class="stage-subtitle reveal" style="--reveal-delay: 160ms">Bring the image forward.</div>
+        <p class="stage-body reveal" style="--reveal-delay: 240ms">
           Exposure, the four lights — Highlights, Shadows, Whites, Blacks —
           and a tone curve with L, R, G, B channels and a live histogram.
           Then Structure: Depth for how forms separate, Surface for the
@@ -58,17 +58,17 @@ import darkroom from '../assets/darkroom.png';
           None of it as zones. Everything as a continuous field.
         </p>
       </div>
-      <div class="stage-image">
+      <div class="stage-image reveal" style="--reveal-delay: 320ms">
         <img src="/images/workbench.png" alt="Light stage — tone, dye density, color spectrum" />
       </div>
     </div>
 
     <div class="stage">
       <div class="stage-text">
-        <div class="stage-marker">Stage Three · Realize</div>
-        <h3 class="stage-name">Paper</h3>
-        <div class="stage-subtitle">Finish on a surface.</div>
-        <p class="stage-body">
+        <div class="stage-marker reveal">Stage Three · Realize</div>
+        <h3 class="stage-name reveal reveal-heading" style="--reveal-delay: 80ms">Paper</h3>
+        <div class="stage-subtitle reveal" style="--reveal-delay: 160ms">Finish on a surface.</div>
+        <p class="stage-body reveal" style="--reveal-delay: 240ms">
           The Enlarger sets paper grade, contrast, and density. The Paper has
           its own base and finish, with control over how the print lands into
           its blacks. The Wash is a split-tone that warms or cools shadows,
@@ -80,23 +80,23 @@ import darkroom from '../assets/darkroom.png';
           the full batch.
         </p>
       </div>
-      <div class="stage-image">
+      <div class="stage-image reveal" style="--reveal-delay: 320ms">
         <img src="/images/lighttable.png" alt="Paper stage — enlarger, wash, fall-off, finish" />
       </div>
     </div>
 
     <div class="stage">
       <div class="stage-text">
-        <div class="stage-marker">Stage Four · Mend</div>
-        <h3 class="stage-name">Retouch</h3>
-        <div class="stage-subtitle">The polishing pass.</div>
-        <p class="stage-body">
+        <div class="stage-marker reveal">Stage Four · Mend</div>
+        <h3 class="stage-name reveal reveal-heading" style="--reveal-delay: 80ms">Retouch</h3>
+        <div class="stage-subtitle reveal" style="--reveal-delay: 160ms">The polishing pass.</div>
+        <p class="stage-body reveal" style="--reveal-delay: 240ms">
           Spotting brush. Clone stroke. The work you would otherwise leave the
           app for. After the print is realized, this is where the dust is
           removed, the small distractions tidied, the photograph made ready.
         </p>
       </div>
-      <div class="stage-image">
+      <div class="stage-image reveal" style="--reveal-delay: 320ms">
         <img src="/images/studio.png" alt="Retouch stage — spotting and clone" />
       </div>
     </div>
