@@ -259,6 +259,37 @@ section {
   margin: 0 auto 28px;
 }
 
+/* ─── INSCRIPTION ──────────────────────────────────────────────────── */
+
+/* A single quoted line, bracketed by hairlines. Sits between the Field
+   poetry and the Ritual stages — a beat of pause, not a section. */
+.inscription {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 36px;
+  padding: 100px 24px;
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.inscription-rule {
+  width: 60px;
+  height: 1px;
+  background: var(--border-light);
+}
+
+.inscription-text {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-style: italic;
+  font-size: 22px;
+  letter-spacing: 0.005em;
+  color: var(--text-bright);
+  text-align: center;
+  margin: 0;
+}
+
 /* ─── FILM LIGHT PAPER ─────────────────────────────────────────────── */
 
 .ritual {
