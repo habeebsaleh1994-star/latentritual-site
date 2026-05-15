@@ -1,10 +1,34 @@
 ---
 import { Picture } from 'astro:assets';
 import studio from '../assets/studio.png';
+import workbench from '../assets/workbench.png';
+import lighttable from '../assets/lighttable.png';
+import darkroom from '../assets/darkroom.png';
+
+const screens = [
+  { id: 'studio',     name: 'Studio',      src: studio,     desc: 'The temporal spine of your work.' },
+  { id: 'workbench',  name: 'Workbench',   src: workbench,  desc: 'Resume where you left off.' },
+  { id: 'lighttable', name: 'Light Table', src: lighttable, desc: 'Sort, rate, sequence, decide.' },
+  { id: 'darkroom',   name: 'Darkroom',    src: darkroom,   desc: 'Develop. Retouch. Proof. Print.' },
+];
 ---
 
 <section class="complete">
-  <div class="section-label reveal">Library · Light Table · Darkroom · Retouch</div>
+  <div class="complete-tabs section-label reveal">
+    {screens.map((s, i) => (
+      <>
+        {i > 0 && <span class="complete-tab-divider">·</span>}
+        <button
+          type="button"
+          class:list={['complete-tab', { 'is-active': i === 0 }]}
+          data-target={s.id}
+        >
+          {s.name}
+        </button>
+      </>
+    ))}
+  </div>
+
   <h2 class="section-heading center reveal reveal-heading" style="--reveal-delay: 80ms">One place, from import to print.</h2>
   <p class="section-body reveal" style="margin: 0 auto; --reveal-delay: 160ms">
     Distinctiveness without finishability is failure. Latent contains every
@@ -13,33 +37,31 @@ import studio from '../assets/studio.png';
     the app.
   </p>
 
-  <div class="complete-screen reveal" style="--reveal-delay: 240ms">
-    <Picture
-      src={studio}
-      formats={['avif', 'webp']}
-      widths={[640, 1024, 1600, 2560]}
-      sizes="(min-width: 1432px) 1352px, 100vw"
-      alt="Latent the Ritual — the Studio"
-      loading="lazy"
-    />
+  <div class="complete-screens reveal" style="--reveal-delay: 240ms">
+    {screens.map((s, i) => (
+      <div class:list={['complete-screen', { 'is-active': i === 0 }]} data-screen={s.id}>
+        <Picture
+          src={s.src}
+          formats={['avif', 'webp']}
+          widths={[640, 1024, 1600, 2560]}
+          sizes="(min-width: 1432px) 1352px, 100vw"
+          alt={`Latent the Ritual — ${s.name}`}
+          loading="lazy"
+        />
+      </div>
+    ))}
   </div>
 
   <div class="complete-list">
-    <div class="complete-item reveal" style="--reveal-delay: 0ms">
-      <div class="complete-item-label">Studio</div>
-      <div class="complete-item-name">The temporal spine of your work.</div>
-    </div>
-    <div class="complete-item reveal" style="--reveal-delay: 80ms">
-      <div class="complete-item-label">Workbench</div>
-      <div class="complete-item-name">Resume where you left off.</div>
-    </div>
-    <div class="complete-item reveal" style="--reveal-delay: 160ms">
-      <div class="complete-item-label">Light Table</div>
-      <div class="complete-item-name">Sort, rate, sequence, decide.</div>
-    </div>
-    <div class="complete-item reveal" style="--reveal-delay: 240ms">
-      <div class="complete-item-label">Darkroom</div>
-      <div class="complete-item-name">Develop. Retouch. Proof. Print.</div>
-    </div>
+    {screens.map((s, i) => (
+      <div
+        class:list={['complete-item reveal', { 'is-active': i === 0 }]}
+        data-item={s.id}
+        style={`--reveal-delay: ${i * 80}ms`}
+      >
+        <div class="complete-item-label">{s.name}</div>
+        <div class="complete-item-name">{s.desc}</div>
+      </div>
+    ))}
   </div>
 </section>

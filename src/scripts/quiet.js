@@ -51,4 +51,32 @@
       materials.style.removeProperty('--hover-tint');
     });
   }
+
+  // ---------- Complete section workspace tabs ------------------------------
+  // Tabs in the section label AND items in the description grid both toggle
+  // which screenshot is shown. Click either, both highlight, screen crossfades.
+  const complete = document.querySelector('.complete');
+  if (complete) {
+    const tabs = complete.querySelectorAll('.complete-tab');
+    const screens = complete.querySelectorAll('.complete-screen');
+    const items = complete.querySelectorAll('.complete-item');
+
+    const activate = (id) => {
+      if (!id) return;
+      for (const tab of tabs) tab.classList.toggle('is-active', tab.dataset.target === id);
+      for (const screen of screens) screen.classList.toggle('is-active', screen.dataset.screen === id);
+      for (const item of items) item.classList.toggle('is-active', item.dataset.item === id);
+    };
+
+    complete.addEventListener('click', (e) => {
+      const target = /** @type {HTMLElement} */ (e.target);
+      const tab = target.closest('.complete-tab');
+      const item = target.closest('.complete-item');
+      if (tab instanceof HTMLElement && tab.dataset.target) {
+        activate(tab.dataset.target);
+      } else if (item instanceof HTMLElement && item.dataset.item) {
+        activate(item.dataset.item);
+      }
+    });
+  }
 })();

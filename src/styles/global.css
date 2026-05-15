@@ -342,11 +342,70 @@ section {
   text-align: center;
 }
 
-.complete-screen {
+/* Interactive tab row that swaps the screenshot below. */
+.complete-tabs {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.complete-tab {
+  background: none;
+  border: 0;
+  padding: 4px 2px;
+  cursor: pointer;
+  font: inherit;
+  font-family: var(--font-label);
+  font-weight: 300;
+  font-size: 10px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  transition: color 200ms ease;
+}
+
+.complete-tab:hover { color: var(--text); }
+.complete-tab.is-active { color: var(--amber); }
+
+.complete-tab-divider {
+  color: var(--text-ghost);
+  font-family: var(--font-label);
+  font-size: 10px;
+  user-select: none;
+}
+
+/* Screen stack: all four images live on top of each other, only the
+   active one is opaque. Click a tab → crossfade. */
+.complete-screens {
+  position: relative;
   margin-top: 80px;
   border-radius: 6px;
   overflow: hidden;
   box-shadow: 0 60px 120px rgba(0,0,0,0.6), 0 0 0 1px rgba(232, 196, 160, 0.05);
+  aspect-ratio: 4832 / 2580;
+}
+
+.complete-screen {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 500ms cubic-bezier(0.22, 1, 0.36, 1);
+  pointer-events: none;
+}
+
+.complete-screen.is-active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.complete-screen picture,
+.complete-screen picture img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
 .complete-list {
@@ -363,7 +422,17 @@ section {
   text-align: left;
   padding-top: 24px;
   border-top: 1px solid var(--border);
+  transition: border-color 300ms ease;
+  cursor: pointer;
 }
+
+.complete-item:hover { border-top-color: var(--border-light); }
+
+.complete-item.is-active {
+  border-top-color: var(--amber);
+}
+
+.complete-item.is-active .complete-item-label { color: var(--amber); }
 
 .complete-item-label {
   font-family: var(--font-label);
