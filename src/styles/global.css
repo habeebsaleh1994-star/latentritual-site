@@ -921,3 +921,95 @@ footer {
     opacity: 1;
   }
 }
+
+/* ─── FOOTER SUBSCRIBE ─────────────────────────────────────────────── */
+
+/* Quiet newsletter subscribe living in the footer. No reveal-on-click
+   collapse — the form is always visible (it's already in the footer's
+   quiet register; ambient is the point). Progressive-enhancement
+   handled in scripts/newsletter.js. Reduced motion: no component-local
+   rule needed — the global block already covers all transitions. */
+
+.footer-subscribe {
+  max-width: 460px;
+  margin: 0 auto 40px;
+}
+
+.footer-subscribe-line {
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--text-muted);
+  margin-bottom: 18px;
+}
+
+.footer-subscribe-form {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  align-items: stretch;
+}
+
+.footer-subscribe-input {
+  flex: 1 1 auto;
+  max-width: 260px;
+  background: var(--bg-elev);
+  border: 1px solid var(--border);
+  color: var(--text-bright);
+  font-family: var(--font-body);
+  font-size: 14px;
+  padding: 10px 12px;
+  border-radius: 2px;
+  transition: border-color 200ms ease;
+}
+.footer-subscribe-input::placeholder { color: var(--text-ghost); }
+.footer-subscribe-input:focus { outline: none; border-color: var(--amber-dim); }
+
+.footer-subscribe-submit {
+  font-family: var(--font-label);
+  font-weight: 300;
+  font-size: 9px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--text);
+  background: none;
+  border: 1px solid var(--border-light);
+  padding: 0 18px;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: color 0.3s ease, border-color 0.3s ease;
+}
+.footer-subscribe-submit:hover { color: var(--amber); border-color: var(--amber); }
+
+.footer-subscribe-error {
+  font-family: var(--font-body);
+  font-style: italic;
+  font-size: 12px;
+  color: var(--amber-dim);
+  margin-top: 12px;
+}
+
+.footer-subscribe-done {
+  font-family: var(--font-body);
+  font-style: italic;
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+
+.footer-subscribe.is-done .footer-subscribe-form,
+.footer-subscribe.is-done .footer-subscribe-line {
+  display: none;
+}
+
+/* Accessible label hidden visually but exposed to assistive tech. */
+.visually-hidden {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
