@@ -1,12 +1,12 @@
 <svg width="1024" height="1024" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
   <defs>
-    <linearGradient id="fadeAmber" gradientUnits="userSpaceOnUse" x1="0" y1="89" x2="0" y2="751">
+    <linearGradient id="fadeAmber" gradientUnits="userSpaceOnUse" x1="0" y1="108" x2="0" y2="770">
       <stop offset="0%" stop-color="#E8C4A0" stop-opacity="0.10"/>
       <stop offset="55%" stop-color="#E8C4A0" stop-opacity="0.50"/>
       <stop offset="100%" stop-color="#E8C4A0" stop-opacity="1"/>
     </linearGradient>
   </defs>
   <rect width="1024" height="1024" rx="225" ry="225" fill="#1A1614"/>
-  <path d="M323,89 L399,89 L399,675 L701,675 L701,751 L323,751 Z" fill="url(#fadeAmber)"/>
-  <circle cx="512" cy="897" r="38" fill="#E8C4A0"/>
+  <path d="M323,108 L423,108 L423,670 L701,670 L701,770 L323,770 Z" fill="url(#fadeAmber)"/>
+  <circle cx="512" cy="878" r="38" fill="#E8C4A0"/>
 </svg>
