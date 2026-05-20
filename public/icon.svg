@@ -8,5 +8,5 @@
   </defs>
   <rect width="1024" height="1024" rx="225" ry="225" fill="#1A1614"/>
   <path d="M323,108 L423,108 L423,670 L701,670 L701,770 L323,770 Z" fill="url(#fadeAmber)"/>
-  <circle cx="512" cy="878" r="38" fill="#E8C4A0"/>
+  <circle cx="701" cy="878" r="38" fill="#E8C4A0"/>
 </svg>
