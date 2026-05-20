@@ -7,6 +7,6 @@
     </linearGradient>
   </defs>
   <rect width="1024" height="1024" rx="225" ry="225" fill="#1A1614"/>
-  <path d="M344,136 L411,136 L411,657 L680,657 L680,724 L344,724 Z" fill="url(#fadeAmber)"/>
-  <circle cx="512" cy="854" r="34" fill="#E8C4A0"/>
+  <path d="M424,136 L491,136 L491,657 L760,657 L760,724 L424,724 Z" fill="url(#fadeAmber)"/>
+  <circle cx="592" cy="854" r="34" fill="#E8C4A0"/>
 </svg>
