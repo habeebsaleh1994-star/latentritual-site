@@ -5,12 +5,8 @@
       <stop offset="55%" stop-color="#E8C4A0" stop-opacity="0.50"/>
       <stop offset="100%" stop-color="#E8C4A0" stop-opacity="1"/>
     </linearGradient>
-    <linearGradient id="dotVert" gradientUnits="userSpaceOnUse" x1="0" y1="840" x2="0" y2="916">
-      <stop offset="0%" stop-color="#E8C4A0" stop-opacity="0.40"/>
-      <stop offset="100%" stop-color="#E8C4A0" stop-opacity="1"/>
-    </linearGradient>
   </defs>
   <rect width="1024" height="1024" rx="225" ry="225" fill="#1A1614"/>
   <path d="M323,108 L423,108 L423,670 L701,670 L701,770 L323,770 Z" fill="url(#fadeAmber)"/>
-  <circle cx="663" cy="878" r="38" fill="url(#dotVert)"/>
+  <circle cx="663" cy="878" r="38" fill="#E8C4A0"/>
 </svg>
