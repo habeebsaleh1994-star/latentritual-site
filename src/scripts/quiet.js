@@ -52,6 +52,32 @@
     });
   }
 
+  // ---------- Story videos play/pause --------------------------------------
+  // Two autoplay-muted videos on the same page can collide with browser
+  // autoplay heuristics; the second one (below the fold at page load) is
+  // often silently skipped. Calling .play() explicitly when the video
+  // enters viewport gets around that, and pausing when it leaves saves
+  // CPU/battery on phones.
+  const storyVideos = document.querySelectorAll('.story-video video');
+  if ('IntersectionObserver' in window && storyVideos.length) {
+    const videoIO = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          const video = /** @type {HTMLVideoElement} */ (entry.target);
+          if (entry.isIntersecting) {
+            const p = video.play();
+            if (p !== undefined) p.catch(() => {/* autoplay blocked, leave poster */});
+          } else {
+            video.pause();
+          }
+        }
+      },
+      { threshold: 0.25 }
+    );
+
+    for (const video of storyVideos) videoIO.observe(video);
+  }
+
   // ---------- Complete section workspace tabs ------------------------------
   // Tabs in the section label AND items in the description grid both toggle
   // which screenshot is shown. Click either, both highlight, screen crossfades.
