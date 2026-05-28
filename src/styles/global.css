@@ -506,7 +506,7 @@ section {
 }
 
 .story-connector {
-  margin: 44px auto 0;
+  margin: 104px auto;
   font-family: var(--font-body);
   font-weight: 300;
   font-style: italic;
@@ -527,7 +527,7 @@ section {
   width: 100vw;
   margin-left: -50vw;
   margin-right: -50vw;
-  margin-top: 36px;
+  margin-top: 0;
   aspect-ratio: 16 / 9;
   overflow: hidden;
   box-shadow: 0 50px 120px rgba(0,0,0,0.6);
@@ -543,8 +543,8 @@ section {
 @media (max-width: 760px) {
   .story { padding: 96px 16px; }
   .story-canvas { margin-top: 48px; }
-  .story-connector { margin-top: 32px; font-size: 15px; }
-  .story-reader { margin-top: 24px; }
+  .story-connector { margin: 64px auto; font-size: 15px; }
+  .story-reader { margin-top: 0; }
 }
 
 /* ─── MATERIALS ────────────────────────────────────────────────────── */
