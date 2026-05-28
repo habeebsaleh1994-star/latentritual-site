@@ -15,19 +15,40 @@ const stocks = [
   { name: 'Superia 400', family: 'Fuji', swatch: '#7EB89A' },
   { name: 'CineStill 800T', family: 'CineStill', swatch: '#C9956A' },
 ];
+
+// Real print papers from the Latent paper catalog (SpectralPaperCatalog),
+// grouped by darkroom process: RA-4 colour, B&W silver, Cibachrome
+// dye-bleach, ECP cinema print. Swatch = the paper's base tone.
+const papers = [
+  { name: 'Portra Endura', family: 'RA-4', swatch: '#E2C6AA' },
+  { name: 'Supra Endura', family: 'RA-4', swatch: '#E0B890' },
+  { name: 'Ultra Endura', family: 'RA-4', swatch: '#DCA878' },
+  { name: 'Endura Metallic', family: 'RA-4', swatch: '#9A9288' },
+  { name: 'Crystal Archive Supreme', family: 'RA-4', swatch: '#BCC2BE' },
+  { name: 'Multigrade FB Classic', family: 'Silver', swatch: '#B4B2AC' },
+  { name: 'Multigrade Warmtone', family: 'Silver', swatch: '#CBBEA6' },
+  { name: 'Multigrade Cooltone', family: 'Silver', swatch: '#A6AEBA' },
+  { name: 'Multigrade Art 300', family: 'Silver', swatch: '#D6D0C4' },
+  { name: 'Fomatone Classic', family: 'Silver', swatch: '#CDBFA2' },
+  { name: 'Forte Polywarmtone', family: 'Silver', swatch: '#D2C088' },
+  { name: 'Ilfochrome Classic', family: 'Cibachrome', swatch: '#C65A48' },
+  { name: 'Kodak 2383', family: 'ECP', swatch: '#C99A6A' },
+  { name: 'Kodak 2393 Premier', family: 'ECP', swatch: '#C68A56' },
+];
 ---
 
 <section class="materials">
   <div class="materials-header">
     <div class="section-label reveal">Materials</div>
-    <h2 class="section-heading center reveal reveal-heading" style="--reveal-delay: 80ms">Thirty-seven stocks. Five chemistries.</h2>
+    <h2 class="section-heading center reveal reveal-heading" style="--reveal-delay: 80ms">Thirty-seven stocks. Twenty-five papers.</h2>
     <p class="section-body reveal" style="margin: 0 auto; --reveal-delay: 160ms">
-      Real film stocks, modeled by their actual behavior — grain structure, color
-      response, contrast curve, halation. Not filters. Not LUTs. Material choices,
-      the same way you would choose them in a lab.
+      Real materials, modeled by their behavior — not faked with filters. The
+      film carries grain, color, halation. Then the negative is printed onto
+      real paper, matched to its chemistry. The choices you would make in a lab.
     </p>
   </div>
 
+  <div class="materials-subhead reveal" style="--reveal-delay: 200ms">The film</div>
   <div class="stocks-grid">
     {stocks.map((stock, i) => (
       <div class="stock reveal" data-swatch={stock.swatch} style={`--reveal-delay: ${240 + i * 30}ms`}>
@@ -45,7 +66,25 @@ const stocks = [
     </div>
   </div>
 
-  <p class="scanner-line reveal" style={`--reveal-delay: ${320 + stocks.length * 30}ms`}>
-    And five scanners — <span class="accent">Noritsu, Frontier, Pakon, Flatbed, DSLR</span> — because the scanner is half the look.
+  <div class="materials-subhead reveal">The paper</div>
+  <div class="stocks-grid">
+    {papers.map((paper, i) => (
+      <div class="stock reveal" data-swatch={paper.swatch} style={`--reveal-delay: ${i * 30}ms`}>
+        <div class="stock-swatch" style={`background:${paper.swatch}; color:${paper.swatch}`}></div>
+        <div class="stock-info">
+          <div class="stock-name">{paper.name}</div>
+          <div class="stock-family">{paper.family}</div>
+        </div>
+      </div>
+    ))}
+    <div class="stock reveal" style={`grid-column: span 2; justify-content: center; --reveal-delay: ${papers.length * 30}ms`}>
+      <div class="stock-info" style="text-align:center; color: var(--text-ghost); font-family: var(--font-body); font-style: italic; font-size: 13px;">
+        + 11 more
+      </div>
+    </div>
+  </div>
+
+  <p class="scanner-line reveal">
+    And five scan profiles — <span class="accent">Noritsu, Frontier, Pakon, flatbed, DSLR</span> — for how the film comes back from the lab.
   </p>
 </section>
