@@ -10,6 +10,16 @@ const {
   title = 'Latent the Ritual — A photographic developer for the digital age',
   description = 'A complete digital darkroom for serious photographers. Film, light, paper. Develop, retouch, proof, print — in one place.',
 } = Astro.props;
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: 'Latent the Ritual',
+  applicationCategory: 'MultimediaApplication',
+  operatingSystem: 'macOS, iPadOS, iOS',
+  description,
+  url: 'https://latentritual.com',
+};
 ---
 
 <!DOCTYPE html>
@@ -18,6 +28,8 @@ const {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
+    <meta name="theme-color" content="#1A1614" />
+    <link rel="canonical" href="https://latentritual.com" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
@@ -42,6 +54,7 @@ const {
       href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400;500&family=JetBrains+Mono:wght@300;400&display=swap"
       rel="stylesheet"
     />
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
   </head>
 
   <body>

@@ -1,0 +1,64 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base title="Not found — Latent the Ritual" description="This page never developed.">
+  <main class="notfound">
+    <div class="notfound-label">Error 404</div>
+    <h1 class="notfound-heading">This frame never developed.</h1>
+    <p class="notfound-body">The page you were looking for isn't here — but the darkroom is.</p>
+    <a class="notfound-home" href="/">Back to Latent</a>
+  </main>
+
+  <style>
+    .notfound {
+      min-height: 78vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 96px 24px;
+    }
+    .notfound-label {
+      font-family: var(--font-label);
+      font-weight: 300;
+      font-size: 10px;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--amber-dim);
+      margin-bottom: 28px;
+    }
+    .notfound-heading {
+      font-family: var(--font-display);
+      font-weight: 300;
+      font-size: 44px;
+      line-height: 1.15;
+      letter-spacing: -0.01em;
+      color: var(--text);
+      margin-bottom: 20px;
+    }
+    .notfound-body {
+      font-family: var(--font-body);
+      font-weight: 300;
+      font-size: 18px;
+      color: var(--text-muted);
+      margin-bottom: 40px;
+      max-width: 440px;
+      line-height: 1.6;
+    }
+    .notfound-home {
+      font-family: var(--font-label);
+      font-weight: 400;
+      font-size: 11px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--amber);
+      text-decoration: none;
+      border-bottom: 1px solid var(--amber-dim);
+      padding-bottom: 4px;
+      transition: color 200ms, border-color 200ms;
+    }
+    .notfound-home:hover { color: var(--text-bright); border-color: var(--text-bright); }
+  </style>
+</Base>
