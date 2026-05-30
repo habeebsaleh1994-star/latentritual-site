@@ -18,22 +18,23 @@ const stocks = [
 
 // Real print papers from the Latent paper catalog (SpectralPaperCatalog),
 // grouped by darkroom process: RA-4 colour, B&W silver, Cibachrome
-// dye-bleach, ECP cinema print. Swatch = the paper's base tone.
+// dye-bleach, ECP cinema print. Swatch = the paper's BASE TONE (its white),
+// not a colour cast — so B&W silver papers read neutral, never coloured.
 const papers = [
-  { name: 'Portra Endura', family: 'RA-4', swatch: '#E2C6AA' },
-  { name: 'Supra Endura', family: 'RA-4', swatch: '#E0B890' },
-  { name: 'Ultra Endura', family: 'RA-4', swatch: '#DCA878' },
-  { name: 'Endura Metallic', family: 'RA-4', swatch: '#9A9288' },
-  { name: 'Crystal Archive Supreme', family: 'RA-4', swatch: '#BCC2BE' },
-  { name: 'Multigrade FB Classic', family: 'Silver', swatch: '#B4B2AC' },
-  { name: 'Multigrade Warmtone', family: 'Silver', swatch: '#CBBEA6' },
-  { name: 'Multigrade Cooltone', family: 'Silver', swatch: '#A6AEBA' },
-  { name: 'Multigrade Art 300', family: 'Silver', swatch: '#D6D0C4' },
-  { name: 'Fomatone Classic', family: 'Silver', swatch: '#CDBFA2' },
-  { name: 'Forte Polywarmtone', family: 'Silver', swatch: '#D2C088' },
-  { name: 'Ilfochrome Classic', family: 'Cibachrome', swatch: '#C65A48' },
-  { name: 'Kodak 2383', family: 'ECP', swatch: '#C99A6A' },
-  { name: 'Kodak 2393 Premier', family: 'ECP', swatch: '#C68A56' },
+  { name: 'Portra Endura', family: 'RA-4', swatch: '#E7DAC6' },
+  { name: 'Supra Endura', family: 'RA-4', swatch: '#E6D6BE' },
+  { name: 'Ultra Endura', family: 'RA-4', swatch: '#EAD8BC' },
+  { name: 'Endura Metallic', family: 'RA-4', swatch: '#B6B4AE' },
+  { name: 'Crystal Archive Supreme', family: 'RA-4', swatch: '#D8DEDC' },
+  { name: 'Multigrade FB Classic', family: 'Silver', swatch: '#C9C7C1' },
+  { name: 'Multigrade Warmtone', family: 'Silver', swatch: '#D3CBBC' },
+  { name: 'Multigrade Cooltone', family: 'Silver', swatch: '#C3C8CB' },
+  { name: 'Multigrade Art 300', family: 'Silver', swatch: '#D8D2C6' },
+  { name: 'Fomatone Classic', family: 'Silver', swatch: '#D2C9B8' },
+  { name: 'Forte Polywarmtone', family: 'Silver', swatch: '#D6CDB8' },
+  { name: 'Ilfochrome Classic', family: 'Cibachrome', swatch: '#ECE6DA' },
+  { name: 'Kodak 2383', family: 'ECP', swatch: '#D9C7A8' },
+  { name: 'Kodak 2393 Premier', family: 'ECP', swatch: '#D6C2A0' },
 ];
 ---
 
