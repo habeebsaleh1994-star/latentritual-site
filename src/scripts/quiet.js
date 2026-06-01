@@ -12,10 +12,11 @@
   // motion visitors get no autoplay — the control becomes their opt-in to watch
   // the develop once, on demand. Same control covers blocked autoplay.
   const heroVideo = document.querySelector('.hero-video');
+  const heroOverlay = document.querySelector('[data-hero-replay-overlay]');
   const heroReplay = document.querySelector('.hero-replay');
   if (heroVideo instanceof HTMLVideoElement) {
-    const showReplay = () => { if (heroReplay) heroReplay.classList.add('is-visible'); };
-    const hideReplay = () => { if (heroReplay) heroReplay.classList.remove('is-visible'); };
+    const showReplay = () => { if (heroOverlay) heroOverlay.classList.add('is-visible'); };
+    const hideReplay = () => { if (heroOverlay) heroOverlay.classList.remove('is-visible'); };
 
     heroVideo.addEventListener('ended', showReplay);
 
