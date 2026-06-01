@@ -695,69 +695,52 @@ section {
 
 /* ─── MOMENT TEASER ────────────────────────────────────────────────── */
 
+/* The Moment is the journal sibling — it leaves the Ritual's darkroom and
+   opens into a light, cream, serif (Lora) room. A deliberate chapter break. */
 .moment {
-  padding: 200px 24px;
-  background: linear-gradient(180deg, var(--bg) 0%, #0d0b0a 50%, var(--bg) 100%);
+  padding: 168px 24px;
+  background: #F4EFE8;
+  color: #1E1814;
   text-align: center;
 }
 
-.moment-inner { max-width: 720px; margin: 0 auto; }
+.moment-inner { max-width: 680px; margin: 0 auto; }
 
-.moment-label {
-  font-family: var(--font-display);
-  font-weight: 300;
-  font-size: 16px;
-  letter-spacing: 0.32em;
-  color: var(--text);
-  margin-bottom: 8px;
+.moment-mark {
+  font-family: 'Lora', Georgia, serif;
+  font-weight: 500;
+  font-size: clamp(44px, 9vw, 60px);
+  line-height: 1;
+  letter-spacing: -0.01em;
+  color: #1E1814;
+  margin-bottom: 10px;
 }
 
-.moment-designation {
-  font-family: var(--font-label);
-  font-weight: 300;
-  font-size: 10px;
-  letter-spacing: 0.22em;
-  text-transform: lowercase;
-  color: var(--text-ghost);
-  margin-bottom: 40px;
+.moment-sub {
+  font-family: 'Lora', Georgia, serif;
+  font-weight: 400;
+  font-size: 16px;
+  letter-spacing: 0.2em;
+  color: #7A6E62;
+  margin-bottom: 56px;
 }
 
 .moment-heading {
-  font-family: var(--font-display);
-  font-weight: 300;
-  font-size: 44px;
-  line-height: 1.15;
-  letter-spacing: -0.01em;
-  color: var(--text);
-  margin-bottom: 32px;
+  font-family: 'Lora', Georgia, serif;
+  font-weight: 400;
+  font-size: clamp(26px, 5vw, 34px);
+  line-height: 1.2;
+  letter-spacing: -0.005em;
+  color: #1E1814;
+  margin-bottom: 26px;
 }
 
 .moment-body {
-  font-family: var(--font-body);
-  font-weight: 300;
+  font-family: 'Lora', Georgia, serif;
+  font-weight: 400;
   font-size: 19px;
-  color: var(--text-muted);
-  line-height: 1.6;
-  margin-bottom: 48px;
-}
-
-.moment-cta {
-  display: inline-block;
-  font-family: var(--font-label);
-  font-weight: 300;
-  font-size: 10px;
-  letter-spacing: 0.28em;
-  text-transform: uppercase;
-  color: var(--amber);
-  text-decoration: none;
-  padding: 14px 28px;
-  border: 1px solid var(--amber);
-  transition: all 0.3s ease;
-}
-
-.moment-cta:hover {
-  background: var(--amber);
-  color: var(--bg);
+  line-height: 1.65;
+  color: #483C32;
 }
 
 /* ─── PRICE ────────────────────────────────────────────────────────── */
