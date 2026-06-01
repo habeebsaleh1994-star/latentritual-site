@@ -6,6 +6,15 @@
   // Respect prefers-reduced-motion. The CSS already shows the static
   // final state under that media query, so we just bail.
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  // Hero develop-reveal video: play once when motion is allowed. Reduced-motion
+  // visitors keep the resolved poster frame. No loop — it rests once developed.
+  const heroVideo = document.querySelector('.hero-video');
+  if (heroVideo instanceof HTMLVideoElement && !reduce.matches) {
+    const p = heroVideo.play();
+    if (p !== undefined) p.catch(() => {/* autoplay blocked → poster stays */});
+  }
+
   if (reduce.matches) return;
 
   // ---------- Section reveals ----------------------------------------------

@@ -1,6 +1,4 @@
 ---
-import { Picture } from 'astro:assets';
-import darkroom from '../assets/darkroom.png';
 ---
 
 <section class="hero">
@@ -9,15 +7,17 @@ import darkroom from '../assets/darkroom.png';
   <p class="hero-tagline">A photographic developer for the digital age.</p>
 
   <div class="hero-screen">
-    <Picture
-      src={darkroom}
-      formats={['avif', 'webp']}
-      widths={[640, 1024, 1600, 2560]}
-      sizes="(min-width: 1320px) 1280px, 100vw"
-      alt="Latent the Ritual — the Darkroom"
-      loading="eager"
-      fetchpriority="high"
-    />
+    <video
+      class="hero-video"
+      muted
+      playsinline
+      preload="auto"
+      poster="/hero-poster.jpg"
+      aria-label="Latent the Ritual — a photograph developing in the Darkroom"
+    >
+      <source src="/hero.webm" type="video/webm" />
+      <source src="/hero.mp4" type="video/mp4" />
+    </video>
   </div>
 
   <div class="scroll-cue">Scroll</div>
