@@ -7,12 +7,33 @@
   // final state under that media query, so we just bail.
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
 
-  // Hero develop-reveal video: play once when motion is allowed. Reduced-motion
-  // visitors keep the resolved poster frame. No loop — it rests once developed.
+  // Hero develop-reveal + replay. Plays once and rests on the resolved frame;
+  // a quiet "Replay" control then lets the photograph develop again. Reduced-
+  // motion visitors get no autoplay — the control becomes their opt-in to watch
+  // the develop once, on demand. Same control covers blocked autoplay.
   const heroVideo = document.querySelector('.hero-video');
-  if (heroVideo instanceof HTMLVideoElement && !reduce.matches) {
-    const p = heroVideo.play();
-    if (p !== undefined) p.catch(() => {/* autoplay blocked → poster stays */});
+  const heroReplay = document.querySelector('.hero-replay');
+  if (heroVideo instanceof HTMLVideoElement) {
+    const showReplay = () => { if (heroReplay) heroReplay.classList.add('is-visible'); };
+    const hideReplay = () => { if (heroReplay) heroReplay.classList.remove('is-visible'); };
+
+    heroVideo.addEventListener('ended', showReplay);
+
+    if (heroReplay) {
+      heroReplay.addEventListener('click', () => {
+        hideReplay();
+        heroVideo.currentTime = 0;
+        const p = heroVideo.play();
+        if (p !== undefined) p.catch(showReplay);
+      });
+    }
+
+    if (reduce.matches) {
+      showReplay(); // no autoplay; offer the develop on demand
+    } else {
+      const p = heroVideo.play();
+      if (p !== undefined) p.catch(showReplay); // blocked → let them trigger it
+    }
   }
 
   if (reduce.matches) return;
