@@ -1,0 +1,519 @@
+---
+import Base from '../layouts/Base.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+
+// Mirror the footer's Buttondown wiring. Until the real embed URL is pasted
+// (Buttondown → Settings → Embedding), this stays dormant exactly like the
+// footer newsletter — the form renders and the rest of the page is unaffected.
+// The hidden metadata__source field tags Resolve-page signups once it's live.
+const BUTTONDOWN_ACTION = 'REPLACE_WITH_BUTTONDOWN_EMBED_ACTION_URL';
+
+// The six parameter pages, in the order the engine works the frame —
+// negative first, then the print, then the surface, fall-off, texture, output.
+// (Mirrors describeInContext in LatentOFXPlugin.cpp.)
+const pipeline = [
+  { n: '01', name: 'Negative', body: 'Pick a film stock and expose it. Push or pull the development, the way you would send a roll to the lab.', controls: ['25 film stocks', 'Exposure', 'Push / Pull'] },
+  { n: '02', name: 'View Path', body: 'Print the negative. The engine offers the right medium for the stock you chose — color paper, motion print film, reversal, or silver gelatin.', controls: ['Paper / print stock', 'Print exposure', 'Grade · Contrast'] },
+  { n: '03', name: 'Surface', body: 'The character of the paper itself — how warm it runs, how brilliant the whites, how much sheen it holds.', controls: ['Warmth', 'Brilliance', 'Sheen'] },
+  { n: '04', name: 'Fall-Off', body: 'Burn the edges down the way an enlarger does, with reach, roundness and feather under your hand.', controls: ['Burn', 'Reach', 'Roundness · Spread'] },
+  { n: '05', name: 'Texture', body: 'The light that scatters back through the film base, and the grain of the emulsion.', controls: ['Halation', 'Grain'] },
+  { n: '06', name: 'Output', body: 'A quality switch keeps playback fast while you work, and renders full resolution on output. Mix back toward source to taste.', controls: ['Playback / Final', 'Mix'] },
+];
+
+// Stocks grouped by their development family (stockFamilyForFilmChoice).
+const stockGroups = [
+  { label: 'Color negative', count: 13, items: ['Portra 400', 'Portra 160', 'Portra 800', 'Ektar 100', 'Gold 200', 'ColorPlus 200', 'Pro Image 100', 'Fuji Pro 400H', 'Superia 400', 'Pro 800Z', 'Superia Reala', 'CineStill 800T', 'CineStill 400D'] },
+  { label: 'Motion · ECN-2', count: 4, items: ['Vision3 500T', 'Vision3 250D', 'Vision3 50D', 'Vision3 200T'] },
+  { label: 'Reversal', count: 4, items: ['Velvia 50', 'Provia 100F', 'Ektachrome E100', 'Kodachrome 64'] },
+  { label: 'Black & white', count: 4, items: ['Tri-X 400', 'HP5 Plus', 'T-MAX 400', 'Acros 100 II'] },
+];
+
+// The view path follows the stock — the real conditional behaviour in the plugin.
+const viewPaths = [
+  { from: 'Color negative', to: 'RA-4 paper', detail: '10 papers — Portra & Supra Endura, Fuji Crystal Archive, Ektacolor, Endura Metallic…' },
+  { from: 'Motion stock', to: 'Print film', detail: '5 looks — Kodak 2383 & 2393, Agfa CP30, Fuji ETERNA-CP, plus a straight ECN-2 scan.' },
+  { from: 'Reversal', to: 'Transparency', detail: '3 views — a clean lightbox, and Ilfochrome Classic CLM / CPS.' },
+  { from: 'Black & white', to: 'Silver gelatin', detail: '9 papers — Ilford Multigrade IV RC & FB, Warmtone, Cooltone, Foma Fomatone, Forte Polywarmtone…' },
+];
+
+const specs = [
+  { k: 'Runs on Metal', v: 'A GPU pipeline built for real-time playback — not a bake-and-wait filter.' },
+  { k: 'Speaks ACES', v: 'Tag your source — DaVinci Wide Gamut, ACEScct, ACEScg or Rec.709 — and the engine develops in the right space.' },
+  { k: 'Lives on the color page', v: 'OpenFX → Filters → Film Emulation → Latent Print Engine. Drop it on a clip or an adjustment layer.' },
+  { k: 'One engine, three apps', v: 'The same negative-to-print core as the Ritual on Mac and the Moment on iPhone — now on your timeline.' },
+];
+---
+
+<Base
+  title="The Print Engine — Latent for DaVinci Resolve"
+  description="Latent's negative-to-print film engine, brought to DaVinci Resolve. 25 film stocks, real darkroom papers, halation and grain — developed on the GPU, frame by frame. In development."
+  ogImage="/og-resolve.png?v=1"
+  ogImageAlt="The Print Engine — Latent for DaVinci Resolve"
+>
+  <Nav />
+  <main class="rpage">
+
+    <!-- HERO -->
+    <section class="rs-hero">
+      <div class="rs-kicker reveal">Latent · for DaVinci Resolve</div>
+      <h1 class="rs-title reveal reveal-heading" style="--reveal-delay: 80ms">The Print Engine</h1>
+      <p class="rs-tagline reveal" style="--reveal-delay: 200ms">Develop the negative. Print the frame. Inside Resolve.</p>
+      <p class="rs-lead reveal" style="--reveal-delay: 300ms">
+        Latent develops a photograph the way a darkroom does — it builds a negative and prints it onto
+        paper. The Print Engine does the same to motion: every frame of your timeline, on the GPU,
+        in real time.
+      </p>
+      <div class="rs-hero-actions reveal" style="--reveal-delay: 400ms">
+        <a class="rs-btn" href="#notify">Join the waitlist</a>
+        <a class="rs-btn rs-btn-ghost" href="#inside">See what's inside</a>
+      </div>
+      <div class="rs-status reveal" style="--reveal-delay: 480ms">
+        <span class="rs-dot"></span> In development — coming to DaVinci Resolve
+      </div>
+    </section>
+
+    <!-- MEDIA SEAM — placeholder for the in-Resolve screenshot / loop -->
+    <section class="rs-viewer-wrap">
+      <figure class="rs-viewer reveal">
+        <figcaption class="rs-viewer-bar"><span class="rs-viewer-dot"></span> Latent Print Engine — OpenFX</figcaption>
+        <div class="rs-viewer-stage">
+          <span class="rs-viewer-note">A look inside, as it nears release.</span>
+        </div>
+      </figure>
+    </section>
+
+    <!-- PIPELINE -->
+    <section class="rs-pipeline" id="inside">
+      <div class="section-label reveal">The path · negative to print</div>
+      <h2 class="rs-h2 reveal reveal-heading" style="--reveal-delay: 80ms">Six stages, the whole darkroom.</h2>
+      <div class="rs-stages">
+        {pipeline.map((s, i) => (
+          <div class="rs-stage reveal" style={`--reveal-delay: ${i * 70}ms`}>
+            <div class="rs-stage-n">{s.n}</div>
+            <div class="rs-stage-name">{s.name}</div>
+            <p class="rs-stage-body">{s.body}</p>
+            <ul class="rs-stage-controls">
+              {s.controls.map((c) => <li>{c}</li>)}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- STOCKS -->
+    <section class="rs-catalog">
+      <div class="section-label reveal">The negative · 25 film stocks</div>
+      <h2 class="rs-h2 reveal reveal-heading" style="--reveal-delay: 80ms">The same emulsions, profiled spectrally.</h2>
+      <div class="rs-stock-groups">
+        {stockGroups.map((g, i) => (
+          <div class="rs-stock-group reveal" style={`--reveal-delay: ${i * 70}ms`}>
+            <div class="rs-stock-head"><span>{g.label}</span><span class="rs-stock-count">{g.count}</span></div>
+            <ul class="rs-stock-list">
+              {g.items.map((it) => <li>{it}</li>)}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- VIEW PATH -->
+    <section class="rs-viewpath">
+      <div class="section-label reveal">The print · it knows your stock</div>
+      <h2 class="rs-h2 reveal reveal-heading" style="--reveal-delay: 80ms">You don't print Tri-X on color paper.</h2>
+      <p class="rs-section-lead reveal" style="--reveal-delay: 160ms">
+        Choose a stock and the View Path follows it. A color negative offers RA-4 papers; a black-and-white
+        stock offers silver gelatin; motion film prints to release stock; reversal stays transparent.
+      </p>
+      <div class="rs-paths">
+        {viewPaths.map((p, i) => (
+          <div class="rs-path reveal" style={`--reveal-delay: ${i * 70}ms`}>
+            <div class="rs-path-row">
+              <span class="rs-path-from">{p.from}</span>
+              <span class="rs-path-arrow">→</span>
+              <span class="rs-path-to">{p.to}</span>
+            </div>
+            <p class="rs-path-detail">{p.detail}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- TECH -->
+    <section class="rs-tech">
+      <div class="section-label reveal">Built for the timeline</div>
+      <div class="rs-specs">
+        {specs.map((s, i) => (
+          <div class="rs-spec reveal" style={`--reveal-delay: ${i * 70}ms`}>
+            <div class="rs-spec-k">{s.k}</div>
+            <p class="rs-spec-v">{s.v}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- WAITLIST -->
+    <section class="rs-notify" id="notify" data-newsletter>
+      <h2 class="rs-h2 reveal reveal-heading">It isn't finished yet.</h2>
+      <p class="rs-notify-line reveal" style="--reveal-delay: 80ms">
+        I'm building the Print Engine now, in Joun. Leave your email and I'll write you the day it's
+        ready to drop into Resolve — nothing else.
+      </p>
+      <form
+        class="rs-form reveal"
+        style="--reveal-delay: 160ms"
+        action={BUTTONDOWN_ACTION}
+        method="post"
+        target="_blank"
+        data-newsletter-form
+      >
+        <label class="visually-hidden" for="rs-email">Email address</label>
+        <input type="hidden" name="metadata__source" value="resolve" />
+        <input
+          id="rs-email"
+          class="rs-input"
+          type="email"
+          name="email"
+          required
+          autocomplete="email"
+          placeholder="your email"
+        />
+        <button type="submit" class="rs-submit">Notify me</button>
+      </form>
+      <p class="rs-form-error" data-newsletter-error hidden role="alert">That email doesn't look right.</p>
+      <p class="rs-form-done" data-newsletter-done hidden role="status" aria-live="polite">
+        You're on the list. I'll be in touch the day it ships.
+      </p>
+    </section>
+
+  </main>
+  <Footer />
+
+  <style>
+    /* The Print Engine — Latent for DaVinci Resolve.
+       Dark like the Ritual (the colorist's suite is dark, and this IS the
+       Ritual's engine), but with its own cool accent — a film/cinema teal,
+       opposite-temperature from the Ritual's amber and the Moment's terracotta.
+       The accent lives in --rs and is used sparingly: eyebrows, the engine
+       numbers, the print arrows, the CTA. */
+    .rpage {
+      --rs: #6fb7ae;
+      --rs-dim: #4f8a83;
+      --rs-faint: rgba(111, 183, 174, 0.10);
+    }
+
+    /* Tint every section eyebrow with the teal accent. */
+    .rpage .section-label { color: var(--rs); }
+
+    /* ── HERO ── */
+    .rs-hero {
+      max-width: 860px;
+      padding: 172px 24px 86px;
+      text-align: center;
+    }
+    .rs-kicker {
+      font-family: var(--font-label);
+      font-size: 11px;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--rs);
+      margin-bottom: 26px;
+    }
+    .rs-title {
+      font-family: var(--font-display);
+      font-weight: 300;
+      font-size: clamp(46px, 9.5vw, 86px);
+      line-height: 1;
+      letter-spacing: -0.02em;
+      color: var(--text-bright);
+      margin-bottom: 22px;
+    }
+    .rs-tagline {
+      font-family: var(--font-display);
+      font-weight: 300;
+      font-size: clamp(19px, 3.2vw, 27px);
+      line-height: 1.3;
+      color: var(--text);
+      margin-bottom: 26px;
+    }
+    .rs-lead {
+      font-size: 17px;
+      line-height: 1.7;
+      color: var(--text-muted);
+      max-width: 600px;
+      margin: 0 auto 40px;
+    }
+    .rs-hero-actions {
+      display: flex;
+      gap: 14px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 30px;
+    }
+    .rs-btn {
+      font-family: var(--font-label);
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--bg-deep);
+      background: var(--rs);
+      border: 1px solid var(--rs);
+      padding: 13px 26px;
+      border-radius: 2px;
+      text-decoration: none;
+      transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+    }
+    .rs-btn:hover { background: transparent; color: var(--rs); }
+    .rs-btn-ghost { background: transparent; color: var(--text); border-color: var(--border-light); }
+    .rs-btn-ghost:hover { color: var(--rs); border-color: var(--rs); }
+    .rs-status {
+      font-family: var(--font-label);
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      color: var(--text-muted);
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+    }
+    .rs-dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--rs);
+      animation: rs-pulse 2.8s ease-out infinite;
+    }
+    @keyframes rs-pulse {
+      0%   { box-shadow: 0 0 0 0 rgba(111, 183, 174, 0.45); }
+      70%  { box-shadow: 0 0 0 9px rgba(111, 183, 174, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(111, 183, 174, 0); }
+    }
+
+    /* ── MEDIA SEAM ── */
+    .rs-viewer-wrap { max-width: 1080px; padding: 8px 24px 120px; }
+    .rs-viewer {
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      overflow: hidden;
+      background: var(--bg-deep);
+    }
+    .rs-viewer-bar {
+      font-family: var(--font-label);
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      color: var(--text-muted);
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border);
+      background: var(--bg-elev);
+      display: flex;
+      align-items: center;
+      gap: 9px;
+    }
+    .rs-viewer-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--rs); }
+    .rs-viewer-stage {
+      aspect-ratio: 16 / 9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background:
+        radial-gradient(circle at 50% 42%, rgba(111, 183, 174, 0.05), transparent 62%),
+        var(--bg-deep);
+    }
+    .rs-viewer-note {
+      font-family: var(--font-body);
+      font-style: italic;
+      font-size: 15px;
+      color: var(--text-ghost);
+    }
+
+    /* ── SHARED HEADING ── */
+    .rs-h2 {
+      font-family: var(--font-display);
+      font-weight: 300;
+      font-size: clamp(26px, 4.5vw, 38px);
+      line-height: 1.2;
+      letter-spacing: -0.01em;
+      color: var(--text-bright);
+      margin-top: 14px;
+    }
+    .rs-section-lead {
+      font-size: 16px;
+      line-height: 1.7;
+      color: var(--text-muted);
+      max-width: 620px;
+      margin-top: 18px;
+    }
+
+    /* ── PIPELINE ── */
+    .rs-pipeline { max-width: 1100px; }
+    .rs-stages {
+      margin-top: 56px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .rs-stage { background: var(--bg); padding: 30px 26px 32px; }
+    .rs-stage-n {
+      font-family: var(--font-label);
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      color: var(--rs);
+      margin-bottom: 14px;
+    }
+    .rs-stage-name {
+      font-family: var(--font-display);
+      font-weight: 400;
+      font-size: 19px;
+      color: var(--text-bright);
+      margin-bottom: 10px;
+    }
+    .rs-stage-body { font-size: 14px; line-height: 1.6; color: var(--text-muted); margin-bottom: 16px; }
+    .rs-stage-controls { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+    .rs-stage-controls li {
+      font-family: var(--font-label);
+      font-size: 11px;
+      letter-spacing: 0.03em;
+      color: var(--text);
+      padding-left: 14px;
+      position: relative;
+    }
+    .rs-stage-controls li::before { content: '·'; position: absolute; left: 2px; color: var(--rs); }
+
+    /* ── STOCKS ── */
+    .rs-catalog { max-width: 1100px; }
+    .rs-stock-groups {
+      margin-top: 56px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 36px;
+    }
+    .rs-stock-head {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--border-light);
+      padding-bottom: 10px;
+      margin-bottom: 16px;
+      font-family: var(--font-label);
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text);
+    }
+    .rs-stock-count { color: var(--rs); }
+    .rs-stock-list { list-style: none; display: flex; flex-direction: column; gap: 9px; }
+    .rs-stock-list li { font-size: 14px; color: var(--text-muted); }
+
+    /* ── VIEW PATH ── */
+    .rs-viewpath { max-width: 920px; }
+    .rs-paths {
+      margin-top: 48px;
+      display: grid;
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .rs-path { background: var(--bg); padding: 22px 28px; }
+    .rs-path-row { display: flex; align-items: center; gap: 14px; }
+    .rs-path-from {
+      font-family: var(--font-display);
+      font-weight: 400;
+      font-size: 16px;
+      color: var(--text-bright);
+      min-width: 140px;
+    }
+    .rs-path-arrow { color: var(--rs); }
+    .rs-path-to {
+      font-family: var(--font-display);
+      font-weight: 400;
+      font-size: 16px;
+      color: var(--rs);
+    }
+    .rs-path-detail { font-size: 13px; line-height: 1.6; color: var(--text-muted); margin-top: 8px; }
+
+    /* ── TECH ── */
+    .rs-tech { max-width: 1000px; }
+    .rs-specs {
+      margin-top: 40px;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .rs-spec { background: var(--bg); padding: 34px 32px; }
+    .rs-spec-k {
+      font-family: var(--font-display);
+      font-weight: 400;
+      font-size: 18px;
+      color: var(--text-bright);
+      margin-bottom: 10px;
+    }
+    .rs-spec-v { font-size: 14px; line-height: 1.65; color: var(--text-muted); }
+
+    /* ── WAITLIST ── */
+    .rs-notify { max-width: 600px; text-align: center; padding-bottom: 200px; }
+    .rs-notify-line {
+      font-size: 16px;
+      line-height: 1.7;
+      color: var(--text-muted);
+      margin: 18px auto 36px;
+      max-width: 470px;
+    }
+    .rs-form { display: flex; gap: 8px; justify-content: center; align-items: stretch; }
+    .rs-input {
+      flex: 1 1 auto;
+      max-width: 300px;
+      background: var(--bg-elev);
+      border: 1px solid var(--border);
+      color: var(--text-bright);
+      font-family: var(--font-body);
+      font-size: 15px;
+      padding: 13px 14px;
+      border-radius: 2px;
+      transition: border-color 200ms ease;
+    }
+    .rs-input::placeholder { color: var(--text-ghost); }
+    .rs-input:focus { outline: none; border-color: var(--rs); }
+    .rs-submit {
+      font-family: var(--font-label);
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--bg-deep);
+      background: var(--rs);
+      border: 1px solid var(--rs);
+      padding: 0 22px;
+      border-radius: 2px;
+      cursor: pointer;
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+    .rs-submit:hover { background: transparent; color: var(--rs); }
+    .rs-form-error { font-style: italic; font-size: 13px; color: var(--rs); margin-top: 12px; }
+    .rs-form-done { font-style: italic; font-size: 14px; color: var(--text-muted); margin-top: 4px; }
+    .rs-notify.is-done .rs-form,
+    .rs-notify.is-done .rs-notify-line { display: none; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      .rs-stages { grid-template-columns: repeat(2, 1fr); }
+      .rs-stock-groups { grid-template-columns: repeat(2, 1fr); gap: 28px 32px; }
+      .rs-specs { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 560px) {
+      .rs-stages { grid-template-columns: 1fr; }
+      .rs-stock-groups { grid-template-columns: 1fr; }
+      .rs-path-row { flex-wrap: wrap; gap: 8px; }
+      .rs-path-from { min-width: 0; }
+      .rs-form { flex-direction: column; align-items: center; }
+      .rs-input { max-width: none; width: 100%; }
+      .rs-submit { padding: 13px; width: 100%; }
+    }
+  </style>
+</Base>

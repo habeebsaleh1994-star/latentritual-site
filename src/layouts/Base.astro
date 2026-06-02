@@ -16,6 +16,7 @@ const {
 } = Astro.props;
 
 const ogImageURL = `https://latentritual.com${ogImage}`;
+const canonicalURL = new URL(Astro.url.pathname, 'https://latentritual.com').href;
 
 const jsonLd = {
   '@context': 'https://schema.org',
@@ -35,11 +36,11 @@ const jsonLd = {
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
     <meta name="theme-color" content="#1A1614" />
-    <link rel="canonical" href="https://latentritual.com" />
+    <link rel="canonical" href={canonicalURL} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://latentritual.com" />
+    <meta property="og:url" content={canonicalURL} />
     <meta property="og:image" content={ogImageURL} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
