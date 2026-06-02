@@ -10,12 +10,14 @@ const BUTTONDOWN_ACTION = 'https://buttondown.com/api/emails/embed-subscribe/hab
 // negative first, then the print, then the surface, fall-off, texture, output.
 // (Mirrors describeInContext in LatentOFXPlugin.cpp.)
 const pipeline = [
-  { n: '01', name: 'Negative', body: 'Pick a film stock and expose it. Push or pull the development, the way you would send a roll to the lab.', controls: ['25 film stocks', 'Exposure', 'Push / Pull'] },
-  { n: '02', name: 'View Path', body: 'Print the negative. The engine offers the right medium for the stock you chose — color paper, motion print film, reversal, or silver gelatin.', controls: ['Paper / print stock', 'Print exposure', 'Grade · Contrast'] },
-  { n: '03', name: 'Surface', body: 'The character of the paper itself — how warm it runs, how brilliant the whites, how much sheen it holds.', controls: ['Warmth', 'Brilliance', 'Sheen'] },
-  { n: '04', name: 'Fall-Off', body: 'Burn the edges down the way an enlarger does, with reach, roundness and feather under your hand.', controls: ['Burn', 'Reach', 'Roundness · Spread'] },
-  { n: '05', name: 'Texture', body: 'The light that scatters back through the film base, and the grain of the emulsion.', controls: ['Halation', 'Grain'] },
-  { n: '06', name: 'Output', body: 'A quality switch keeps playback fast while you work, and renders full resolution on output. Mix back toward source to taste.', controls: ['Playback / Final', 'Mix'] },
+  { n: '01', name: 'Color', body: 'Tag the working space — ACES, DaVinci Wide Gamut or Rec.709 — so the engine develops in the right math. Diagnostic views check the signal at each step.', controls: ['ACES · DWG · Rec.709', 'Diagnostic views'] },
+  { n: '02', name: 'Negative', body: 'Pick a process — C-41, ECN-2 cinema, reversal or B&W silver — then the stock within it. Expose, push or pull.', controls: ['4 processes · 25 stocks', 'Film exposure', 'Push / Pull'] },
+  { n: '03', name: 'View Path', body: 'Print onto the right medium for that negative: RA-4 color paper, a cinema release print, a slide view, or silver gelatin.', controls: ['Color · cinema · slide · silver', 'Print exposure', 'Grade · contrast'] },
+  { n: '04', name: 'Print Response', body: 'The enlarger head — density, grade, dichroic yellow/magenta filtering, preflash and B&W split-grade — plus dye response and a three-zone print wash.', controls: ['Dichroic filters · preflash', 'Split-grade', 'Dye response · print wash'] },
+  { n: '05', name: 'Scan', body: 'Digitize the print the way a lab would — Noritsu, Frontier, Pakon, flatbed or a DSLR scan — each with its own character, sharpening and white/black handling.', controls: ['5 scanner looks', 'Sharpness · lens blur', 'White / black correction'] },
+  { n: '06', name: 'Fall-Off', body: 'Burn the edges down the way an enlarger does, with reach, roundness and feather under your hand.', controls: ['Burn · Reach', 'Roundness · Spread'] },
+  { n: '07', name: 'Film Texture', body: 'A real halation model — threshold, hue, bounces, spread — and a full grain engine: size, film format, roughness, organic structure and per-channel scale.', controls: ['Halation model', 'Grain engine', '16mm – 120 formats'] },
+  { n: '08', name: 'Output', body: 'A quality switch keeps playback fast and renders full resolution on output. Mix back toward source to taste.', controls: ['Playback / Final', 'Mix'] },
 ];
 
 // Stocks grouped by their development family (stockFamilyForFilmChoice).
@@ -44,7 +46,7 @@ const specs = [
 
 <Base
   title="The Print Engine — Latent for DaVinci Resolve"
-  description="Latent's negative-to-print film engine, brought to DaVinci Resolve. 25 film stocks, real darkroom papers, halation and grain — developed on the GPU, frame by frame. In development."
+  description="Latent's negative-to-print-to-scan film engine, brought to DaVinci Resolve. 25 film stocks, real darkroom papers, lab scanner looks, halation and a full grain engine — developed on the GPU, frame by frame. In development."
   ogImage="/og-resolve.png?v=1"
   ogImageAlt="The Print Engine — Latent for DaVinci Resolve"
 >
@@ -82,8 +84,8 @@ const specs = [
 
     <!-- PIPELINE -->
     <section class="rs-pipeline" id="inside">
-      <div class="section-label reveal">The path · negative to print</div>
-      <h2 class="rs-h2 reveal reveal-heading" style="--reveal-delay: 80ms">Six stages, the whole darkroom.</h2>
+      <div class="section-label reveal">The path · negative to scan</div>
+      <h2 class="rs-h2 reveal reveal-heading" style="--reveal-delay: 80ms">Eight stages, the whole lab.</h2>
       <div class="rs-stages">
         {pipeline.map((s, i) => (
           <div class="rs-stage reveal" style={`--reveal-delay: ${i * 70}ms`}>
