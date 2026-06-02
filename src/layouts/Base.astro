@@ -4,12 +4,18 @@ import '../styles/global.css';
 interface Props {
   title?: string;
   description?: string;
+  ogImage?: string;
+  ogImageAlt?: string;
 }
 
 const {
   title = 'Latent the Ritual — A photographic developer for the digital age',
   description = 'A complete digital darkroom for serious photographers. Film, light, paper. Develop, retouch, proof, print — in one place.',
+  ogImage = '/og.png?v=3',
+  ogImageAlt = 'Latent the Ritual — a photographic developer for the digital age',
 } = Astro.props;
+
+const ogImageURL = `https://latentritual.com${ogImage}`;
 
 const jsonLd = {
   '@context': 'https://schema.org',
@@ -34,14 +40,14 @@ const jsonLd = {
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://latentritual.com" />
-    <meta property="og:image" content="https://latentritual.com/og.png?v=3" />
+    <meta property="og:image" content={ogImageURL} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="Latent the Ritual — a photographic developer for the digital age" />
+    <meta property="og:image:alt" content={ogImageAlt} />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content="https://latentritual.com/og.png?v=3" />
+    <meta name="twitter:image" content={ogImageURL} />
     <title>{title}</title>
 
     <link rel="icon" type="image/svg+xml" href="/icon.svg?v=4" />
