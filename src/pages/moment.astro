@@ -44,9 +44,12 @@ const stages = [
   <Footer />
 
   <style>
-    /* The Moment's own page — the journal sibling spoken in Lora serif, on the
-       family's shared Evening (dark) ground. Media (photographs + film from the
-       app) drops into mpage-prose / a future gallery section once captured. */
+    /* The Moment's own page — its own light world: the app's "The Journal"
+       theme (cream #F4EFE8 ground, ink text, terracotta #C06A3E accent) set in
+       Lora serif. The dark Nav/Footer bracket it like covers around a page.
+       Media (photographs + film) drops into mpage-prose / a gallery later. */
+    .mpage { background: #F4EFE8; min-height: 100vh; }
+
     .mpage-hero {
       text-align: center;
       padding: 168px 24px 96px;
@@ -59,7 +62,7 @@ const stages = [
       font-size: clamp(52px, 11vw, 84px);
       line-height: 1;
       letter-spacing: -0.01em;
-      color: var(--text-bright);
+      color: #1E1814;
       margin-bottom: 12px;
     }
     .mpage-sub {
@@ -67,7 +70,7 @@ const stages = [
       font-weight: 400;
       font-size: 18px;
       letter-spacing: 0.24em;
-      color: var(--amber-dim);
+      color: #C06A3E;
       margin-bottom: 52px;
     }
     .mpage-tagline {
@@ -75,7 +78,7 @@ const stages = [
       font-weight: 400;
       font-size: clamp(28px, 5vw, 38px);
       line-height: 1.25;
-      color: var(--text-bright);
+      color: #1E1814;
       margin-bottom: 26px;
     }
     .mpage-lead {
@@ -84,7 +87,7 @@ const stages = [
       font-style: italic;
       font-size: 20px;
       line-height: 1.6;
-      color: var(--text-muted);
+      color: #7A6E62;
     }
     .mpage-prose {
       max-width: 640px;
@@ -97,7 +100,7 @@ const stages = [
       font-weight: 400;
       font-size: 22px;
       line-height: 1.7;
-      color: var(--text);
+      color: #483C32;
     }
     .mpage-stages {
       max-width: 980px;
@@ -111,7 +114,7 @@ const stages = [
       font-family: 'Lora', Georgia, serif;
       font-weight: 500;
       font-size: 30px;
-      color: var(--text-bright);
+      color: #1E1814;
       margin-bottom: 4px;
     }
     .mstage-sub {
@@ -120,7 +123,7 @@ const stages = [
       font-size: 10px;
       letter-spacing: 0.24em;
       text-transform: uppercase;
-      color: var(--amber-dim);
+      color: #C06A3E;
       margin-bottom: 18px;
     }
     .mstage-body {
@@ -128,7 +131,7 @@ const stages = [
       font-weight: 400;
       font-size: 16px;
       line-height: 1.65;
-      color: var(--text-muted);
+      color: #7A6E62;
     }
     .mpage-closing {
       max-width: 640px;
@@ -141,14 +144,14 @@ const stages = [
       font-style: italic;
       font-size: 22px;
       line-height: 1.6;
-      color: var(--text);
+      color: #483C32;
     }
     .mpage-closing a {
-      color: var(--amber);
+      color: #C06A3E;
       text-decoration: none;
-      border-bottom: 1px solid var(--border-light);
+      border-bottom: 1px solid #D4CBC0;
     }
-    .mpage-closing a:hover { color: var(--text-bright); }
+    .mpage-closing a:hover { color: #1E1814; }
 
     @media (max-width: 760px) {
       .mpage-stages { grid-template-columns: 1fr; gap: 44px; }
