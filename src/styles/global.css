@@ -699,8 +699,8 @@ section {
    opens into a light, cream, serif (Lora) room. A deliberate chapter break. */
 .moment {
   max-width: none;
-  padding: 190px 24px;
-  background: linear-gradient(180deg, var(--bg) 0, #F4EFE8 170px, #F4EFE8 calc(100% - 170px), var(--bg) 100%);
+  padding: 160px 24px;
+  background: #F4EFE8;
   color: #1E1814;
   text-align: center;
 }
