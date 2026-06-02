@@ -58,6 +58,7 @@ nav .wordmark {
   font-size: 14px;
   letter-spacing: 0.32em;
   color: var(--text);
+  text-decoration: none;
 }
 
 nav ul {
@@ -744,6 +745,23 @@ section {
   line-height: 1.65;
   color: var(--text);
 }
+
+.moment-link { display: block; text-decoration: none; }
+
+.moment-cta {
+  display: inline-block;
+  margin-top: 44px;
+  font-family: var(--font-label);
+  font-weight: 400;
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--amber);
+}
+
+.moment-cta .arrow { display: inline-block; transition: transform 300ms ease; }
+.moment-link:hover .moment-cta { color: var(--text-bright); }
+.moment-link:hover .arrow { transform: translateX(5px); }
 
 /* ─── PRICE ────────────────────────────────────────────────────────── */
 

@@ -1,0 +1,158 @@
+---
+import Base from '../layouts/Base.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+
+const stages = [
+  { name: 'Film', sub: 'Origin', body: 'Every photograph starts as a film stock. Portra, Velvia, Tri-X — each shapes the light its own way. Choose yours first; everything else builds on it.' },
+  { name: 'Light', sub: 'Interpret', body: "Exposure, contrast, the wash of a tone. The photographer's hand — shaping what's already there, not adding what isn't." },
+  { name: 'Paper', sub: 'Realize', body: 'Glossy or matte, warm or cool — the paper a photograph lives on changes how it speaks. The print is where the developing ends.' },
+];
+---
+
+<Base
+  title="Latent The Moment — A photographer's journal, on iPhone"
+  description="The Moment is Latent on iPhone — a journal for the photographs you catch in passing. The same developing engine as the Ritual, carried in your pocket."
+>
+  <Nav />
+  <main class="mpage">
+    <section class="mpage-hero">
+      <div class="mpage-mark reveal">Latent</div>
+      <div class="mpage-sub reveal" style="--reveal-delay: 80ms">The Moment</div>
+      <h1 class="mpage-tagline reveal reveal-heading" style="--reveal-delay: 200ms">A photographer's journal, on iPhone.</h1>
+      <p class="mpage-lead reveal" style="--reveal-delay: 300ms">A photographic developer. Not a filter app — a darkroom you carry.</p>
+    </section>
+
+    <section class="mpage-prose">
+      <p class="reveal">A place to keep your photographs — not to perfect them, to keep them. The Ritual is for the photographs you sit with; the Moment is for the ones you catch in passing. The same engine, on a slower bench.</p>
+    </section>
+
+    <section class="mpage-stages">
+      {stages.map((s, i) => (
+        <div class="mstage reveal" style={`--reveal-delay: ${i * 80}ms`}>
+          <div class="mstage-name">{s.name}</div>
+          <div class="mstage-sub">{s.sub}</div>
+          <p class="mstage-body">{s.body}</p>
+        </div>
+      ))}
+    </section>
+
+    <section class="mpage-closing">
+      <p class="reveal">The same developing engine as <a href="/#ritual">The Ritual</a> — the spectral film stocks, the papers, the light — carried in your pocket.</p>
+    </section>
+  </main>
+  <Footer />
+
+  <style>
+    /* The Moment's own page — the journal sibling spoken in Lora serif, on the
+       family's shared Evening (dark) ground. Media (photographs + film from the
+       app) drops into mpage-prose / a future gallery section once captured. */
+    .mpage-hero {
+      text-align: center;
+      padding: 168px 24px 96px;
+      max-width: 760px;
+      margin: 0 auto;
+    }
+    .mpage-mark {
+      font-family: 'Lora', Georgia, serif;
+      font-weight: 500;
+      font-size: clamp(52px, 11vw, 84px);
+      line-height: 1;
+      letter-spacing: -0.01em;
+      color: var(--text-bright);
+      margin-bottom: 12px;
+    }
+    .mpage-sub {
+      font-family: 'Lora', Georgia, serif;
+      font-weight: 400;
+      font-size: 18px;
+      letter-spacing: 0.24em;
+      color: var(--amber-dim);
+      margin-bottom: 52px;
+    }
+    .mpage-tagline {
+      font-family: 'Lora', Georgia, serif;
+      font-weight: 400;
+      font-size: clamp(28px, 5vw, 38px);
+      line-height: 1.25;
+      color: var(--text-bright);
+      margin-bottom: 26px;
+    }
+    .mpage-lead {
+      font-family: 'Lora', Georgia, serif;
+      font-weight: 400;
+      font-style: italic;
+      font-size: 20px;
+      line-height: 1.6;
+      color: var(--text-muted);
+    }
+    .mpage-prose {
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 24px 24px 120px;
+      text-align: center;
+    }
+    .mpage-prose p {
+      font-family: 'Lora', Georgia, serif;
+      font-weight: 400;
+      font-size: 22px;
+      line-height: 1.7;
+      color: var(--text);
+    }
+    .mpage-stages {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 0 24px 120px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 52px;
+    }
+    .mstage-name {
+      font-family: 'Lora', Georgia, serif;
+      font-weight: 500;
+      font-size: 30px;
+      color: var(--text-bright);
+      margin-bottom: 4px;
+    }
+    .mstage-sub {
+      font-family: var(--font-label);
+      font-weight: 400;
+      font-size: 10px;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: var(--amber-dim);
+      margin-bottom: 18px;
+    }
+    .mstage-body {
+      font-family: 'Lora', Georgia, serif;
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 1.65;
+      color: var(--text-muted);
+    }
+    .mpage-closing {
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 0 24px 160px;
+      text-align: center;
+    }
+    .mpage-closing p {
+      font-family: 'Lora', Georgia, serif;
+      font-style: italic;
+      font-size: 22px;
+      line-height: 1.6;
+      color: var(--text);
+    }
+    .mpage-closing a {
+      color: var(--amber);
+      text-decoration: none;
+      border-bottom: 1px solid var(--border-light);
+    }
+    .mpage-closing a:hover { color: var(--text-bright); }
+
+    @media (max-width: 760px) {
+      .mpage-stages { grid-template-columns: 1fr; gap: 44px; }
+      .mpage-prose p, .mpage-closing p { font-size: 20px; }
+    }
+  </style>
+</Base>
