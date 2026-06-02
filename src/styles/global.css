@@ -695,13 +695,14 @@ section {
 
 /* ─── MOMENT TEASER ────────────────────────────────────────────────── */
 
-/* The Moment is the journal sibling — it leaves the Ritual's darkroom and
-   opens into a light, cream, serif (Lora) room. A deliberate chapter break. */
+/* The Moment is the journal sibling — same dark room as the Ritual (the app's
+   own "Evening" theme deliberately shares the #1A1614 ground + amber accent),
+   but spoken in Lora serif. Differentiated by voice, not brightness. */
 .moment {
   max-width: none;
   padding: 160px 24px;
-  background: #F4EFE8;
-  color: #1E1814;
+  background: var(--bg);
+  color: var(--text-bright);
   text-align: center;
 }
 
@@ -713,7 +714,7 @@ section {
   font-size: clamp(44px, 9vw, 60px);
   line-height: 1;
   letter-spacing: -0.01em;
-  color: #1E1814;
+  color: var(--text-bright);
   margin-bottom: 10px;
 }
 
@@ -722,7 +723,7 @@ section {
   font-weight: 400;
   font-size: 16px;
   letter-spacing: 0.2em;
-  color: #7A6E62;
+  color: var(--amber-dim);
   margin-bottom: 56px;
 }
 
@@ -732,7 +733,7 @@ section {
   font-size: clamp(26px, 5vw, 34px);
   line-height: 1.2;
   letter-spacing: -0.005em;
-  color: #1E1814;
+  color: var(--text-bright);
   margin-bottom: 26px;
 }
 
@@ -741,7 +742,7 @@ section {
   font-weight: 400;
   font-size: 19px;
   line-height: 1.65;
-  color: #483C32;
+  color: var(--text);
 }
 
 /* ─── PRICE ────────────────────────────────────────────────────────── */
