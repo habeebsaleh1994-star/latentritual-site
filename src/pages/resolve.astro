@@ -3,6 +3,9 @@ import Base from '../layouts/Base.astro';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 
+// Buttondown embed endpoint (Settings → Embedding → <form action>).
+const BUTTONDOWN_ACTION = 'https://buttondown.com/api/emails/embed-subscribe/habeebsaleh1994';
+
 // The six parameter pages, in the order the engine works the frame —
 // negative first, then the print, then the surface, fall-off, texture, output.
 // (Mirrors describeInContext in LatentOFXPlugin.cpp.)
@@ -146,18 +149,38 @@ const specs = [
       </div>
     </section>
 
-    <!-- WAITLIST — plain mailto for now; swap back to a real list form when one is wired -->
-    <section class="rs-notify" id="notify">
+    <!-- WAITLIST -->
+    <section class="rs-notify" id="notify" data-newsletter>
       <h2 class="rs-h2 reveal reveal-heading">It isn't finished yet.</h2>
       <p class="rs-notify-line reveal" style="--reveal-delay: 80ms">
-        I'm building the Print Engine now, in Joun. Want to know the day it's ready to drop into
-        Resolve? Send me a line — I'll write you then, and not before.
+        I'm building the Print Engine now, in Joun. Leave your email and I'll write you the day it's
+        ready to drop into Resolve — nothing else.
       </p>
-      <a
-        class="rs-btn reveal"
+      <form
+        class="rs-form reveal"
         style="--reveal-delay: 160ms"
-        href="mailto:contact@latentritual.com?subject=The%20Print%20Engine%20%E2%80%94%20notify%20me&body=Let%20me%20know%20when%20Latent%20for%20DaVinci%20Resolve%20is%20ready."
-      >Email me to be notified</a>
+        action={BUTTONDOWN_ACTION}
+        method="post"
+        target="_blank"
+        data-newsletter-form
+      >
+        <label class="visually-hidden" for="rs-email">Email address</label>
+        <input type="hidden" name="metadata__source" value="resolve" />
+        <input
+          id="rs-email"
+          class="rs-input"
+          type="email"
+          name="email"
+          required
+          autocomplete="email"
+          placeholder="your email"
+        />
+        <button type="submit" class="rs-submit">Notify me</button>
+      </form>
+      <p class="rs-form-error" data-newsletter-error hidden role="alert">That email doesn't look right.</p>
+      <p class="rs-form-done" data-newsletter-done hidden role="status" aria-live="polite">
+        You're on the list. I'll be in touch the day it ships.
+      </p>
     </section>
 
   </main>
