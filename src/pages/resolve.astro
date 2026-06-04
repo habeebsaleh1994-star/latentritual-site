@@ -10,14 +10,15 @@ const BUTTONDOWN_ACTION = 'https://buttondown.com/api/emails/embed-subscribe/hab
 // negative first, then the print, then the surface, fall-off, texture, output.
 // (Mirrors describeInContext in LatentOFXPlugin.cpp.)
 const pipeline = [
-  { n: '01', name: 'Color', body: 'Tag the working space — ACES, DaVinci Wide Gamut or Rec.709 — so the engine develops in the right math. Diagnostic views check the signal at each step.', controls: ['ACES · DWG · Rec.709', 'Diagnostic views'] },
-  { n: '02', name: 'Negative', body: 'Pick a process — C-41, ECN-2 cinema, reversal or B&W silver — then the stock within it. Expose, push or pull.', controls: ['4 processes · 25 stocks', 'Film exposure', 'Push / Pull'] },
-  { n: '03', name: 'View Path', body: 'Print onto the right medium for that negative: RA-4 color paper, a cinema release print, a slide view, or silver gelatin.', controls: ['Color · cinema · slide · silver', 'Print exposure', 'Grade · contrast'] },
-  { n: '04', name: 'Print Response', body: 'The enlarger head — density, grade, dichroic yellow/magenta filtering, preflash and B&W split-grade — plus dye response and a three-zone print wash.', controls: ['Dichroic filters · preflash', 'Split-grade', 'Dye response · print wash'] },
-  { n: '05', name: 'Scan', body: 'Digitize the print the way a lab would — Noritsu, Frontier, Pakon, flatbed or a DSLR scan — each with its own character, sharpening and white/black handling.', controls: ['5 scanner looks', 'Sharpness · lens blur', 'White / black correction'] },
-  { n: '06', name: 'Fall-Off', body: 'Burn the edges down the way an enlarger does, with reach, roundness and feather under your hand.', controls: ['Burn · Reach', 'Roundness · Spread'] },
-  { n: '07', name: 'Film Texture', body: 'A real halation model — threshold, hue, bounces, spread — and a full grain engine: size, film format, roughness, organic structure and per-channel scale.', controls: ['Halation model', 'Grain engine', '16mm – 120 formats'] },
-  { n: '08', name: 'Output', body: 'A quality switch keeps playback fast and renders full resolution on output. Mix back toward source to taste.', controls: ['Playback / Final', 'Mix'] },
+  { n: '01', name: 'Color', body: 'Tag the working space — ACES, DaVinci Wide Gamut or Rec.709 — so the engine develops in the right math, with diagnostic views at each step.', controls: ['ACES · DWG · Rec.709', 'Diagnostic views'] },
+  { n: '02', name: 'Lens / Bloom', body: 'Optical diffusion before the film even sees the light — mist, bloom and veil, thresholded in EV so only the highlights flower.', controls: ['Mist · Bloom · Veil', 'Highlight threshold'] },
+  { n: '03', name: 'Negative', body: 'Pick a process — C-41, ECN-2 cinema, reversal or B&W silver — then the stock within it. Expose, push or pull, even bleach-bypass.', controls: ['4 processes · 25 stocks', 'Exposure · Push/Pull', 'Bleach bypass'] },
+  { n: '04', name: 'Process Path', body: 'Print onto the right medium: RA-4 color paper, a cinema release print, a slide view, or silver gelatin — with darkroom toning on B&W.', controls: ['Color · cinema · slide · silver', 'Sepia · selenium · gold · copper', 'Print exposure · grade'] },
+  { n: '05', name: 'Print Response', body: 'The enlarger head — density, grade, dichroic yellow/magenta filtering, preflash and split-grade — plus dye response and a three-zone color wash.', controls: ['Dichroic filters · preflash', 'Split-grade', 'Dye response · color wash'] },
+  { n: '06', name: 'Scan', body: 'Digitize it the way a lab would — Noritsu, Frontier, Pakon, flatbed, DSLR, a clean DI, or a Cintel / Spirit telecine — each with its own character.', controls: ['8 scanner & telecine looks', 'Sharpness · lens blur', 'White / black correction'] },
+  { n: '07', name: 'Edge & Detail', body: 'Burn the edges down like an enlarger, and shape acutance — coarse and fine detail, size and edge balance.', controls: ['Edge burn · vignette', 'Acutance · fine detail'] },
+  { n: '08', name: 'Texture', body: 'A real halation model and a grain engine that actually moves — size, film format, organic structure, plus motion and boil so grain lives frame to frame.', controls: ['Halation model', 'Animated grain · boil', '16mm – 120 formats'] },
+  { n: '09', name: 'Film Transport', body: 'The mechanical life of film through a gate — weave, flicker and breathing, on a chosen gate plate, so motion feels projected, not pristine.', controls: ['Gate weave · breathing', 'Flicker · speed', 'Gate plate'] },
 ];
 
 // Stocks grouped by their development family (stockFamilyForFilmChoice).
@@ -32,8 +33,8 @@ const stockGroups = [
 const viewPaths = [
   { from: 'Color negative', to: 'RA-4 paper', detail: '10 papers — Portra & Supra Endura, Fuji Crystal Archive, Ektacolor, Endura Metallic…' },
   { from: 'Motion stock', to: 'Print film', detail: '5 looks — Kodak 2383 & 2393, Agfa CP30, Fuji ETERNA-CP, plus a straight ECN-2 scan.' },
-  { from: 'Reversal', to: 'Transparency', detail: '3 views — a clean lightbox, and Ilfochrome Classic CLM / CPS.' },
-  { from: 'Black & white', to: 'Silver gelatin', detail: '9 papers — Ilford Multigrade IV RC & FB, Warmtone, Cooltone, Foma Fomatone, Forte Polywarmtone…' },
+  { from: 'Reversal', to: 'Transparency', detail: '4 views — lightbox, Ilfochrome Classic CLM / CPS, and a cross-processed RA-4 look.' },
+  { from: 'Black & white', to: 'Silver gelatin', detail: '9 papers — Ilford Multigrade IV RC & FB, Foma Fomatone, Forte Polywarmtone — plus sepia, selenium, gold & copper toning.' },
 ];
 
 const specs = [
@@ -46,7 +47,7 @@ const specs = [
 
 <Base
   title="The Print Engine — Latent for DaVinci Resolve"
-  description="Latent's negative-to-print-to-scan film engine, brought to DaVinci Resolve. 25 film stocks, real darkroom papers, lab scanner looks, halation and a full grain engine — developed on the GPU, frame by frame. In development."
+  description="Latent's film engine, brought to DaVinci Resolve — 25 stocks across C-41, ECN-2, reversal and black-and-white; darkroom papers and toners; lens bloom, halation, an animated grain engine, lab and telecine scanners, and film-transport weave and flicker. Developed on the GPU, frame by frame. In development."
   ogImage="/og-resolve.png?v=1"
   ogImageAlt="The Print Engine — Latent for DaVinci Resolve"
 >
@@ -109,8 +110,8 @@ const specs = [
 
     <!-- PIPELINE -->
     <section class="rs-pipeline" id="inside">
-      <div class="section-label reveal">The path · negative to scan</div>
-      <h2 class="rs-h2 reveal reveal-heading" style="--reveal-delay: 80ms">Eight stages, the whole lab.</h2>
+      <div class="section-label reveal">The path · lens to projector</div>
+      <h2 class="rs-h2 reveal reveal-heading" style="--reveal-delay: 80ms">Nine stations, lens to projector.</h2>
       <div class="rs-stages">
         {pipeline.map((s, i) => (
           <div class="rs-stage reveal" style={`--reveal-delay: ${i * 70}ms`}>
