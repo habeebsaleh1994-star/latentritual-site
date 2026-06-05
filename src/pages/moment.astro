@@ -104,7 +104,16 @@ const stages = [
       <div class="msheet-label reveal">A page from the journal</div>
       <h2 class="msheet-h reveal reveal-heading" style="--reveal-delay: 80ms">Your afternoon, in eight frames.</h2>
       <p class="msheet-lead reveal" style="--reveal-delay: 160ms">Every session becomes a page — one moment across the stocks you tried, dated and titled. Keep it, or share it exactly as it is.</p>
-      <img class="msheet-img reveal" style="--reveal-delay: 220ms" src="/moment-contact.jpg" alt="A Latent contact sheet titled This afternoon — eight frames across Portra 800, Portra 400, Ultra 100, Tri-X 400 and Vision3 250D" loading="lazy" />
+      <div class="msheet-pair reveal" style="--reveal-delay: 220ms">
+        <figure class="msheet-fig">
+          <img src="/moment-contact.jpg" alt="A Latent contact sheet titled This afternoon — eight frames across Portra 800, Portra 400, Ultra 100, Tri-X 400 and Vision3 250D" loading="lazy" />
+          <figcaption>The Journal</figcaption>
+        </figure>
+        <figure class="msheet-fig">
+          <img src="/moment-contact-evening.jpg" alt="The same contact sheet rendered in the dark Evening theme" loading="lazy" />
+          <figcaption>The Evening</figcaption>
+        </figure>
+      </div>
     </section>
 
     <section class="mpage-ba-wrap">
@@ -341,6 +350,12 @@ const stages = [
       .mtake-fig img { height: auto; width: 100%; }
       .mtake-pair { align-items: center; gap: 18px; }
     }
+
+    .msheet-pair { margin-top: 40px; display: flex; gap: 28px; justify-content: center; align-items: flex-start; flex-wrap: wrap; }
+    .msheet-fig { margin: 0; }
+    .msheet-fig img { height: 540px; width: auto; max-width: 100%; display: block; border: 1px solid #D4CBC0; border-radius: 4px; box-shadow: 0 24px 50px -30px rgba(30, 24, 20, 0.4); }
+    .msheet-fig figcaption { font-family: var(--font-label); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: #7A6E62; margin-top: 12px; }
+    @media (max-width: 600px) { .msheet-fig img { height: auto; width: 100%; } }
 
     @media (max-width: 760px) {
       .mpage-stages { grid-template-columns: 1fr; gap: 44px; }
