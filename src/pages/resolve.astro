@@ -108,6 +108,34 @@ const specs = [
       </figure>
     </section>
 
+    <!-- ONE NODE · COLOR MANAGED -->
+    <section class="rs-node">
+      <div class="section-label reveal">Color-managed · one node</div>
+      <h2 class="rs-h2 reveal reveal-heading" style="--reveal-delay: 80ms">The whole lab, in a single node.</h2>
+      <p class="rs-section-lead rs-node-lead reveal" style="--reveal-delay: 160ms">
+        No node tree, no LUT juggling. Decode your RAW or log to a supported camera log and gamut, choose
+        the matching Camera Profile, and Latent carries it through — negative, print, scan, texture — then
+        hands back the delivery space you need.
+      </p>
+      <div class="rs-flow reveal" style="--reveal-delay: 240ms">
+        <div class="rs-flow-step">
+          <div class="rs-flow-k">In</div>
+          <div class="rs-flow-v">Camera log + gamut<br />matching Camera Profile</div>
+        </div>
+        <span class="rs-flow-arrow">&#8594;</span>
+        <div class="rs-flow-step rs-flow-engine">
+          <div class="rs-flow-k">Latent</div>
+          <div class="rs-flow-v">negative · print · scan · texture</div>
+        </div>
+        <span class="rs-flow-arrow">&#8594;</span>
+        <div class="rs-flow-step">
+          <div class="rs-flow-k">Out</div>
+          <div class="rs-flow-v">Rec.709-A · Rec.709 2.4<br />DWG · ACES · P3</div>
+        </div>
+      </div>
+      <p class="rs-node-foot reveal" style="--reveal-delay: 320ms">All inside one OpenFX node.</p>
+    </section>
+
     <!-- PIPELINE -->
     <section class="rs-pipeline" id="inside">
       <div class="section-label reveal">The path · lens to projector</div>
@@ -589,6 +617,26 @@ const specs = [
     .rs-shot { border: 1px solid var(--border); border-radius: 6px; overflow: hidden; background: var(--bg-deep); }
     .rs-shot img { width: 100%; height: auto; display: block; }
     .rs-shot-cap { font-family: var(--font-label); font-size: 11px; letter-spacing: 0.08em; color: var(--text-muted); padding: 12px 16px; border-top: 1px solid var(--border); background: var(--bg-elev); }
+    /* ── ONE NODE / COLOR MANAGED ── */
+    .rs-node { max-width: 1000px; text-align: center; }
+    .rs-node-lead { margin-left: auto; margin-right: auto; }
+    .rs-flow { margin-top: 48px; display: flex; align-items: stretch; justify-content: center; gap: 14px; flex-wrap: wrap; }
+    .rs-flow-step {
+      flex: 1 1 240px; max-width: 320px;
+      background: var(--bg); border: 1px solid var(--border); border-radius: 4px;
+      padding: 22px 20px; display: flex; flex-direction: column; justify-content: center;
+    }
+    .rs-flow-engine { border-color: var(--rs-dim); }
+    .rs-flow-k { font-family: var(--font-label); font-size: 10px; letter-spacing: 0.24em; text-transform: uppercase; color: var(--rs); margin-bottom: 10px; }
+    .rs-flow-v { font-family: var(--font-display); font-weight: 300; font-size: 15px; line-height: 1.5; color: var(--text-bright); }
+    .rs-flow-arrow { align-self: center; color: var(--rs); font-size: 18px; }
+    .rs-node-foot { margin-top: 24px; font-family: var(--font-label); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-muted); }
+    @media (max-width: 640px) {
+      .rs-flow { flex-direction: column; align-items: center; }
+      .rs-flow-arrow { transform: rotate(90deg); }
+      .rs-flow-step { max-width: none; width: 100%; }
+    }
+
   </style>
 
   <script>
