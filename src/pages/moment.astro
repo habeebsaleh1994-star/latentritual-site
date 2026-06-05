@@ -25,8 +25,22 @@ const stages = [
       <p class="mpage-lead reveal" style="--reveal-delay: 300ms">A photographic developer. Not a filter app — a darkroom you carry.</p>
     </section>
 
+    <section class="mpage-device">
+      <div class="mphone reveal">
+        <div class="mphone-screen">
+          <img src="/moment-app.jpg" alt="The Latent the Moment editor in its Journal theme — a street photograph developing on Kodak Vision3 250D, with Film, Light and Paper controls" />
+        </div>
+      </div>
+      <p class="mdevice-cap reveal" style="--reveal-delay: 120ms">Film, light, paper — the whole darkroom, in your hand.</p>
+    </section>
+
     <section class="mpage-prose">
       <p class="reveal">A place to keep your photographs — not to perfect them, to keep them. The Ritual is for the photographs you sit with; the Moment is for the ones you catch in passing. The same engine, on a slower bench.</p>
+    </section>
+
+    <section class="mpage-shot">
+      <img class="mshot-img reveal" src="/moment-photo.jpg" alt="A stone chapel at golden hour in Joun, Lebanon, developed in Latent the Moment" />
+      <p class="mshot-cap reveal" style="--reveal-delay: 120ms">Joun, golden hour. Shot on iPhone, developed on Kodak — no filter, a negative.</p>
     </section>
 
     <section class="mpage-stages">
@@ -37,6 +51,13 @@ const stages = [
           <p class="mstage-body">{s.body}</p>
         </div>
       ))}
+    </section>
+
+    <section class="mpage-sheet">
+      <div class="msheet-label reveal">A page from the journal</div>
+      <h2 class="msheet-h reveal reveal-heading" style="--reveal-delay: 80ms">Your afternoon, in eight frames.</h2>
+      <p class="msheet-lead reveal" style="--reveal-delay: 160ms">Every session becomes a page — one moment across the stocks you tried, dated and titled. Keep it, or share it exactly as it is.</p>
+      <img class="msheet-img reveal" style="--reveal-delay: 220ms" src="/moment-contact.jpg" alt="A Latent contact sheet titled This afternoon — eight frames across Portra 800, Portra 400, Ultra 100, Tri-X 400 and Vision3 250D" />
     </section>
 
     <section class="mpage-closing">
@@ -154,6 +175,45 @@ const stages = [
       border-bottom: 1px solid #D4CBC0;
     }
     .mpage-closing a:hover { color: #1E1814; }
+
+    /* ── MEDIA from the app captures: phone, a photograph, the contact sheet ── */
+    .mpage-device { max-width: 760px; margin: 0 auto; padding: 8px 24px 110px; text-align: center; }
+    .mphone {
+      width: 268px; max-width: 76vw; margin: 0 auto;
+      background: #14110F; border-radius: 46px; padding: 10px;
+      box-shadow: 0 34px 70px -34px rgba(30, 24, 20, 0.55);
+    }
+    .mphone-screen { border-radius: 37px; overflow: hidden; line-height: 0; }
+    .mphone-screen img { width: 100%; height: auto; }
+    .mdevice-cap {
+      font-family: 'Lora', Georgia, serif; font-style: italic;
+      font-size: 16px; line-height: 1.6; color: #7A6E62;
+      max-width: 420px; margin: 30px auto 0;
+    }
+    .mpage-shot { max-width: 1080px; margin: 0 auto; padding: 0 24px 120px; text-align: center; }
+    .mshot-img { width: 100%; height: auto; border-radius: 3px; display: block; }
+    .mshot-cap {
+      font-family: 'Lora', Georgia, serif; font-style: italic;
+      font-size: 15px; line-height: 1.6; color: #7A6E62; margin-top: 18px;
+    }
+    .mpage-sheet { max-width: 860px; margin: 0 auto; padding: 0 24px 120px; text-align: center; }
+    .msheet-label {
+      font-family: var(--font-label); font-weight: 400; font-size: 10px;
+      letter-spacing: 0.24em; text-transform: uppercase; color: #C06A3E; margin-bottom: 18px;
+    }
+    .msheet-h {
+      font-family: 'Lora', Georgia, serif; font-weight: 500;
+      font-size: clamp(24px, 4vw, 32px); line-height: 1.2; color: #1E1814;
+    }
+    .msheet-lead {
+      font-family: 'Lora', Georgia, serif; font-size: 18px; line-height: 1.7;
+      color: #7A6E62; max-width: 540px; margin: 16px auto 40px;
+    }
+    .msheet-img {
+      width: 100%; max-width: 560px; height: auto; display: block; margin: 0 auto;
+      border: 1px solid #D4CBC0; border-radius: 4px;
+      box-shadow: 0 24px 60px -32px rgba(30, 24, 20, 0.4);
+    }
 
     @media (max-width: 760px) {
       .mpage-stages { grid-template-columns: 1fr; gap: 44px; }
