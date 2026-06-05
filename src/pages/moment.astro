@@ -41,9 +41,18 @@ const stages = [
       <p class="reveal">A place to keep your photographs — not to perfect them, to keep them. The Ritual is for the photographs you sit with; the Moment is for the ones you catch in passing. The same engine, on a slower bench.</p>
     </section>
 
-    <section class="mpage-shot">
-      <img class="mshot-img reveal" src="/moment-photo.jpg" alt="A stone chapel at golden hour in Joun, Lebanon, developed in Latent the Moment" />
-      <p class="mshot-cap reveal" style="--reveal-delay: 120ms">Joun, golden hour. Shot on iPhone, developed on Kodak — no filter, a negative.</p>
+    <section class="mpage-ba-wrap">
+      <div class="mba-label reveal">Drag to develop</div>
+      <h2 class="mba-h reveal reveal-heading" style="--reveal-delay: 80ms">From a flat negative to a finished frame.</h2>
+      <div class="mba reveal" style="--reveal-delay: 160ms" data-ba>
+        <img class="mba-img" src="/moment-photo.jpg" alt="The chapel, developed in Latent the Moment" loading="lazy" />
+        <img class="mba-img mba-before" src="/moment-raw.jpg" alt="The same frame, straight from the iPhone camera" loading="lazy" />
+        <div class="mba-line"><span class="mba-grip">↔</span></div>
+        <span class="mba-tag mba-tag-l">RAW</span>
+        <span class="mba-tag mba-tag-r">Latent</span>
+        <input class="mba-range" type="range" min="0" max="100" value="50" aria-label="Reveal the developed frame" data-ba-range />
+      </div>
+      <p class="mshot-cap reveal" style="--reveal-delay: 220ms">Joun, golden hour — straight from camera, then developed on Kodak.</p>
     </section>
 
     <section class="mpage-stages">
@@ -62,21 +71,33 @@ const stages = [
       <p class="mthemes-lead reveal" style="--reveal-delay: 160ms">The Journal — bright and papery. The Evening — dark and quiet. Same controls; your mood.</p>
       <div class="mthemes-pair reveal" style="--reveal-delay: 220ms">
         <figure class="mtheme">
-          <img src="/moment-app.jpg" alt="Latent the Moment in its light Journal theme" />
+          <img src="/moment-app.jpg" alt="Latent the Moment in its light Journal theme" loading="lazy" />
           <figcaption>The Journal</figcaption>
         </figure>
         <figure class="mtheme">
-          <img src="/moment-evening.jpg" alt="Latent the Moment in its dark Evening theme" />
+          <img src="/moment-evening.jpg" alt="Latent the Moment in its dark Evening theme" loading="lazy" />
           <figcaption>The Evening</figcaption>
         </figure>
       </div>
+    </section>
+
+    <section class="mpage-note">
+      <div class="mnote-label reveal">Keep the story</div>
+      <blockquote class="mnote-quote reveal" style="--reveal-delay: 80ms">“A sunset walk with a friend, in the softness of an early summer evening.”</blockquote>
+      <p class="mnote-cap reveal" style="--reveal-delay: 160ms">Every frame can carry a caption, a place, a date — so a photograph stays a memory, not just a file.</p>
     </section>
 
     <section class="mpage-sheet">
       <div class="msheet-label reveal">A page from the journal</div>
       <h2 class="msheet-h reveal reveal-heading" style="--reveal-delay: 80ms">Your afternoon, in eight frames.</h2>
       <p class="msheet-lead reveal" style="--reveal-delay: 160ms">Every session becomes a page — one moment across the stocks you tried, dated and titled. Keep it, or share it exactly as it is.</p>
-      <img class="msheet-img reveal" style="--reveal-delay: 220ms" src="/moment-contact.jpg" alt="A Latent contact sheet titled This afternoon — eight frames across Portra 800, Portra 400, Ultra 100, Tri-X 400 and Vision3 250D" />
+      <img class="msheet-img reveal" style="--reveal-delay: 220ms" src="/moment-contact.jpg" alt="A Latent contact sheet titled This afternoon — eight frames across Portra 800, Portra 400, Ultra 100, Tri-X 400 and Vision3 250D" loading="lazy" />
+    </section>
+
+    <section class="mpage-framed">
+      <div class="mframed-label reveal">Share it, framed</div>
+      <h2 class="mframed-h reveal reveal-heading" style="--reveal-delay: 80ms">Export with the film it was made on.</h2>
+      <img class="mframed-img reveal" style="--reveal-delay: 160ms" src="/moment-framed.jpg" alt="A framed Latent export — a street photograph on Kodak Vision3 250D, June 2026" loading="lazy" />
     </section>
 
     <section class="mpage-closing">
@@ -244,10 +265,40 @@ const stages = [
     .mtheme img { width: 100%; height: auto; display: block; border-radius: 26px; border: 1px solid #D4CBC0; box-shadow: 0 24px 50px -28px rgba(30, 24, 20, 0.4); }
     .mtheme figcaption { font-family: var(--font-label); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: #7A6E62; margin-top: 14px; }
 
+    /* ── Develop slider, caption note, framed export ── */
+    .mpage-ba-wrap { max-width: 1000px; margin: 0 auto; padding: 0 24px 120px; text-align: center; }
+    .mba-label, .mnote-label, .mframed-label { font-family: var(--font-label); font-weight: 400; font-size: 10px; letter-spacing: 0.24em; text-transform: uppercase; color: #C06A3E; margin-bottom: 18px; }
+    .mba-h, .mframed-h { font-family: 'Lora', Georgia, serif; font-weight: 500; font-size: clamp(24px, 4vw, 32px); line-height: 1.2; color: #1E1814; }
+    .mba { --p: 50%; position: relative; margin: 40px auto 0; max-width: 880px; aspect-ratio: 4 / 3; border-radius: 4px; overflow: hidden; border: 1px solid #D4CBC0; user-select: none; touch-action: pan-y; }
+    .mba-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+    .mba-before { clip-path: inset(0 calc(100% - var(--p)) 0 0); }
+    .mba-line { position: absolute; top: 0; bottom: 0; left: var(--p); width: 2px; background: #C06A3E; transform: translateX(-1px); pointer-events: none; }
+    .mba-grip { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: #F4EFE8; border: 2px solid #C06A3E; color: #C06A3E; font-size: 15px; box-shadow: 0 2px 12px rgba(30, 24, 20, 0.25); }
+    .mba-tag { position: absolute; bottom: 12px; z-index: 2; font-family: var(--font-label); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: #F4EFE8; background: rgba(30, 24, 20, 0.5); padding: 5px 10px; border-radius: 3px; pointer-events: none; }
+    .mba-tag-l { left: 12px; }
+    .mba-tag-r { right: 12px; }
+    .mba-range { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: ew-resize; z-index: 3; -webkit-appearance: none; appearance: none; background: transparent; }
+    .mba-range::-webkit-slider-thumb { -webkit-appearance: none; width: 48px; height: 700px; cursor: ew-resize; }
+    .mba-range::-moz-range-thumb { width: 48px; height: 700px; border: 0; background: transparent; }
+    .mpage-note { max-width: 680px; margin: 0 auto; padding: 0 24px 120px; text-align: center; }
+    .mnote-quote { font-family: 'Lora', Georgia, serif; font-style: italic; font-weight: 400; font-size: clamp(22px, 3.4vw, 30px); line-height: 1.5; color: #1E1814; margin: 0; }
+    .mnote-cap { font-family: 'Lora', Georgia, serif; font-size: 16px; line-height: 1.7; color: #7A6E62; max-width: 460px; margin: 24px auto 0; }
+    .mpage-framed { max-width: 820px; margin: 0 auto; padding: 0 24px 130px; text-align: center; }
+    .mframed-img { width: 100%; max-width: 640px; height: auto; display: block; margin: 40px auto 0; border-radius: 4px; box-shadow: 0 30px 60px -34px rgba(30, 24, 20, 0.4); }
+
     @media (max-width: 760px) {
       .mpage-stages { grid-template-columns: 1fr; gap: 44px; }
       .mthemes-pair { gap: 14px; }
       .mpage-prose p, .mpage-closing p { font-size: 20px; }
     }
   </style>
+  <script>
+    document.querySelectorAll('[data-ba]').forEach((ba) => {
+      const range = ba.querySelector('[data-ba-range]');
+      if (!range) return;
+      const set = (v) => ba.style.setProperty('--p', v + '%');
+      set(range.value);
+      range.addEventListener('input', () => set(range.value));
+    });
+  </script>
 </Base>
