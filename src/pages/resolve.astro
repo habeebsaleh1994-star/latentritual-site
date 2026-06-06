@@ -117,7 +117,7 @@ const frames = [
           {frames.map((fr, fi) => fr.looks.map((lk, li) => (
             <img class:list={["rs-switch-img", fi === 0 && li === 0 && "is-active"]} data-frame={fi} data-look={li} src={lk.img} alt={`${fr.name} — ${lk.name}`} loading="lazy" />
           )))}
-          <div class="rs-switch-cap"><span data-cap-frame>{frames[0].name}</span> · <span data-cap-look>{frames[0].looks[0].name}</span></div>
+          <div class="rs-switch-cap"><span data-cap-look>{frames[0].looks[0].name}</span></div>
         </div>
         <div class="rs-switch-stocks">
           {frames.map((fr, fi) => (
@@ -132,9 +132,8 @@ const frames = [
       {frames.length > 1 && (
         <div class="rs-switch-thumbs reveal" style="--reveal-delay: 260ms">
           {frames.map((fr, fi) => (
-            <button class:list={["rs-switch-thumb", fi === 0 && "is-active"]} data-frame-btn={fi}>
+            <button class:list={["rs-switch-thumb", fi === 0 && "is-active"]} data-frame-btn={fi} aria-label={fr.name}>
               <img src={fr.looks[0].img} alt={fr.name} loading="lazy" />
-              <span>{fr.name}</span>
             </button>
           ))}
         </div>
@@ -734,18 +733,15 @@ const frames = [
       const groups = sw.querySelectorAll('[data-stock-group]');
       const stockBtns = sw.querySelectorAll('.rs-switch-stock');
       const frameBtns = wrap.querySelectorAll('[data-frame-btn]');
-      const capFrame = wrap.querySelector('[data-cap-frame]');
       const capLook = wrap.querySelector('[data-cap-look]');
       const lookBtn = (f, l) => sw.querySelector('.rs-switch-stock[data-frame="' + f + '"][data-look="' + l + '"]');
       const lookName = (f, l) => { const b = lookBtn(f, l); return b ? b.textContent : ''; };
-      const frameName = (f) => { const t = wrap.querySelector('[data-frame-btn="' + f + '"] span'); return t ? t.textContent : (capFrame ? capFrame.textContent : ''); };
       let frame = 0, look = 0;
       const update = () => {
         imgs.forEach((im) => im.classList.toggle('is-active', +im.dataset.frame === frame && +im.dataset.look === look));
         groups.forEach((g) => g.classList.toggle('is-active', +g.dataset.stockGroup === frame));
         stockBtns.forEach((b) => b.classList.toggle('is-active', +b.dataset.frame === frame && +b.dataset.look === look));
         frameBtns.forEach((b) => b.classList.toggle('is-active', +b.dataset.frameBtn === frame));
-        if (capFrame) capFrame.textContent = frameName(frame);
         if (capLook) capLook.textContent = lookName(frame, look);
       };
       stockBtns.forEach((b) => b.addEventListener('click', () => { frame = +b.dataset.frame; look = +b.dataset.look; update(); }));
