@@ -94,6 +94,22 @@ const stages = [
       </div>
     </section>
 
+    <section class="mpage-review">
+      <div class="mcam-label reveal">Review and release</div>
+      <h2 class="mcam-h reveal reveal-heading" style="--reveal-delay: 80ms">Keep what's worth keeping.</h2>
+      <p class="mcam-lead reveal" style="--reveal-delay: 140ms">Step through the frames one by one — star the keepers, let the rest go. Release the rejects, RAWs and all, so your library holds only what you meant to keep.</p>
+      <div class="mcam-phone reveal" style="--reveal-delay: 200ms">
+        <div class="mphone">
+          <div class="mphone-screen">
+            <video class="mphone-video" autoplay muted loop playsinline poster="/moment-review-poster.jpg">
+              <source src="/moment-review.webm" type="video/webm" />
+              <source src="/moment-review.mp4" type="video/mp4" />
+            </video>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <section class="mpage-note">
       <div class="mnote-label reveal">Keep the story</div>
       <blockquote class="mnote-quote reveal" style="--reveal-delay: 80ms">“A sunset walk with a friend, in the softness of an early summer evening.”</blockquote>
@@ -357,6 +373,7 @@ const stages = [
     .msheet-fig figcaption { font-family: var(--font-label); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: #7A6E62; margin-top: 12px; }
     @media (max-width: 600px) { .msheet-fig img { height: auto; width: 100%; } }
 
+    .mpage-review { max-width: 760px; margin: 0 auto; padding: 0 24px 120px; text-align: center; }
     @media (max-width: 760px) {
       .mpage-stages { grid-template-columns: 1fr; gap: 44px; }
       .mthemes-pair { gap: 14px; }
