@@ -44,8 +44,26 @@ const specs = [
   { k: 'One engine, three apps', v: 'The same negative-to-print core as the Ritual on Mac and the Moment on iPhone — now on your timeline.' },
 ];
 
-const switchScenes = ['Portrait 1'];
-const switchStocks = ['Vision3 200T + 2393 Print', 'RAW'];
+// Lab sample switcher: each frame carries its own list of looks.
+// looks[0] is the developed look (shown by default + used as the thumbnail);
+// the switcher preserves the selected look BY NAME across frames, so "RAW"
+// (shared by every frame) holds while you click between frames.
+const frames = [
+  {
+    name: 'Portrait 1',
+    looks: [
+      { name: 'Vision3 200T + 2393 Print', img: '/lab/portrait-1-vision3-200t-2393.jpg' },
+      { name: 'RAW', img: '/lab/portrait-1-raw.jpg' },
+    ],
+  },
+  {
+    name: 'Garden 1',
+    looks: [
+      { name: 'Vision3 250D + Fuji Eterna-CP Print', img: '/lab/garden-1-vision3-250d-fuji-eterna.jpg' },
+      { name: 'RAW', img: '/lab/garden-1-raw.jpg' },
+    ],
+  },
+];
 ---
 
 <Base
@@ -93,26 +111,30 @@ const switchStocks = ['Vision3 200T + 2393 Print', 'RAW'];
     <section class="rs-switch-wrap">
       <div class="section-label reveal">Same frame, redeveloped</div>
       <h2 class="rs-h2 reveal reveal-heading" style="--reveal-delay: 80ms">See the film, not just a slider.</h2>
-      <p class="rs-section-lead rs-switch-lead reveal" style="--reveal-delay: 140ms">One frame, developed two ways — a Vision3 200T negative finished on a 2393 print. Click RAW to see the decoded source it came from. More frames and stocks are on the way.</p>
+      <p class="rs-section-lead rs-switch-lead reveal" style="--reveal-delay: 140ms">Each frame, developed through a different film — then click RAW to see the decoded source it came from. Pick a frame below; hold RAW and step between them to watch what the engine adds.</p>
       <div class="rs-switch reveal" style="--reveal-delay: 200ms" data-switch>
         <div class="rs-switch-frame">
-          {switchScenes.map((sc, si) => switchStocks.map((st, ki) => (
-            <img class:list={["rs-switch-img", si === 0 && ki === 0 && "is-active"]} data-scene={si} data-stock={ki} src={`/lab/lab-s${si}-k${ki}.jpg`} alt={`${sc} on ${st}`} loading="lazy" />
+          {frames.map((fr, fi) => fr.looks.map((lk, li) => (
+            <img class:list={["rs-switch-img", fi === 0 && li === 0 && "is-active"]} data-frame={fi} data-look={li} src={lk.img} alt={`${fr.name} — ${lk.name}`} loading="lazy" />
           )))}
-          <div class="rs-switch-cap"><span data-cap-scene>{switchScenes[0]}</span> · <span data-cap-stock>{switchStocks[0]}</span></div>
+          <div class="rs-switch-cap"><span data-cap-frame>{frames[0].name}</span> · <span data-cap-look>{frames[0].looks[0].name}</span></div>
         </div>
         <div class="rs-switch-stocks">
-          {switchStocks.map((st, ki) => (
-            <button class:list={["rs-switch-stock", ki === 0 && "is-active"]} data-stock-btn={ki}>{st}</button>
+          {frames.map((fr, fi) => (
+            <div class:list={["rs-switch-group", fi === 0 && "is-active"]} data-stock-group={fi}>
+              {fr.looks.map((lk, li) => (
+                <button class:list={["rs-switch-stock", li === 0 && "is-active"]} data-frame={fi} data-look={li}>{lk.name}</button>
+              ))}
+            </div>
           ))}
         </div>
       </div>
-      {switchScenes.length > 1 && (
+      {frames.length > 1 && (
         <div class="rs-switch-thumbs reveal" style="--reveal-delay: 260ms">
-          {switchScenes.map((sc, si) => (
-            <button class:list={["rs-switch-thumb", si === 0 && "is-active"]} data-scene-btn={si}>
-              <img src={`/lab/lab-s${si}-k0.jpg`} alt={sc} loading="lazy" />
-              <span>{sc}</span>
+          {frames.map((fr, fi) => (
+            <button class:list={["rs-switch-thumb", fi === 0 && "is-active"]} data-frame-btn={fi}>
+              <img src={fr.looks[0].img} alt={fr.name} loading="lazy" />
+              <span>{fr.name}</span>
             </button>
           ))}
         </div>
@@ -678,9 +700,10 @@ const switchStocks = ['Vision3 200T + 2393 Print', 'RAW'];
     .rs-switch-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 350ms ease; }
     .rs-switch-img.is-active { opacity: 1; }
     .rs-switch-cap { position: absolute; left: 12px; bottom: 12px; z-index: 2; font-family: var(--font-label); font-size: 11px; letter-spacing: 0.08em; color: var(--text-bright); background: rgba(18, 16, 14, 0.62); padding: 6px 11px; border-radius: 3px; }
-    .rs-switch-cap [data-cap-stock] { color: var(--rs); }
-    .rs-switch-ph { position: absolute; top: 12px; right: 12px; z-index: 2; font-family: var(--font-label); font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted); background: rgba(18, 16, 14, 0.5); padding: 4px 8px; border-radius: 3px; }
+    .rs-switch-cap [data-cap-look] { color: var(--rs); }
     .rs-switch-stocks { display: flex; flex-direction: column; gap: 8px; }
+    .rs-switch-group { display: none; flex-direction: column; gap: 8px; width: 100%; }
+    .rs-switch-group.is-active { display: flex; }
     .rs-switch-stock { font-family: var(--font-label); font-size: 11px; letter-spacing: 0.06em; text-align: left; color: var(--text-muted); background: none; border: 1px solid var(--border); border-radius: 3px; padding: 11px 13px; cursor: pointer; transition: color .2s, background .2s, border-color .2s; }
     .rs-switch-stock:hover { color: var(--text); border-color: var(--border-light); }
     .rs-switch-stock.is-active { color: var(--bg-deep); background: var(--rs); border-color: var(--rs); }
@@ -692,7 +715,7 @@ const switchStocks = ['Vision3 200T + 2393 Print', 'RAW'];
     .rs-switch-thumb.is-active span { color: var(--rs); }
     @media (max-width: 760px) {
       .rs-switch { grid-template-columns: 1fr; }
-      .rs-switch-stocks { flex-direction: row; flex-wrap: wrap; justify-content: center; }
+      .rs-switch-group { flex-direction: row; flex-wrap: wrap; justify-content: center; }
     }
   </style>
 
@@ -708,22 +731,31 @@ const switchStocks = ['Vision3 200T + 2393 Print', 'RAW'];
       const sw = wrap.querySelector('[data-switch]');
       if (!sw) return;
       const imgs = sw.querySelectorAll('.rs-switch-img');
-      const stockBtns = sw.querySelectorAll('[data-stock-btn]');
-      const sceneBtns = wrap.querySelectorAll('[data-scene-btn]');
-      const capScene = wrap.querySelector('[data-cap-scene]');
-      const capStock = wrap.querySelector('[data-cap-stock]');
-      const sceneNames = Array.from(sceneBtns, (b) => (b.querySelector('span') || {}).textContent || '');
-      const stockNames = Array.from(stockBtns, (b) => b.textContent || '');
-      let scene = 0, stock = 0;
+      const groups = sw.querySelectorAll('[data-stock-group]');
+      const stockBtns = sw.querySelectorAll('.rs-switch-stock');
+      const frameBtns = wrap.querySelectorAll('[data-frame-btn]');
+      const capFrame = wrap.querySelector('[data-cap-frame]');
+      const capLook = wrap.querySelector('[data-cap-look]');
+      const lookBtn = (f, l) => sw.querySelector('.rs-switch-stock[data-frame="' + f + '"][data-look="' + l + '"]');
+      const lookName = (f, l) => { const b = lookBtn(f, l); return b ? b.textContent : ''; };
+      const frameName = (f) => { const t = wrap.querySelector('[data-frame-btn="' + f + '"] span'); return t ? t.textContent : (capFrame ? capFrame.textContent : ''); };
+      let frame = 0, look = 0;
       const update = () => {
-        imgs.forEach((im) => im.classList.toggle('is-active', +im.dataset.scene === scene && +im.dataset.stock === stock));
-        stockBtns.forEach((b) => b.classList.toggle('is-active', +b.dataset.stockBtn === stock));
-        sceneBtns.forEach((b) => b.classList.toggle('is-active', +b.dataset.sceneBtn === scene));
-        if (capScene && sceneNames[scene] != null) capScene.textContent = sceneNames[scene];
-        if (capStock) capStock.textContent = stockNames[stock];
+        imgs.forEach((im) => im.classList.toggle('is-active', +im.dataset.frame === frame && +im.dataset.look === look));
+        groups.forEach((g) => g.classList.toggle('is-active', +g.dataset.stockGroup === frame));
+        stockBtns.forEach((b) => b.classList.toggle('is-active', +b.dataset.frame === frame && +b.dataset.look === look));
+        frameBtns.forEach((b) => b.classList.toggle('is-active', +b.dataset.frameBtn === frame));
+        if (capFrame) capFrame.textContent = frameName(frame);
+        if (capLook) capLook.textContent = lookName(frame, look);
       };
-      stockBtns.forEach((b) => b.addEventListener('click', () => { stock = +b.dataset.stockBtn; update(); }));
-      sceneBtns.forEach((b) => b.addEventListener('click', () => { scene = +b.dataset.sceneBtn; update(); }));
+      stockBtns.forEach((b) => b.addEventListener('click', () => { frame = +b.dataset.frame; look = +b.dataset.look; update(); }));
+      frameBtns.forEach((b) => b.addEventListener('click', () => {
+        const nf = +b.dataset.frameBtn;
+        const keep = lookName(frame, look);
+        let nl = 0;
+        sw.querySelectorAll('.rs-switch-stock[data-frame="' + nf + '"]').forEach((c) => { if (c.textContent === keep) nl = +c.dataset.look; });
+        frame = nf; look = nl; update();
+      }));
       update();
     });
   </script>
