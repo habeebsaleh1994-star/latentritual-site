@@ -43,6 +43,9 @@ const specs = [
   { k: 'Lives on the color page', v: 'OpenFX → Filters → Film Emulation → Latent Print Engine. Drop it on a clip or an adjustment layer.' },
   { k: 'One engine, three apps', v: 'The same negative-to-print core as the Ritual on Mac and the Moment on iPhone — now on your timeline.' },
 ];
+
+const switchScenes = ['Golden hour', 'Overcast', 'Tungsten night', 'Harsh midday', 'Open shade'];
+const switchStocks = ['Portra 400', 'Ektar 100', 'Vision3 250D', 'CineStill 800T', 'Velvia 50', 'Tri-X 400'];
 ---
 
 <Base
@@ -84,6 +87,35 @@ const specs = [
           </video>
         </div>
       </figure>
+    </section>
+
+    <!-- SCENE × STOCK SWITCHER -->
+    <section class="rs-switch-wrap">
+      <div class="section-label reveal">Same frame · every stock</div>
+      <h2 class="rs-h2 reveal reveal-heading" style="--reveal-delay: 80ms">See the film, not just a slider.</h2>
+      <p class="rs-section-lead rs-switch-lead reveal" style="--reveal-delay: 140ms">Pick a frame, then try it on different stocks — the same shot, redeveloped. Hold a stock and step through the lighting to watch how it carries.</p>
+      <div class="rs-switch reveal" style="--reveal-delay: 200ms" data-switch>
+        <div class="rs-switch-frame">
+          {switchScenes.map((sc, si) => switchStocks.map((st, ki) => (
+            <img class:list={["rs-switch-img", si === 0 && ki === 0 && "is-active"]} data-scene={si} data-stock={ki} src={`/lab/lab-s${si}-k${ki}.jpg`} alt={`${sc} on ${st}`} loading="lazy" />
+          )))}
+          <div class="rs-switch-cap"><span data-cap-scene>{switchScenes[0]}</span> · <span data-cap-stock>{switchStocks[0]}</span></div>
+          <span class="rs-switch-ph">Sample frames — real exports drop in here</span>
+        </div>
+        <div class="rs-switch-stocks">
+          {switchStocks.map((st, ki) => (
+            <button class:list={["rs-switch-stock", ki === 0 && "is-active"]} data-stock-btn={ki}>{st}</button>
+          ))}
+        </div>
+      </div>
+      <div class="rs-switch-thumbs reveal" style="--reveal-delay: 260ms">
+        {switchScenes.map((sc, si) => (
+          <button class:list={["rs-switch-thumb", si === 0 && "is-active"]} data-scene-btn={si}>
+            <img src={`/lab/lab-s${si}-k0.jpg`} alt={sc} loading="lazy" />
+            <span>{sc}</span>
+          </button>
+        ))}
+      </div>
     </section>
 
     <!-- BEFORE / AFTER SLIDER -->
@@ -637,6 +669,30 @@ const specs = [
       .rs-flow-step { max-width: none; width: 100%; }
     }
 
+    /* ── SCENE × STOCK SWITCHER ── */
+    .rs-switch-wrap { max-width: 1100px; text-align: center; }
+    .rs-switch-lead { margin-left: auto; margin-right: auto; }
+    .rs-switch { margin-top: 44px; display: grid; grid-template-columns: 1fr 190px; gap: 26px; align-items: start; }
+    .rs-switch-frame { position: relative; aspect-ratio: 16 / 9; border: 1px solid var(--border); border-radius: 6px; overflow: hidden; background: var(--bg-deep); }
+    .rs-switch-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 350ms ease; }
+    .rs-switch-img.is-active { opacity: 1; }
+    .rs-switch-cap { position: absolute; left: 12px; bottom: 12px; z-index: 2; font-family: var(--font-label); font-size: 11px; letter-spacing: 0.08em; color: var(--text-bright); background: rgba(18, 16, 14, 0.62); padding: 6px 11px; border-radius: 3px; }
+    .rs-switch-cap [data-cap-stock] { color: var(--rs); }
+    .rs-switch-ph { position: absolute; top: 12px; right: 12px; z-index: 2; font-family: var(--font-label); font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted); background: rgba(18, 16, 14, 0.5); padding: 4px 8px; border-radius: 3px; }
+    .rs-switch-stocks { display: flex; flex-direction: column; gap: 8px; }
+    .rs-switch-stock { font-family: var(--font-label); font-size: 11px; letter-spacing: 0.06em; text-align: left; color: var(--text-muted); background: none; border: 1px solid var(--border); border-radius: 3px; padding: 11px 13px; cursor: pointer; transition: color .2s, background .2s, border-color .2s; }
+    .rs-switch-stock:hover { color: var(--text); border-color: var(--border-light); }
+    .rs-switch-stock.is-active { color: var(--bg-deep); background: var(--rs); border-color: var(--rs); }
+    .rs-switch-thumbs { margin-top: 22px; display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .rs-switch-thumb { background: none; border: 0; padding: 0; cursor: pointer; width: 104px; }
+    .rs-switch-thumb img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; border-radius: 3px; border: 1px solid var(--border); opacity: 0.5; transition: opacity .2s, border-color .2s; }
+    .rs-switch-thumb.is-active img { opacity: 1; border-color: var(--rs); }
+    .rs-switch-thumb span { display: block; margin-top: 7px; font-family: var(--font-label); font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted); }
+    .rs-switch-thumb.is-active span { color: var(--rs); }
+    @media (max-width: 760px) {
+      .rs-switch { grid-template-columns: 1fr; }
+      .rs-switch-stocks { flex-direction: row; flex-wrap: wrap; justify-content: center; }
+    }
   </style>
 
   <script>
@@ -646,6 +702,28 @@ const specs = [
       const set = (v) => ba.style.setProperty('--p', v + '%');
       set(range.value);
       range.addEventListener('input', () => set(range.value));
+    });
+    document.querySelectorAll('.rs-switch-wrap').forEach((wrap) => {
+      const sw = wrap.querySelector('[data-switch]');
+      if (!sw) return;
+      const imgs = sw.querySelectorAll('.rs-switch-img');
+      const stockBtns = sw.querySelectorAll('[data-stock-btn]');
+      const sceneBtns = wrap.querySelectorAll('[data-scene-btn]');
+      const capScene = wrap.querySelector('[data-cap-scene]');
+      const capStock = wrap.querySelector('[data-cap-stock]');
+      const sceneNames = Array.from(sceneBtns, (b) => (b.querySelector('span') || {}).textContent || '');
+      const stockNames = Array.from(stockBtns, (b) => b.textContent || '');
+      let scene = 0, stock = 0;
+      const update = () => {
+        imgs.forEach((im) => im.classList.toggle('is-active', +im.dataset.scene === scene && +im.dataset.stock === stock));
+        stockBtns.forEach((b) => b.classList.toggle('is-active', +b.dataset.stockBtn === stock));
+        sceneBtns.forEach((b) => b.classList.toggle('is-active', +b.dataset.sceneBtn === scene));
+        if (capScene) capScene.textContent = sceneNames[scene];
+        if (capStock) capStock.textContent = stockNames[stock];
+      };
+      stockBtns.forEach((b) => b.addEventListener('click', () => { stock = +b.dataset.stockBtn; update(); }));
+      sceneBtns.forEach((b) => b.addEventListener('click', () => { scene = +b.dataset.sceneBtn; update(); }));
+      update();
     });
   </script>
 </Base>
