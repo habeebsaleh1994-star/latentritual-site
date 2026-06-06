@@ -107,17 +107,15 @@ const frames = [
       </div>
     </section>
 
-    <!-- HERO LOOP — synthesized develop reveal -->
-    <section class="rs-viewer-wrap">
-      <figure class="rs-viewer reveal">
-        <figcaption class="rs-viewer-bar"><span class="rs-viewer-dot"></span> Latent Print Engine — OpenFX</figcaption>
-        <div class="rs-viewer-stage">
-          <video class="rs-viewer-video" autoplay muted loop playsinline poster="/resolve-develop-poster.jpg">
-            <source src="/resolve-develop.webm" type="video/webm" />
-            <source src="/resolve-develop.mp4" type="video/mp4" />
-          </video>
-        </div>
+    <!-- HERO REEL — full-bleed cinematic, cuts graded with Latent -->
+    <section class="rs-reel-wrap">
+      <figure class="rs-reel reveal">
+        <video class="rs-reel-video" autoplay muted loop playsinline poster="/resolve-reel-poster.jpg">
+          <source src="/resolve-reel.webm" type="video/webm" />
+          <source src="/resolve-reel.mp4" type="video/mp4" />
+        </video>
       </figure>
+      <p class="rs-reel-cap">Graded in DaVinci Resolve with Latent</p>
     </section>
 
     <!-- SCENE × STOCK SWITCHER -->
@@ -407,41 +405,34 @@ const frames = [
       100% { box-shadow: 0 0 0 0 rgba(111, 183, 174, 0); }
     }
 
-    /* ── MEDIA SEAM ── */
-    .rs-viewer-wrap { max-width: 1080px; padding: 8px 24px 120px; }
-    .rs-viewer {
-      border: 1px solid var(--border);
-      border-radius: 6px;
+    /* ── HERO REEL (full-bleed cinematic, cuts graded with Latent) ── */
+    .rs-reel-wrap { padding: 8px 24px 110px; }
+    .rs-reel {
+      position: relative;
+      left: 50%;
+      right: 50%;
+      width: 100vw;
+      margin: 0 -50vw;
       overflow: hidden;
       background: var(--bg-deep);
+      box-shadow: 0 50px 120px rgba(0, 0, 0, 0.6);
     }
-    .rs-viewer-bar {
+    .rs-reel-video {
+      display: block;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      max-height: 86vh;
+      object-fit: cover;
+      background: var(--bg-deep);
+    }
+    .rs-reel-cap {
       font-family: var(--font-label);
       font-size: 11px;
       letter-spacing: 0.14em;
+      text-transform: uppercase;
       color: var(--text-muted);
-      padding: 12px 16px;
-      border-bottom: 1px solid var(--border);
-      background: var(--bg-elev);
-      display: flex;
-      align-items: center;
-      gap: 9px;
-    }
-    .rs-viewer-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--rs); }
-    .rs-viewer-stage {
-      aspect-ratio: 16 / 9;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background:
-        radial-gradient(circle at 50% 42%, rgba(111, 183, 174, 0.05), transparent 62%),
-        var(--bg-deep);
-    }
-    .rs-viewer-note {
-      font-family: var(--font-body);
-      font-style: italic;
-      font-size: 15px;
-      color: var(--text-ghost);
+      text-align: center;
+      margin: 18px auto 0;
     }
 
     /* ── SHARED HEADING ── */
@@ -636,9 +627,7 @@ const frames = [
       .rs-submit { padding: 13px; width: 100%; }
     }
 
-    /* ── HERO LOOP VIDEO ── */
-    .rs-viewer-stage { padding: 0; }
-    .rs-viewer-video { width: 100%; height: 100%; object-fit: cover; display: block; }
+    /* hero reel styles live in the HERO REEL block above */
 
     /* ── BEFORE / AFTER SLIDER ── */
     .rs-ba-wrap { max-width: 1080px; padding: 0 24px 120px; text-align: center; }
