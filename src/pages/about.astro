@@ -1,0 +1,151 @@
+---
+import Base from '../layouts/Base.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<Base
+  title="About — Latent"
+  description="Latent is a photographic developer, not a filter app — a darkroom rebuilt in software. Built solo by Habib, a photographer in Lebanon. One engine, three apps: the Ritual on Mac and iPad, the Moment on iPhone, the Lab in DaVinci Resolve."
+>
+  <Nav />
+  <main class="about">
+
+    <!-- OPENING -->
+    <section class="about-hero">
+      <div class="section-label reveal">About</div>
+      <h1 class="about-title reveal reveal-heading" style="--reveal-delay: 80ms">A darkroom,<br />rebuilt in software.</h1>
+      <p class="about-lead reveal" style="--reveal-delay: 200ms">Latent develops a photograph the way a darkroom does — it builds a negative and prints it onto paper. Not a filter. Not a preset. A developer.</p>
+    </section>
+
+    <!-- WHO -->
+    <section class="about-block">
+      <div class="section-label reveal">Who's behind it</div>
+      <div class="about-prose reveal" style="--reveal-delay: 80ms">
+        <p>I'm Habib — a photographer, and the person behind Latent. I build it alone, from Lebanon.</p>
+        <p>I made it because I missed what film asked of me: to slow down, to expose for the shadows, to wait, to look. Digital gave us speed and quietly took the developing away. I wanted it back — the chemistry, the patience, the craft — without giving up the tools I actually work in.</p>
+      </div>
+    </section>
+
+    <!-- THE IDEA -->
+    <section class="about-block">
+      <div class="section-label reveal">The idea</div>
+      <h2 class="about-h2 reveal reveal-heading" style="--reveal-delay: 80ms">Not a look you apply. A process you run.</h2>
+      <div class="about-prose reveal" style="--reveal-delay: 160ms">
+        <p>Under the hood it's real film science — spectral emulsion models, a negative, a print, a scan — not a stack of color LUTs. Portra behaves like Portra because the math knows what Portra is.</p>
+        <p>And it never guesses. The camera shoots raw, and only raw; nothing is invented, upscaled, or "enhanced" by a model. What you photographed is what develops. <strong>No AI.</strong></p>
+      </div>
+    </section>
+
+    <!-- THE FAMILY -->
+    <section class="about-block">
+      <div class="section-label reveal">The family</div>
+      <h2 class="about-h2 reveal reveal-heading" style="--reveal-delay: 80ms">One engine. Three places to develop.</h2>
+      <ul class="about-apps reveal" style="--reveal-delay: 160ms">
+        <li class="about-app">
+          <a href="/">
+            <span class="about-app-name">The Ritual</span>
+            <span class="about-app-where">Mac &amp; iPad</span>
+            <span class="about-app-go" aria-hidden="true">→</span>
+          </a>
+        </li>
+        <li class="about-app">
+          <a href="/moment">
+            <span class="about-app-name">The Moment</span>
+            <span class="about-app-where">iPhone</span>
+            <span class="about-app-go" aria-hidden="true">→</span>
+          </a>
+        </li>
+        <li class="about-app">
+          <a href="/resolve">
+            <span class="about-app-name">The Lab</span>
+            <span class="about-app-where">DaVinci Resolve</span>
+            <span class="about-app-go" aria-hidden="true">→</span>
+          </a>
+        </li>
+      </ul>
+      <p class="about-note reveal" style="--reveal-delay: 240ms">The same negative-to-print core, wherever you work.</p>
+    </section>
+
+    <!-- CODA -->
+    <section class="about-coda">
+      <div class="about-rule reveal"></div>
+      <p class="about-quote reveal" style="--reveal-delay: 80ms">Develop slowly. Look often. Keep what catches you.</p>
+    </section>
+
+  </main>
+  <Footer />
+
+  <style>
+    .about-hero { max-width: 820px; padding: 172px 24px 64px; text-align: center; }
+    .about-title {
+      font-family: var(--font-display);
+      font-weight: 300;
+      font-size: clamp(40px, 8vw, 74px);
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      color: var(--text-bright);
+      margin: 0;
+    }
+    .about-lead {
+      font-size: 18px;
+      line-height: 1.7;
+      color: var(--text-muted);
+      max-width: 600px;
+      margin: 26px auto 0;
+    }
+
+    .about-block { max-width: 700px; padding: 0 24px 92px; }
+    .about-h2 {
+      font-family: var(--font-display);
+      font-weight: 300;
+      font-size: clamp(26px, 4.2vw, 38px);
+      line-height: 1.16;
+      letter-spacing: -0.01em;
+      color: var(--text-bright);
+      margin: 0 0 18px;
+    }
+    .about-prose p {
+      font-size: 17px;
+      line-height: 1.78;
+      color: var(--text);
+      margin: 0 0 1.05em;
+    }
+    .about-prose p:last-child { margin-bottom: 0; }
+    .about-prose strong { color: var(--text-bright); font-weight: 600; }
+
+    .about-apps { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--border); }
+    .about-app a {
+      display: flex;
+      align-items: baseline;
+      gap: 16px;
+      padding: 20px 4px;
+      border-bottom: 1px solid var(--border);
+      text-decoration: none;
+      color: var(--text-bright);
+      transition: padding-left .2s ease, color .2s ease, border-color .2s ease;
+    }
+    .about-app a:hover { padding-left: 12px; color: var(--amber); border-bottom-color: var(--border-light); }
+    .about-app-name { font-family: var(--font-display); font-weight: 300; font-size: 24px; }
+    .about-app-where { font-family: var(--font-label); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-muted); }
+    .about-app-go { margin-left: auto; color: var(--amber); }
+    .about-note { font-family: var(--font-label); font-size: 12px; letter-spacing: 0.06em; color: var(--text-muted); margin: 22px 0 0; }
+
+    .about-coda { max-width: 700px; padding: 8px 24px 140px; text-align: center; }
+    .about-rule { width: 40px; height: 1px; background: var(--amber); opacity: 0.5; margin: 0 auto 28px; }
+    .about-quote {
+      font-family: 'Lora', Georgia, serif;
+      font-style: italic;
+      font-size: clamp(22px, 3.6vw, 30px);
+      line-height: 1.4;
+      color: var(--text-bright);
+      margin: 0;
+    }
+
+    @media (max-width: 600px) {
+      .about-hero { padding-top: 132px; }
+      .about-app a { gap: 10px; }
+      .about-app-name { font-size: 21px; }
+    }
+  </style>
+</Base>
