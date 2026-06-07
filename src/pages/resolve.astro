@@ -10,9 +10,9 @@ const BUTTONDOWN_ACTION = 'https://buttondown.com/api/emails/embed-subscribe/hab
 // negative first, then the print, then the surface, fall-off, texture, output.
 // (Mirrors describeInContext in LatentOFXPlugin.cpp.)
 const pipeline = [
-  { n: '01', name: 'Color', body: 'Tag the working space — ACES, DaVinci Wide Gamut or Rec.709 — so the engine develops in the right math, with diagnostic views at each step.', controls: ['ACES · DWG · Rec.709', 'Diagnostic views'] },
+  { n: '01', name: 'Color', body: 'Tag the working space — ACES, DaVinci Wide Gamut or Rec.709 — or ingest camera log straight from ARRI, Sony, RED, Blackmagic or Apple Log, so the engine develops in the right math. Output to Rec.709, DWG, ACES, P3 or Rec.2020, with diagnostic views at each step.', controls: ['Managed or camera-log in', '10 camera profiles', 'Diagnostic views'] },
   { n: '02', name: 'Lens / Bloom', body: 'Optical diffusion before the film even sees the light — mist, bloom and veil, thresholded in EV so only the highlights flower.', controls: ['Mist · Bloom · Veil', 'Highlight threshold'] },
-  { n: '03', name: 'Negative', body: 'Pick a process — C-41, ECN-2 cinema, reversal or B&W silver — then the stock within it. Expose, push or pull, even bleach-bypass.', controls: ['4 processes · 25 stocks', 'Exposure · Push/Pull', 'Bleach bypass'] },
+  { n: '03', name: 'Negative', body: 'Pick a process — C-41, ECN-2 cinema, reversal or B&W silver — then the stock within it. Expose, push or pull, even bleach-bypass.', controls: ['4 processes · 47 stocks', 'Exposure · Push/Pull', 'Bleach bypass'] },
   { n: '04', name: 'Process Path', body: 'Print onto the right medium: RA-4 color paper, a cinema release print, a slide view, or silver gelatin — with darkroom toning on B&W.', controls: ['Color · cinema · slide · silver', 'Sepia · selenium · gold · copper', 'Print exposure · grade'] },
   { n: '05', name: 'Print Response', body: 'The enlarger head — density, grade, dichroic yellow/magenta filtering, preflash and split-grade — plus dye response and a three-zone color wash.', controls: ['Dichroic filters · preflash', 'Split-grade', 'Dye response · color wash'] },
   { n: '06', name: 'Scan', body: 'Digitize it the way a lab would — Noritsu, Frontier, Pakon, flatbed, DSLR, a clean DI, or a Cintel / Spirit telecine — each with its own character.', controls: ['8 scanner & telecine looks', 'Sharpness · lens blur', 'White / black correction'] },
@@ -21,25 +21,27 @@ const pipeline = [
   { n: '09', name: 'Film Transport', body: 'The mechanical life of film through a gate — weave, flicker and breathing, on a chosen gate plate, so motion feels projected, not pristine.', controls: ['Gate weave · breathing', 'Flicker · speed', 'Gate plate'] },
 ];
 
-// Stocks grouped by their development family (stockFamilyForFilmChoice).
+// Stocks grouped by development family — mirrors the catalog the plugin ships
+// (LatentOFXStockCatalog.generated.h): 47 selectable stocks across 4 processes.
 const stockGroups = [
-  { label: 'Color negative', count: 13, items: ['Portra 400', 'Portra 160', 'Portra 800', 'Ektar 100', 'Gold 200', 'ColorPlus 200', 'Pro Image 100', 'Fuji Pro 400H', 'Superia 400', 'Pro 800Z', 'Superia Reala', 'CineStill 800T', 'CineStill 400D'] },
-  { label: 'Motion · ECN-2', count: 4, items: ['Vision3 500T', 'Vision3 250D', 'Vision3 50D', 'Vision3 200T'] },
-  { label: 'Reversal', count: 4, items: ['Velvia 50', 'Provia 100F', 'Ektachrome E100', 'Kodachrome 64'] },
-  { label: 'Black & white', count: 4, items: ['Tri-X 400', 'HP5 Plus', 'T-MAX 400', 'Acros 100 II'] },
+  { label: 'Color negative', items: ['Portra 400', 'Ektar 100', 'Portra 160', 'Portra 800', 'Gold 200', 'ColorPlus 200', 'Pro Image 100', 'Fuji Pro 400H', 'Superia 400', 'Pro 800Z', 'Superia Reala', 'CineStill 800T', 'CineStill 400D', 'Ultramax 400', 'Agfa Vista 400', 'Agfa Vista 100', 'Agfa Vista 800', 'Agfa Ultra 100', 'Agfa Portrait 160', 'Agfa Optima 400', 'Agfa Optima II 400', 'Royal Gold 100', 'Fuji Pro 160S', 'Fujifilm 200', 'Konica Pro 160', 'Portra 400 VC'] },
+  { label: 'Motion · ECN-2', items: ['Vision3 500T', 'Vision3 250D', 'Vision3 50D', 'Vision3 200T', 'Vision2 Express 500T'] },
+  { label: 'Reversal', items: ['Velvia 50', 'Provia 100F', 'Ektachrome E100', 'Kodachrome 64', 'Provia 400X', 'Provia 400F', 'Astia 100F', 'Ektachrome 100 EPN', 'Ektachrome 100D'] },
+  { label: 'Black & white', items: ['Tri-X 400', 'HP5 Plus', 'T-MAX 400', 'Acros 100', 'Delta 3200', 'Pan F Plus 50', 'FP4 Plus'] },
 ];
+const stockTotal = stockGroups.reduce((sum, g) => sum + g.items.length, 0);
 
 // The view path follows the stock — the real conditional behaviour in the plugin.
 const viewPaths = [
-  { from: 'Color negative', to: 'RA-4 paper', detail: '10 papers — Portra & Supra Endura, Fuji Crystal Archive, Ektacolor, Endura Metallic…' },
+  { from: 'Color negative', to: 'RA-4 paper', detail: '10 papers — Portra & Supra Endura, Fuji Crystal Archive & Supreme, Ektacolor, Endura Metallic…' },
   { from: 'Motion stock', to: 'Print film', detail: '5 looks — Kodak 2383 & 2393, Agfa CP30, Fuji ETERNA-CP, plus a straight ECN-2 scan.' },
-  { from: 'Reversal', to: 'Transparency', detail: '4 views — lightbox, Ilfochrome Classic CLM / CPS, and a cross-processed RA-4 look.' },
+  { from: 'Reversal', to: 'Transparency', detail: '5 views — lightbox, Ilfochrome Classic CLM / CPS, and two cross-processed RA-4 looks (E100 / K64).' },
   { from: 'Black & white', to: 'Silver gelatin', detail: '9 papers — Ilford Multigrade IV RC & FB, Foma Fomatone, Forte Polywarmtone — plus sepia, selenium, gold & copper toning.' },
 ];
 
 const specs = [
   { k: 'Runs on Metal', v: 'A GPU pipeline built for real-time playback — not a bake-and-wait filter.' },
-  { k: 'Speaks ACES', v: 'Tag your source — DaVinci Wide Gamut, ACEScct, ACEScg or Rec.709 — and the engine develops in the right space.' },
+  { k: 'Speaks ACES', v: 'Tag your source — DaVinci Wide Gamut, ACEScct, ACEScg, Rec.709 — or ingest camera log straight from ARRI, Sony, RED, Blackmagic or Apple Log, and the engine develops in the right space.' },
   { k: 'Lives on the color page', v: 'OpenFX → Filters → Film Emulation → Latent Print Engine. Drop it on a clip or an adjustment layer.' },
   { k: 'One engine, three apps', v: 'The same negative-to-print core as the Ritual on Mac and the Moment on iPhone — now on your timeline.' },
 ];
@@ -81,7 +83,7 @@ const frames = [
 
 <Base
   title="The Lab — Latent for DaVinci Resolve"
-  description="Latent's film engine, brought to DaVinci Resolve — 25 stocks across C-41, ECN-2, reversal and black-and-white; darkroom papers and toners; lens bloom, halation, an animated grain engine, lab and telecine scanners, and film-transport weave and flicker. Developed on the GPU, frame by frame. In development."
+  description="Latent's film engine, brought to DaVinci Resolve — 47 stocks across C-41, ECN-2, reversal and black-and-white; darkroom papers and toners; lens bloom, halation, an animated grain engine, lab and telecine scanners, and film-transport weave and flicker. Developed on the GPU, frame by frame. In development."
   ogImage="/og-resolve.png?v=2"
   ogImageAlt="The Lab — Latent for DaVinci Resolve"
 >
@@ -199,12 +201,12 @@ const frames = [
 
     <!-- STOCKS -->
     <section class="rs-catalog">
-      <div class="section-label reveal">The negative · 25 film stocks</div>
+      <div class="section-label reveal">The negative · {stockTotal} film stocks</div>
       <h2 class="rs-h2 reveal reveal-heading" style="--reveal-delay: 80ms">The same emulsions, profiled spectrally.</h2>
       <div class="rs-stock-groups">
         {stockGroups.map((g, i) => (
           <div class="rs-stock-group reveal" style={`--reveal-delay: ${i * 70}ms`}>
-            <div class="rs-stock-head"><span>{g.label}</span><span class="rs-stock-count">{g.count}</span></div>
+            <div class="rs-stock-head"><span>{g.label}</span><span class="rs-stock-count">{g.items.length}</span></div>
             <ul class="rs-stock-list">
               {g.items.map((it) => <li>{it}</li>)}
             </ul>
