@@ -84,13 +84,11 @@ nav ul a.cta { color: var(--amber); }
 /* ─── HERO ─────────────────────────────────────────────────────────── */
 
 .hero {
-  min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   text-align: center;
-  padding: 120px 24px 80px;
+  padding: 150px 24px 8px;
   position: relative;
   overflow: hidden;
 }
@@ -147,24 +145,30 @@ nav ul a.cta { color: var(--amber); }
   animation: rise 1.4s cubic-bezier(0.16, 1, 0.3, 1) 0.8s forwards;
 }
 
-.hero-screen {
-  position: relative;
-  width: 100%;
-  max-width: 1600px;
-  margin: 0 auto;
-  aspect-ratio: 16 / 9;
-  border-radius: 8px;
-  overflow: hidden;
-  box-shadow: 0 60px 120px rgba(0,0,0,0.6), 0 0 0 1px rgba(232, 196, 160, 0.06);
-  opacity: 0;
-  animation: rise 1.6s cubic-bezier(0.16, 1, 0.3, 1) 1.1s forwards;
+.hero-reel-wrap {
+  padding: 0 0 100px;
 }
 
-.hero-screen video {
+.hero-reel {
+  position: relative;
+  left: 50%;
+  right: 50%;
+  width: 100vw;
+  margin: 0 -50vw;
+  overflow: hidden;
+  background: var(--bg-deep);
+  box-shadow: 0 50px 120px rgba(0, 0, 0, 0.55);
+  opacity: 0;
+  animation: rise 1.6s cubic-bezier(0.16, 1, 0.3, 1) 0.9s forwards;
+}
+
+.hero-reel video {
   display: block;
   width: 100%;
-  height: 100%;
+  aspect-ratio: 16 / 9;
+  max-height: 86vh;
   object-fit: cover;
+  background: var(--bg-deep);
 }
 
 .hero-replay-overlay {
@@ -1059,8 +1063,7 @@ footer {
   .hero-mark,
   .hero-designation,
   .hero-tagline,
-  .hero-screen,
-  .scroll-cue {
+  .hero-reel {
     opacity: 1;
   }
 }
