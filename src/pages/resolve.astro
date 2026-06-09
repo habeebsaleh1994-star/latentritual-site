@@ -10,15 +10,15 @@ const BUTTONDOWN_ACTION = 'https://buttondown.com/api/emails/embed-subscribe/hab
 // negative first, then the print, then the surface, fall-off, texture, output.
 // (Mirrors describeInContext in LatentOFXPlugin.cpp.)
 const pipeline = [
-  { n: '01', name: 'Color', body: 'Tag the working space — ACES, DaVinci Wide Gamut or Rec.709 — or ingest camera log straight from ARRI, Sony, RED, Blackmagic or Apple Log, so the engine develops in the right math. Output to Rec.709, DWG, ACES, P3 or Rec.2020, with diagnostic views at each step.', controls: ['Managed or camera-log in', '10 camera profiles', 'Diagnostic views'] },
-  { n: '02', name: 'Lens / Bloom', body: 'Optical diffusion before the film even sees the light — mist, bloom and veil, thresholded in EV so only the highlights flower.', controls: ['Mist · Bloom · Veil', 'Highlight threshold'] },
-  { n: '03', name: 'Negative', body: 'Pick a process — C-41, ECN-2 cinema, reversal or B&W silver — then the stock within it. Expose, push or pull, even bleach-bypass.', controls: ['4 processes · 47 stocks', 'Exposure · Push/Pull', 'Bleach bypass'] },
-  { n: '04', name: 'Process Path', body: 'Print onto the right medium: RA-4 color paper, a cinema release print, a slide view, or silver gelatin — with darkroom toning on B&W.', controls: ['Color · cinema · slide · silver', 'Sepia · selenium · gold · copper', 'Print exposure · grade'] },
-  { n: '05', name: 'Print Response', body: 'The enlarger head — density, grade, dichroic yellow/magenta filtering, preflash and split-grade — plus dye response and a three-zone color wash.', controls: ['Dichroic filters · preflash', 'Split-grade', 'Dye response · color wash'] },
-  { n: '06', name: 'Scan', body: 'Digitize it the way a lab would — Noritsu, Frontier, Pakon, flatbed, DSLR, a clean DI, or a Cintel / Spirit telecine — each with its own character.', controls: ['8 scanner & telecine looks', 'Sharpness · lens blur', 'White / black correction'] },
-  { n: '07', name: 'Edge & Detail', body: 'Burn the edges down like an enlarger, and shape acutance — coarse and fine detail, size and edge balance.', controls: ['Edge burn · vignette', 'Acutance · fine detail'] },
-  { n: '08', name: 'Texture', body: 'A real halation model and a grain engine that actually moves — size, film format, organic structure, plus motion and boil so grain lives frame to frame.', controls: ['Halation model', 'Animated grain · boil', '16mm – 120 formats'] },
-  { n: '09', name: 'Film Transport', body: 'The mechanical life of film through a gate — weave, flicker and breathing, on a chosen gate plate, so motion feels projected, not pristine.', controls: ['Gate weave · breathing', 'Flicker · speed', 'Gate plate'] },
+  { n: '01', name: 'Color', body: 'Tag the working space (ACES, DaVinci Wide Gamut or Rec.709) or ingest camera log straight from ARRI, Sony, RED, Blackmagic or Apple Log, so the engine develops in the right math. Output to Rec.709, DWG, ACES, P3 or Rec.2020, with diagnostic views at each step.', controls: ['Managed or camera-log in', '10 camera profiles', 'Diagnostic views'] },
+  { n: '02', name: 'Lens / Bloom', body: 'Optical diffusion before the film even sees the light, mist, bloom and veil, thresholded in EV so only the highlights flower.', controls: ['Mist · Bloom · Veil', 'Highlight threshold'] },
+  { n: '03', name: 'Negative', body: 'Pick a process (C-41, ECN-2 cinema, reversal or B&W silver), then the stock within it. Expose, push or pull, even bleach-bypass.', controls: ['4 processes · 47 stocks', 'Exposure · Push/Pull', 'Bleach bypass'] },
+  { n: '04', name: 'Process Path', body: 'Print onto the right medium: RA-4 color paper, a cinema release print, a slide view, or silver gelatin, with darkroom toning on B&W.', controls: ['Color · cinema · slide · silver', 'Sepia · selenium · gold · copper', 'Print exposure · grade'] },
+  { n: '05', name: 'Print Response', body: 'The enlarger head: density, grade, dichroic yellow/magenta filtering, preflash and split-grade, plus dye response and a three-zone color wash.', controls: ['Dichroic filters · preflash', 'Split-grade', 'Dye response · color wash'] },
+  { n: '06', name: 'Scan', body: 'Digitize it the way a lab would (Noritsu, Frontier, Pakon, flatbed, DSLR, a clean DI, or a Cintel / Spirit telecine), each with its own character.', controls: ['8 scanner & telecine looks', 'Sharpness · lens blur', 'White / black correction'] },
+  { n: '07', name: 'Edge & Detail', body: 'Burn the edges down like an enlarger, and shape acutance, coarse and fine detail, size and edge balance.', controls: ['Edge burn · vignette', 'Acutance · fine detail'] },
+  { n: '08', name: 'Texture', body: 'A real halation model and a grain engine that actually moves, size, film format, organic structure, plus motion and boil so grain lives frame to frame.', controls: ['Halation model', 'Animated grain · boil', '16mm – 120 formats'] },
+  { n: '09', name: 'Film Transport', body: 'The mechanical life of film through a gate, weave, flicker and breathing, on a chosen gate plate, so motion feels projected, not pristine.', controls: ['Gate weave · breathing', 'Flicker · speed', 'Gate plate'] },
 ];
 
 // Stocks grouped by development family — mirrors the catalog the plugin ships
@@ -33,17 +33,17 @@ const stockTotal = stockGroups.reduce((sum, g) => sum + g.items.length, 0);
 
 // The view path follows the stock — the real conditional behaviour in the plugin.
 const viewPaths = [
-  { from: 'Color negative', to: 'RA-4 paper', detail: '10 papers — Portra & Supra Endura, Fuji Crystal Archive & Supreme, Ektacolor, Endura Metallic…' },
-  { from: 'Motion stock', to: 'Print film', detail: '5 looks — Kodak 2383 & 2393, Agfa CP30, Fuji ETERNA-CP, plus a straight ECN-2 scan.' },
-  { from: 'Reversal', to: 'Transparency', detail: '5 views — lightbox, Ilfochrome Classic CLM / CPS, and two cross-processed RA-4 looks (E100 / K64).' },
-  { from: 'Black & white', to: 'Silver gelatin', detail: '9 papers — Ilford Multigrade IV RC & FB, Foma Fomatone, Forte Polywarmtone — plus sepia, selenium, gold & copper toning.' },
+  { from: 'Color negative', to: 'RA-4 paper', detail: '10 papers, Portra & Supra Endura, Fuji Crystal Archive & Supreme, Ektacolor, Endura Metallic…' },
+  { from: 'Motion stock', to: 'Print film', detail: '5 looks, Kodak 2383 & 2393, Agfa CP30, Fuji ETERNA-CP, plus a straight ECN-2 scan.' },
+  { from: 'Reversal', to: 'Transparency', detail: '5 views, lightbox, Ilfochrome Classic CLM / CPS, and two cross-processed RA-4 looks (E100 / K64).' },
+  { from: 'Black & white', to: 'Silver gelatin', detail: '9 papers, Ilford Multigrade IV RC & FB, Foma Fomatone, Forte Polywarmtone, plus sepia, selenium, gold & copper toning.' },
 ];
 
 const specs = [
-  { k: 'Runs on Metal', v: 'A GPU pipeline built for real-time playback — not a bake-and-wait filter.' },
-  { k: 'Speaks ACES', v: 'Tag your source — DaVinci Wide Gamut, ACEScct, ACEScg, Rec.709 — or ingest camera log straight from ARRI, Sony, RED, Blackmagic or Apple Log, and the engine develops in the right space.' },
+  { k: 'Runs on Metal', v: 'A GPU pipeline built for real-time playback, not a bake-and-wait filter.' },
+  { k: 'Speaks ACES', v: 'Tag your source (DaVinci Wide Gamut, ACEScct, ACEScg, Rec.709) or ingest camera log straight from ARRI, Sony, RED, Blackmagic or Apple Log, and the engine develops in the right space.' },
   { k: 'Lives on the color page', v: 'OpenFX → Filters → Film Emulation → Latent Print Engine. Drop it on a clip or an adjustment layer.' },
-  { k: 'One engine, three apps', v: 'The same negative-to-print core as the Ritual on Mac and the Moment on iPhone — now on your timeline.' },
+  { k: 'One engine, three apps', v: 'The same negative-to-print core as the Ritual on Mac and the Moment on iPhone, now on your timeline.' },
 ];
 
 // Lab sample switcher: each frame carries its own list of looks.
@@ -83,7 +83,7 @@ const frames = [
 
 <Base
   title="The Lab — Latent for DaVinci Resolve"
-  description="Latent's film engine, brought to DaVinci Resolve — 47 stocks across C-41, ECN-2, reversal and black-and-white; darkroom papers and toners; lens bloom, halation, an animated grain engine, lab and telecine scanners, and film-transport weave and flicker. Developed on the GPU, frame by frame. In development."
+  description="Latent's film engine, brought to DaVinci Resolve, 47 stocks across C-41, ECN-2, reversal and black-and-white; darkroom papers and toners; lens bloom, halation, an animated grain engine, lab and telecine scanners, and film-transport weave and flicker. Developed on the GPU, frame by frame. In development."
   ogImage="/og-resolve.png?v=2"
   ogImageAlt="The Lab — Latent for DaVinci Resolve"
 >
@@ -96,7 +96,7 @@ const frames = [
       <h1 class="rs-title reveal reveal-heading" style="--reveal-delay: 80ms">The Lab</h1>
       <p class="rs-tagline reveal" style="--reveal-delay: 200ms">Develop the negative. Print the frame. Inside Resolve.</p>
       <p class="rs-lead reveal" style="--reveal-delay: 300ms">
-        Latent develops a photograph the way a darkroom does — it builds a negative and prints it onto
+        Latent develops a photograph the way a darkroom does, it builds a negative and prints it onto
         paper. The Lab does the same to motion: every frame of your timeline, on the GPU,
         in real time.
       </p>
@@ -105,7 +105,7 @@ const frames = [
         <a class="rs-btn rs-btn-ghost" href="#inside">See what's inside</a>
       </div>
       <div class="rs-status reveal" style="--reveal-delay: 480ms">
-        <span class="rs-dot"></span> In development — coming to DaVinci Resolve
+        <span class="rs-dot"></span> In development, coming to DaVinci Resolve
       </div>
     </section>
 
@@ -124,11 +124,11 @@ const frames = [
     <section class="rs-switch-wrap">
       <div class="section-label reveal">Same frame, redeveloped</div>
       <h2 class="rs-h2 reveal reveal-heading" style="--reveal-delay: 80ms">See the film, not just a slider.</h2>
-      <p class="rs-section-lead rs-switch-lead reveal" style="--reveal-delay: 140ms">Each frame, developed through a different film — then click RAW to see the decoded source it came from. Pick a frame below; hold RAW and step between them to watch what the engine adds.</p>
+      <p class="rs-section-lead rs-switch-lead reveal" style="--reveal-delay: 140ms">Each frame, developed through a different film, then click RAW to see the decoded source it came from. Pick a frame below; hold RAW and step between them to watch what the engine adds.</p>
       <div class="rs-switch reveal" style="--reveal-delay: 200ms" data-switch>
         <div class="rs-switch-frame">
           {frames.map((fr, fi) => fr.looks.map((lk, li) => (
-            <img class:list={["rs-switch-img", fi === 0 && li === 0 && "is-active"]} data-frame={fi} data-look={li} src={lk.img} alt={`${fr.name} — ${lk.name}`} loading="lazy" />
+            <img class:list={["rs-switch-img", fi === 0 && li === 0 && "is-active"]} data-frame={fi} data-look={li} src={lk.img} alt={`${fr.name}, ${lk.name}`} loading="lazy" />
           )))}
           <div class="rs-switch-cap"><span data-cap-look>{frames[0].looks[0].name}</span></div>
         </div>
@@ -159,7 +159,7 @@ const frames = [
       <h2 class="rs-h2 reveal reveal-heading" style="--reveal-delay: 80ms">The whole lab, in a single node.</h2>
       <p class="rs-section-lead rs-node-lead reveal" style="--reveal-delay: 160ms">
         No node tree, no LUT juggling. Decode your RAW or log to a supported camera log and gamut, choose
-        the matching Camera Profile, and Latent carries it through — negative, print, scan, texture — then
+        the matching Camera Profile, and Latent carries it through, negative, print, scan, texture, then
         hands back the delivery space you need.
       </p>
       <div class="rs-flow reveal" style="--reveal-delay: 240ms">
@@ -255,7 +255,7 @@ const frames = [
       <h2 class="rs-h2 reveal reveal-heading">It isn't finished yet.</h2>
       <p class="rs-notify-line reveal" style="--reveal-delay: 80ms">
         I'm building the Print Engine now, in Joun. Leave your email and I'll write you the day it's
-        ready to drop into Resolve — nothing else.
+        ready to drop into Resolve, nothing else.
       </p>
       <form
         class="rs-form reveal"
