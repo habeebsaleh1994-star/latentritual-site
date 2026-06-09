@@ -83,6 +83,25 @@ nav ul a {
 nav ul a:hover { color: var(--text); }
 nav ul a.cta { color: var(--amber); }
 
+/* Keyboard skip link — hidden above the viewport until focused. */
+.skip-link {
+  position: fixed;
+  top: -52px;
+  left: 16px;
+  z-index: 300;
+  padding: 10px 16px;
+  font-family: var(--font-label);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--bg-deep);
+  background: var(--amber);
+  border-radius: 4px;
+  text-decoration: none;
+  transition: top 0.2s ease;
+}
+.skip-link:focus { top: 14px; }
+
 /* ─── HERO ─────────────────────────────────────────────────────────── */
 
 .hero {

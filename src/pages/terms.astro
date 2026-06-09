@@ -1,12 +1,15 @@
 ---
 import Base from '../layouts/Base.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
 ---
 
 <Base
   title="Terms — Latent"
   description="The terms that cover your use of latentritual.com and the Latent apps."
 >
-  <main class="legal">
+  <Nav />
+  <main class="legal" id="main">
     <div class="legal-label">Terms</div>
     <h1>Terms of Use</h1>
     <p class="legal-updated">Last updated 9 June 2026</p>
@@ -42,6 +45,7 @@ import Base from '../layouts/Base.astro';
 
     <a class="legal-back" href="/">← Back to Latent</a>
   </main>
+  <Footer />
 
   <style>
     .legal { max-width: 720px; margin: 0 auto; padding: 140px 24px 120px; }
