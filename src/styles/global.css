@@ -146,18 +146,17 @@ nav ul a.cta { color: var(--amber); }
 }
 
 .hero-reel-wrap {
+  max-width: none;
   padding: 0 0 100px;
 }
 
 .hero-reel {
-  position: relative;
-  left: 50%;
-  right: 50%;
-  width: 100vw;
-  margin: 0 -50vw;
+  width: 92vw;
+  margin: 0 auto;
+  border-radius: 10px;
   overflow: hidden;
   background: var(--bg-deep);
-  box-shadow: 0 50px 120px rgba(0, 0, 0, 0.55);
+  box-shadow: 0 40px 100px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(232, 196, 160, 0.07);
   opacity: 0;
   animation: rise 1.6s cubic-bezier(0.16, 1, 0.3, 1) 0.9s forwards;
 }
