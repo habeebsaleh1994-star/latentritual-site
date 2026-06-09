@@ -84,11 +84,14 @@ nav ul a.cta { color: var(--amber); }
 /* ─── HERO ─────────────────────────────────────────────────────────── */
 
 .hero {
+  max-width: none;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   text-align: center;
-  padding: 150px 24px 8px;
+  padding: 88px 24px 36px;
   position: relative;
   overflow: hidden;
 }
@@ -145,13 +148,9 @@ nav ul a.cta { color: var(--amber); }
   animation: rise 1.4s cubic-bezier(0.16, 1, 0.3, 1) 0.8s forwards;
 }
 
-.hero-reel-wrap {
-  max-width: none;
-  padding: 0 0 100px;
-}
-
 .hero-reel {
-  width: 92vw;
+  width: fit-content;
+  max-width: 92vw;
   margin: 0 auto;
   border-radius: 10px;
   overflow: hidden;
@@ -163,7 +162,9 @@ nav ul a.cta { color: var(--amber); }
 
 .hero-reel video {
   display: block;
-  width: 100%;
+  max-width: 92vw;
+  max-height: 66vh;
+  width: auto;
   height: auto;
   background: var(--bg-deep);
 }
