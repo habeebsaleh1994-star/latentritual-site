@@ -165,9 +165,7 @@ nav ul a.cta { color: var(--amber); }
 .hero-reel video {
   display: block;
   width: 100%;
-  aspect-ratio: 16 / 9;
-  max-height: 86vh;
-  object-fit: cover;
+  height: auto;
   background: var(--bg-deep);
 }
 
