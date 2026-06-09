@@ -1,5 +1,7 @@
 /* ─── LATENT THE RITUAL — global styles ─────────────────────────────── */
 
+@import './fonts.css';
+
 :root {
   --bg: #1A1614;
   --bg-deep: #121010;
