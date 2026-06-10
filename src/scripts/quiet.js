@@ -89,7 +89,7 @@
   // often silently skipped. Calling .play() explicitly when the video
   // enters viewport gets around that, and pausing when it leaves saves
   // CPU/battery on phones.
-  const storyVideos = document.querySelectorAll('.story-clip video');
+  const storyVideos = document.querySelectorAll('.story-clip video, .stage-panel video');
   if ('IntersectionObserver' in window && storyVideos.length) {
     const videoIO = new IntersectionObserver(
       (entries) => {

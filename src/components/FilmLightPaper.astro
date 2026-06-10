@@ -1,8 +1,5 @@
 ---
 import { Picture } from 'astro:assets';
-import darkroom from '../assets/darkroom.png';
-import workbench from '../assets/workbench.png';
-import lighttable from '../assets/lighttable.png';
 import studio from '../assets/studio.png';
 ---
 
@@ -31,15 +28,11 @@ import studio from '../assets/studio.png';
           indicator that reads off the stock you picked.
         </p>
       </div>
-      <div class="stage-image reveal" style="--reveal-delay: 320ms">
-        <Picture
-          src={darkroom}
-          formats={['avif', 'webp']}
-          widths={[480, 800, 1200, 1600]}
-          sizes="(min-width: 900px) 800px, 100vw"
-          alt="Film stage, stocks, chemistry, scanner, paper"
-          loading="lazy"
-        />
+      <div class="stage-panel reveal" style="--reveal-delay: 320ms">
+        <video autoplay muted loop playsinline preload="metadata" poster="/panel-film-poster.jpg" aria-label="The Film panel, scrolling through stocks, chemistry, scanner and paper">
+          <source src="/panel-film.webm" type="video/webm" />
+          <source src="/panel-film.mp4" type="video/mp4" />
+        </video>
       </div>
     </div>
 
@@ -59,15 +52,11 @@ import studio from '../assets/studio.png';
           it as one field.
         </p>
       </div>
-      <div class="stage-image reveal" style="--reveal-delay: 320ms">
-        <Picture
-          src={workbench}
-          formats={['avif', 'webp']}
-          widths={[480, 800, 1200, 1600]}
-          sizes="(min-width: 900px) 800px, 100vw"
-          alt="Light stage, tone, dye density, color spectrum"
-          loading="lazy"
-        />
+      <div class="stage-panel reveal" style="--reveal-delay: 320ms">
+        <video autoplay muted loop playsinline preload="metadata" poster="/panel-light-poster.jpg" aria-label="The Light panel, exposure, the four lights, curve, dye density and color">
+          <source src="/panel-light.webm" type="video/webm" />
+          <source src="/panel-light.mp4" type="video/mp4" />
+        </video>
       </div>
     </div>
 
@@ -87,15 +76,11 @@ import studio from '../assets/studio.png';
           Then Deliver, Quick Export, or Export Catalogue for the whole batch.
         </p>
       </div>
-      <div class="stage-image reveal" style="--reveal-delay: 320ms">
-        <Picture
-          src={lighttable}
-          formats={['avif', 'webp']}
-          widths={[480, 800, 1200, 1600]}
-          sizes="(min-width: 900px) 800px, 100vw"
-          alt="Paper stage, enlarger, wash, fall-off, finish"
-          loading="lazy"
-        />
+      <div class="stage-panel reveal" style="--reveal-delay: 320ms">
+        <video autoplay muted loop playsinline preload="metadata" poster="/panel-paper-poster.jpg" aria-label="The Paper panel, enlarger, wash, fall-off and gallery finish">
+          <source src="/panel-paper.webm" type="video/webm" />
+          <source src="/panel-paper.mp4" type="video/mp4" />
+        </video>
       </div>
     </div>
 

@@ -445,6 +445,21 @@ section {
   box-shadow: 0 40px 80px rgba(0,0,0,0.5), 0 0 0 1px rgba(232, 196, 160, 0.05);
 }
 
+/* Stage panel loops — a living slice of the app's control column. The clip
+   is taller than the window; object-position holds the top and the scroll
+   moves the controls through the frame. */
+.stage-panel { display: flex; justify-content: center; }
+.stage-panel video {
+  display: block;
+  width: min(320px, 76vw);
+  max-height: 640px;
+  object-fit: cover;
+  object-position: top;
+  border-radius: 10px;
+  background: var(--bg-deep);
+  box-shadow: 0 40px 80px rgba(0,0,0,0.5), 0 0 0 1px rgba(232, 196, 160, 0.07);
+}
+
 /* ─── COMPLETE DARKROOM ────────────────────────────────────────────── */
 
 .complete {
