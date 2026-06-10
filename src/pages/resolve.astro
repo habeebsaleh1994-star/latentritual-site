@@ -17,7 +17,7 @@ const pipeline = [
   { n: '05', name: 'Print Response', body: 'The enlarger head: density, grade, dichroic yellow/magenta filtering, preflash and split-grade, plus dye response and a three-zone color wash.', controls: ['Dichroic filters · preflash', 'Split-grade', 'Dye response · color wash'] },
   { n: '06', name: 'Scan', body: 'Digitize it the way a lab would (Noritsu, Frontier, Pakon, flatbed, DSLR, a clean DI, or a Cintel / Spirit telecine), each with its own character.', controls: ['8 scanner & telecine looks', 'Sharpness · lens blur', 'White / black correction'] },
   { n: '07', name: 'Edge & Detail', body: 'Burn the edges down like an enlarger, and shape acutance, coarse and fine detail, size and edge balance.', controls: ['Edge burn · vignette', 'Acutance · fine detail'] },
-  { n: '08', name: 'Texture', body: 'A real halation model and a grain engine that actually moves, size, film format, organic structure, plus motion and boil so grain lives frame to frame.', controls: ['Halation model', 'Animated grain · boil', '16mm – 120 formats'] },
+  { n: '08', name: 'Texture', body: 'A real halation model and a grain engine that actually moves, size, film format, organic structure, plus motion and boil so grain lives frame to frame. And a dust pass: specks, hairs, scratches and gate dirt, seeded so they move like a real print.', controls: ['Halation model', 'Animated grain · boil', 'Dust · scratches · gate dirt'] },
   { n: '09', name: 'Film Transport', body: 'The mechanical life of film through a gate, weave, flicker and breathing, on a chosen gate plate, so motion feels projected, not pristine.', controls: ['Gate weave · breathing', 'Flicker · speed', 'Gate plate'] },
 ];
 
@@ -33,7 +33,7 @@ const stockTotal = stockGroups.reduce((sum, g) => sum + g.items.length, 0);
 
 // The view path follows the stock — the real conditional behaviour in the plugin.
 const viewPaths = [
-  { from: 'Color negative', to: 'RA-4 paper', detail: '10 papers, Portra & Supra Endura, Fuji Crystal Archive & Supreme, Ektacolor, Endura Metallic…' },
+  { from: 'Color negative', to: 'RA-4 paper', detail: '12 papers, Portra & Supra Endura, Fuji Crystal Archive & Supreme, Ektacolor, Endura Metallic…' },
   { from: 'Motion stock', to: 'Print film', detail: '5 looks, Kodak 2383 & 2393, Agfa CP30, Fuji ETERNA-CP, plus a straight ECN-2 scan.' },
   { from: 'Reversal', to: 'Transparency', detail: '5 views, lightbox, Ilfochrome Classic CLM / CPS, and two cross-processed RA-4 looks (E100 / K64).' },
   { from: 'Black & white', to: 'Silver gelatin', detail: '9 papers, Ilford Multigrade IV RC & FB, Foma Fomatone, Forte Polywarmtone, plus sepia, selenium, gold & copper toning.' },
