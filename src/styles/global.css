@@ -1071,6 +1071,48 @@ footer {
   letter-spacing: -0.01em;
 }
 
+/* Media develops in like a print in the tray: washed-out, warm and soft,
+   then resolving to full density. Rides the same .is-visible flip and
+   --reveal-delay the fade uses, so the choreography stays in sync. Text
+   keeps the quiet fade; only photographs and footage get chemistry. */
+@keyframes develop {
+  from {
+    filter: brightness(1.75) contrast(0.35) saturate(0.2) sepia(0.35) blur(10px);
+  }
+  45% {
+    filter: brightness(1.25) contrast(0.7) saturate(0.55) sepia(0.18) blur(3px);
+  }
+  to {
+    filter: none;
+  }
+}
+
+.stage-panel.is-visible video,
+.stage-image.is-visible img,
+.printroom-clip.is-visible video,
+.story-canvas.is-visible video,
+.story-reader.is-visible video,
+.complete-screens.is-visible {
+  animation: develop 1700ms cubic-bezier(0.22, 1, 0.36, 1) var(--reveal-delay, 0ms) both;
+}
+
+/* The safelight. A faint amber pool that follows the pointer across the
+   dark pages, the one light a darkroom allows. Injected by quiet.js only
+   for fine pointers with motion allowed; screen blend keeps it harmless
+   on the Moment journal's cream. */
+.safelight {
+  position: fixed;
+  left: -300px;
+  top: -300px;
+  width: 600px;
+  height: 600px;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 1;
+  background: radial-gradient(circle, rgba(232, 196, 160, 0.05), transparent 65%);
+  mix-blend-mode: screen;
+}
+
 /* Stock swatches lift slightly on hover and glow with their own color. */
 .stock {
   cursor: default;

@@ -39,6 +39,37 @@
 
   if (reduce.matches) return;
 
+  // ---------- Safelight ------------------------------------------------------
+  // A faint amber pool that trails the pointer, the one light a darkroom
+  // allows. Fine pointers only (it's meaningless under a thumb), and it
+  // sits below this file's reduce guard so reduced-motion visitors never
+  // get a moving light. The lerp keeps it drifting a beat behind the
+  // hand — a lamp you carry, not a cursor skin.
+  if (window.matchMedia('(pointer: fine)').matches) {
+    const safelight = document.createElement('div');
+    safelight.className = 'safelight';
+    safelight.setAttribute('aria-hidden', 'true');
+    document.body.appendChild(safelight);
+
+    let tx = window.innerWidth / 2;
+    let ty = window.innerHeight / 2;
+    let x = tx;
+    let y = ty;
+
+    window.addEventListener('pointermove', (e) => {
+      tx = e.clientX;
+      ty = e.clientY;
+    }, { passive: true });
+
+    const drift = () => {
+      x += (tx - x) * 0.08;
+      y += (ty - y) * 0.08;
+      safelight.style.transform = `translate(${x}px, ${y}px)`;
+      requestAnimationFrame(drift);
+    };
+    requestAnimationFrame(drift);
+  }
+
   // ---------- Section reveals ----------------------------------------------
   const revealEls = document.querySelectorAll('.reveal');
 
