@@ -1,6 +1,4 @@
 ---
-import { Picture } from 'astro:assets';
-import studio from '../assets/studio.png';
 ---
 
 <section class="ritual" id="ritual">
@@ -96,14 +94,10 @@ import studio from '../assets/studio.png';
         </p>
       </div>
       <div class="stage-image reveal" style="--reveal-delay: 320ms">
-        <Picture
-          src={studio}
-          formats={['avif', 'webp']}
-          widths={[480, 800, 1200, 1600]}
-          sizes="(min-width: 900px) 800px, 100vw"
-          alt="Retouch stage, spotting and clone"
-          loading="lazy"
-        />
+        <video autoplay muted loop playsinline preload="metadata" poster="/retouch-poster.jpg" aria-label="The Retouch stage, removing a stray thread and spotting a portrait">
+          <source src="/retouch.webm" type="video/webm" />
+          <source src="/retouch.mp4" type="video/mp4" />
+        </video>
       </div>
     </div>
 

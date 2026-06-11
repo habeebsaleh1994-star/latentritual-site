@@ -444,6 +444,11 @@ section {
   overflow: hidden;
   box-shadow: 0 40px 80px rgba(0,0,0,0.5), 0 0 0 1px rgba(232, 196, 160, 0.05);
 }
+.stage-image video {
+  display: block;
+  width: 100%;
+  height: auto;
+}
 
 /* Stage panel loops — a living slice of the app's control column. The clip
    is taller than the window; object-position holds the top and the scroll
@@ -1089,6 +1094,7 @@ footer {
 
 .stage-panel.is-visible video,
 .stage-image.is-visible img,
+.stage-image.is-visible video,
 .printroom-clip.is-visible video,
 .story-canvas.is-visible video,
 .story-reader.is-visible video,
