@@ -1068,7 +1068,7 @@ footer {
 }
 
 .develop-stage {
-  max-width: 840px;
+  max-width: 1080px;
   margin: 64px auto 0;
 }
 
@@ -1149,7 +1149,7 @@ footer {
 }
 .develop-thumb img {
   display: block;
-  width: 76px;
+  width: 96px;
   height: auto;
 }
 .develop-thumb:hover {
