@@ -56,15 +56,24 @@
     let x = tx;
     let y = ty;
 
+    // Over a photograph the lamp comes in closer: tighter, a touch
+    // warmer. Over text it stays back.
+    let targetScale = 1;
+    let scale = 1;
+
     window.addEventListener('pointermove', (e) => {
       tx = e.clientX;
       ty = e.clientY;
+      const overPrint = e.target instanceof Element && e.target.closest('img, video, picture');
+      targetScale = overPrint ? 0.72 : 1;
+      safelight.classList.toggle('is-close', !!overPrint);
     }, { passive: true });
 
     const drift = () => {
       x += (tx - x) * 0.08;
       y += (ty - y) * 0.08;
-      safelight.style.transform = `translate(${x}px, ${y}px)`;
+      scale += (targetScale - scale) * 0.08;
+      safelight.style.transform = `translate(${x}px, ${y}px) scale(${scale})`;
       requestAnimationFrame(drift);
     };
     requestAnimationFrame(drift);

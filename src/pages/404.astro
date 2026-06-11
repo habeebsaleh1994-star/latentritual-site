@@ -57,8 +57,8 @@ import Base from '../layouts/Base.astro';
       text-decoration: none;
       border-bottom: 1px solid var(--amber-dim);
       padding-bottom: 4px;
-      transition: color 200ms, border-color 200ms;
+      transition: color 200ms, border-color 600ms ease, text-shadow 600ms ease;
     }
-    .notfound-home:hover { color: var(--text-bright); border-color: var(--text-bright); }
+    .notfound-home:hover { color: var(--text-bright); border-color: transparent; text-shadow: 0 0 16px rgba(232, 196, 160, 0.5); }
   </style>
 </Base>

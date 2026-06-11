@@ -54,9 +54,9 @@ import Footer from '../components/Footer.astro';
     .legal-updated { font-family: var(--font-body); font-style: italic; font-size: 14px; color: var(--text-ghost); margin-bottom: 48px; }
     .legal h2 { font-family: var(--font-display); font-weight: 400; font-size: 21px; color: var(--text-bright); margin: 40px 0 12px; }
     .legal p { font-family: var(--font-body); font-weight: 300; font-size: 16px; line-height: 1.7; color: var(--text-muted); margin-bottom: 14px; }
-    .legal a { color: var(--amber); text-decoration: none; border-bottom: 1px solid var(--border-light); }
-    .legal a:hover { color: var(--text-bright); }
+    .legal a { color: var(--amber); text-decoration: none; border-bottom: 1px solid var(--border-light); transition: color 0.3s ease, text-shadow 0.6s ease, border-color 0.6s ease; }
+    .legal a:hover { color: var(--text-bright); text-shadow: 0 0 16px rgba(232, 196, 160, 0.5); border-color: transparent; }
     .legal-back { display: inline-block; margin-top: 48px; font-family: var(--font-label); font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--amber-dim); border-bottom: none; }
-    .legal-back:hover { color: var(--text-bright); }
+    .legal-back:hover { color: var(--text-bright); text-shadow: 0 0 16px rgba(232, 196, 160, 0.5); }
   </style>
 </Base>
