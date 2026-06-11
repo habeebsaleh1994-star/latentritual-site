@@ -1,0 +1,113 @@
+---
+// Four real photographs, before and after the Ritual. Press and hold
+// returns the print to the flat scan it came from; release develops it
+// back. The interaction works without motion too (instant swap), so it
+// lives in its own script rather than behind quiet.js's reduce guard.
+const prints = [
+  {
+    id: 1,
+    recipe: 'ColorPlus 200, on Ektarcolor Edge',
+    alt: 'A family gathered in a stone courtyard, a bowl of loquats in the foreground, developed on ColorPlus 200',
+  },
+  {
+    id: 2,
+    recipe: 'Vision3 200T, on Kodak 2393',
+    alt: 'An ice cream vendor seen through the window of his truck at dusk, developed on Vision3 200T',
+  },
+  {
+    id: 3,
+    recipe: 'Fuji Pro 800Z, pulled one stop, on Fuji Crystal Archive Maxima',
+    alt: 'A carousel spinning in front of an old stone wall, developed on Fuji Pro 800Z',
+  },
+  {
+    id: 4,
+    recipe: 'Portra 400, pushed one stop, on Portra Endura, Noritsu scan',
+    alt: 'A man in a flat cap and corduroy jacket in front of a brightly painted wall, developed on Portra 400',
+  },
+];
+---
+
+<section class="develop-room" id="develop">
+  <div class="section-label reveal">The Develop</div>
+  <h2 class="section-heading center reveal reveal-heading" style="--reveal-delay: 80ms">It was already in there.</h2>
+  <p class="section-body reveal" style="margin: 0 auto; --reveal-delay: 160ms">
+    Four photographs, straight from the camera, then through the Ritual.
+    Press and hold one, it goes back to the scan it came from. Let go,
+    it develops again.
+  </p>
+
+  <figure class="develop-stage reveal" style="--reveal-delay: 240ms">
+    <button class="develop-print" type="button" aria-label="Press and hold to see the photograph before development">
+      {prints.map((p, idx) => (
+        <span class={`develop-pair${idx === 0 ? ' is-active' : ''}`} data-pair={String(p.id)}>
+          <img class="develop-before" src={`/develop-${p.id}-before.webp`} width="2048" height="1365" alt="" loading={idx === 0 ? 'eager' : 'lazy'} draggable="false" />
+          <img class="develop-after" src={`/develop-${p.id}-after.webp`} width="2048" height="1365" alt={p.alt} loading={idx === 0 ? 'eager' : 'lazy'} draggable="false" />
+        </span>
+      ))}
+    </button>
+    <figcaption class="develop-caption">
+      <span class="develop-recipe">{prints[0].recipe}</span>
+      <span class="develop-hint">Press and hold, see what it was.</span>
+    </figcaption>
+  </figure>
+
+  <div class="develop-thumbs reveal" style="--reveal-delay: 320ms" role="group" aria-label="Choose a photograph">
+    {prints.map((p, idx) => (
+      <button class={`develop-thumb${idx === 0 ? ' is-active' : ''}`} type="button" data-target={String(p.id)} aria-label={`Show the photograph developed on ${p.recipe}`}>
+        <img src={`/develop-${p.id}-thumb.webp`} alt="" loading="lazy" draggable="false" />
+      </button>
+    ))}
+  </div>
+</section>
+
+<script>
+  const room = document.querySelector('.develop-room');
+  if (room) {
+    const print = room.querySelector('.develop-print');
+    const recipeEl = room.querySelector('.develop-recipe');
+    const recipes = new Map(
+      [...room.querySelectorAll('.develop-thumb')].map((t) => [
+        t.dataset.target,
+        t.getAttribute('aria-label')?.replace('Show the photograph developed on ', '') ?? '',
+      ])
+    );
+
+    if (print instanceof HTMLElement) {
+      const hold = () => print.classList.add('is-held');
+      const release = () => {
+        if (!print.classList.contains('is-held')) return;
+        print.classList.remove('is-held');
+        const after = print.querySelector('.develop-pair.is-active .develop-after');
+        if (after) {
+          after.classList.remove('is-developing');
+          void after.offsetWidth; // restart the animation
+          after.classList.add('is-developing');
+          after.addEventListener('animationend', () => after.classList.remove('is-developing'), { once: true });
+        }
+      };
+
+      print.addEventListener('pointerdown', hold);
+      print.addEventListener('pointerup', release);
+      print.addEventListener('pointercancel', release);
+      print.addEventListener('pointerleave', release);
+      print.addEventListener('contextmenu', (e) => e.preventDefault());
+      print.addEventListener('keydown', (e) => {
+        if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); hold(); }
+      });
+      print.addEventListener('keyup', (e) => {
+        if (e.key === ' ' || e.key === 'Enter') release();
+      });
+    }
+
+    room.addEventListener('click', (e) => {
+      const thumb = e.target instanceof Element && e.target.closest('.develop-thumb');
+      if (!(thumb instanceof HTMLElement) || !thumb.dataset.target) return;
+      const id = thumb.dataset.target;
+      for (const t of room.querySelectorAll('.develop-thumb')) t.classList.toggle('is-active', t === thumb);
+      for (const pair of room.querySelectorAll('.develop-pair')) {
+        pair.classList.toggle('is-active', pair instanceof HTMLElement && pair.dataset.pair === id);
+      }
+      if (recipeEl) recipeEl.textContent = recipes.get(id) ?? '';
+    });
+  }
+</script>

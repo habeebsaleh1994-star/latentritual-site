@@ -1044,6 +1044,125 @@ footer {
   nav ul a { font-size: 9px; letter-spacing: 0.12em; }
 }
 
+/* ─── THE DEVELOP ──────────────────────────────────────────────────── */
+
+/* Press and hold a photograph and it returns to the flat scan it came
+   from; release and it develops back. The after sits over the before in
+   the same cell — the hold is only an opacity drop, the release rides
+   the develop keyframes. */
+.develop-room {
+  padding: 160px 24px;
+  max-width: 1400px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.develop-stage {
+  max-width: 1080px;
+  margin: 64px auto 0;
+}
+
+.develop-print {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 40px 90px rgba(0,0,0,0.5), 0 0 0 1px rgba(232, 196, 160, 0.06);
+  -webkit-touch-callout: none;
+  user-select: none;
+  touch-action: manipulation;
+}
+
+.develop-pair {
+  display: none;
+  position: relative;
+}
+.develop-pair.is-active {
+  display: block;
+}
+
+.develop-pair img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.develop-after {
+  position: absolute;
+  inset: 0;
+  transition: opacity 320ms ease;
+}
+.develop-print.is-held .develop-pair.is-active .develop-after {
+  opacity: 0;
+}
+.develop-after.is-developing {
+  animation: develop 1100ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.develop-caption {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-top: 18px;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.develop-recipe {
+  color: var(--amber-dim);
+}
+.develop-hint {
+  color: var(--text-muted);
+}
+
+.develop-thumbs {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  margin-top: 36px;
+}
+.develop-thumb {
+  padding: 0;
+  border: 1px solid transparent;
+  background: none;
+  cursor: pointer;
+  border-radius: 4px;
+  overflow: hidden;
+  opacity: 0.45;
+  transition: opacity 240ms ease, border-color 240ms ease;
+}
+.develop-thumb img {
+  display: block;
+  width: 96px;
+  height: auto;
+}
+.develop-thumb:hover {
+  opacity: 0.8;
+}
+.develop-thumb.is-active {
+  opacity: 1;
+  border-color: rgba(232, 196, 160, 0.4);
+}
+
+@media (max-width: 640px) {
+  .develop-room {
+    padding: 110px 20px;
+  }
+  .develop-caption {
+    justify-content: center;
+    text-align: center;
+  }
+  .develop-thumb img {
+    width: 64px;
+  }
+}
+
 /* ─── QUIET MOTION ─────────────────────────────────────────────────── */
 
 /* Reveal-on-scroll base state. Elements wait at opacity 0 and 8px down
