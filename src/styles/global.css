@@ -1068,7 +1068,7 @@ footer {
 }
 
 .develop-stage {
-  max-width: 1080px;
+  max-width: 1200px;
   margin: 64px auto 0;
 }
 
@@ -1237,10 +1237,10 @@ footer {
    on the Moment journal's cream. */
 .safelight {
   position: fixed;
-  left: -300px;
-  top: -300px;
-  width: 600px;
-  height: 600px;
+  left: -210px;
+  top: -210px;
+  width: 420px;
+  height: 420px;
   border-radius: 50%;
   pointer-events: none;
   z-index: 1;
