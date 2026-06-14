@@ -162,6 +162,27 @@ const stages = [
       </div>
     </section>
 
+    <section class="mpage-circle">
+      <div class="mcircle-label reveal">The Circle</div>
+      <h2 class="mcircle-h reveal reveal-heading" style="--reveal-delay: 80ms">Show your work to the people who'd get it.</h2>
+      <p class="mcircle-lead reveal" style="--reveal-delay: 140ms">Not a feed for the whole world. A small circle, a single person, or just you. Send a frame or a whole page, let someone keep it, talk it over in the margins. The quiet opposite of posting.</p>
+      <div class="mcircle-tiers reveal" style="--reveal-delay: 200ms">
+        <div class="mcircle-tier">
+          <div class="mcircle-tier-name">A circle</div>
+          <p>The few people you'd actually show a print to.</p>
+        </div>
+        <div class="mcircle-tier">
+          <div class="mcircle-tier-name">One person</div>
+          <p>An envelope addressed to a single name.</p>
+        </div>
+        <div class="mcircle-tier">
+          <div class="mcircle-tier-name">Only you</div>
+          <p>A private copy that stays on your shelf.</p>
+        </div>
+      </div>
+      <p class="mcircle-coda reveal" style="--reveal-delay: 260ms">Keeps instead of likes, words instead of a scroll. And what you choose to keep is yours to show, or to hold.</p>
+    </section>
+
     <section class="mpage-closing">
       <p class="reveal">The same developing engine as <a href="/#ritual">The Ritual</a>: the spectral film stocks, the papers, the light, carried in your pocket.</p>
       <p class="mclosing-coda reveal" style="--reveal-delay: 120ms">Develop slowly. Look often. Keep what catches you.</p>
@@ -372,6 +393,16 @@ const stages = [
     .msheet-fig img { height: 540px; width: auto; max-width: 100%; display: block; border: 1px solid #D4CBC0; border-radius: 4px; box-shadow: 0 24px 50px -30px rgba(30, 24, 20, 0.4); }
     .msheet-fig figcaption { font-family: var(--font-label); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: #7A6E62; margin-top: 12px; }
     @media (max-width: 600px) { .msheet-fig img { height: auto; width: 100%; } }
+
+    .mpage-circle { max-width: 860px; margin: 0 auto; padding: 0 24px 120px; text-align: center; }
+    .mcircle-label { font-family: var(--font-label); font-weight: 400; font-size: 10px; letter-spacing: 0.24em; text-transform: uppercase; color: #C06A3E; margin-bottom: 18px; }
+    .mcircle-h { font-family: 'Lora', Georgia, serif; font-weight: 500; font-size: clamp(24px, 4vw, 32px); line-height: 1.2; color: #1E1814; }
+    .mcircle-lead { font-family: 'Lora', Georgia, serif; font-size: 18px; line-height: 1.7; color: #7A6E62; max-width: 580px; margin: 16px auto 0; }
+    .mcircle-tiers { margin: 44px auto 0; display: flex; gap: 24px; justify-content: center; flex-wrap: wrap; }
+    .mcircle-tier { flex: 0 1 220px; border: 1px solid #D4CBC0; border-radius: 6px; padding: 26px 22px; background: rgba(255, 255, 255, 0.35); }
+    .mcircle-tier-name { font-family: 'Lora', Georgia, serif; font-weight: 500; font-size: 19px; color: #1E1814; margin-bottom: 8px; }
+    .mcircle-tier p { font-family: 'Lora', Georgia, serif; font-size: 15px; line-height: 1.6; color: #7A6E62; }
+    .mcircle-coda { font-family: 'Lora', Georgia, serif; font-style: italic; font-size: 16px; line-height: 1.7; color: #483C32; max-width: 540px; margin: 40px auto 0; }
 
     .mpage-review { max-width: 760px; margin: 0 auto; padding: 0 24px 120px; text-align: center; }
     @media (max-width: 760px) {

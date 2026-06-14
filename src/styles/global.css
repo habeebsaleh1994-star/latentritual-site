@@ -315,6 +315,18 @@ section {
   font-weight: 400;
 }
 
+/* The Catalog Bridge — a quiet aside on honesty, under the main body. */
+.bridge { text-align: center; }
+.bridge-coda {
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--text-ghost);
+  max-width: 600px;
+  margin: 28px auto 0;
+}
+
 /* ─── CONTINUOUS FIELD ─────────────────────────────────────────────── */
 
 .field {
