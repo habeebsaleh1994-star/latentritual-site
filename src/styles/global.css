@@ -326,6 +326,32 @@ section {
   max-width: 600px;
   margin: 28px auto 0;
 }
+.bridge-shots {
+  display: flex;
+  gap: 40px;
+  justify-content: center;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  margin: 64px auto 0;
+}
+.bridge-shot {
+  margin: 0;
+  flex: 0 1 420px;
+}
+.bridge-shot img {
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 40px 70px rgba(0, 0, 0, 0.5));
+}
+.bridge-shot figcaption {
+  font-family: var(--font-label);
+  font-weight: 300;
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-top: 22px;
+}
 
 /* ─── CONTINUOUS FIELD ─────────────────────────────────────────────── */
 
