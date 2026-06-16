@@ -55,17 +55,14 @@ const stages = [
     </section>
 
     <section class="mpage-ba-wrap">
-      <div class="mba-label reveal">Drag to develop</div>
+      <div class="mba-label reveal">The develop</div>
       <h2 class="mba-h reveal reveal-heading" style="--reveal-delay: 80ms">From a flat negative to a finished frame.</h2>
-      <div class="mba reveal" style="--reveal-delay: 160ms" data-ba>
-        <img class="mba-img" src="/moment-photo.webp" alt="The chapel, developed in Latent the Moment" loading="lazy" />
-        <img class="mba-img mba-before" src="/moment-raw.webp" alt="The same frame, straight from the iPhone camera" loading="lazy" />
-        <div class="mba-line"><span class="mba-grip">↔</span></div>
-        <span class="mba-tag mba-tag-l">RAW</span>
-        <span class="mba-tag mba-tag-r">Latent</span>
-        <input class="mba-range" type="range" min="0" max="100" value="50" aria-label="Reveal the developed frame" data-ba-range />
-      </div>
-      <p class="mshot-cap reveal" style="--reveal-delay: 220ms">Joun, golden hour. Straight from camera, then developed on Kodak.</p>
+      <button class="mdev reveal" type="button" style="--reveal-delay: 160ms" aria-label="Press and hold to see the negative">
+        <img class="mdev-before" src="/moment-raw.webp" alt="The same frame, straight from the iPhone camera" loading="lazy" draggable="false" />
+        <img class="mdev-after" src="/moment-photo.webp" alt="The chapel, developed in Latent the Moment" loading="lazy" draggable="false" />
+        <span class="mdev-tag">Press and hold</span>
+      </button>
+      <p class="mshot-cap reveal" style="--reveal-delay: 220ms">Joun, golden hour. Straight from camera, then developed on Kodak. Press and hold to see the negative.</p>
     </section>
 
     <section class="mpage-stages">
@@ -82,15 +79,15 @@ const stages = [
       <div class="mthemes-label reveal">Two rooms, one darkroom</div>
       <h2 class="mthemes-h reveal reveal-heading" style="--reveal-delay: 80ms">Work in daylight, or by candlelight.</h2>
       <p class="mthemes-lead reveal" style="--reveal-delay: 160ms">The Journal, bright and papery. The Evening, dark and quiet. Same controls; your mood.</p>
-      <div class="mthemes-pair reveal" style="--reveal-delay: 220ms">
-        <figure class="mtheme">
-          <img src="/moment-app.webp" alt="Latent the Moment in its light Journal theme" loading="lazy" />
-          <figcaption>The Journal</figcaption>
-        </figure>
-        <figure class="mtheme">
-          <img src="/moment-evening.webp" alt="Latent the Moment in its dark Evening theme" loading="lazy" />
-          <figcaption>The Evening</figcaption>
-        </figure>
+      <div class="mtoggle reveal" style="--reveal-delay: 220ms" data-mtoggle>
+        <div class="mtoggle-frame mtoggle-phone">
+          <img class="mtoggle-img is-active" data-theme="journal" src="/moment-app.webp" alt="Latent the Moment in its light Journal theme" loading="lazy" />
+          <img class="mtoggle-img" data-theme="evening" src="/moment-evening.webp" alt="Latent the Moment in its dark Evening theme" loading="lazy" />
+        </div>
+        <div class="mtoggle-btns" role="group" aria-label="Choose a theme">
+          <button class="mtoggle-btn is-active" type="button" data-target="journal">The Journal</button>
+          <button class="mtoggle-btn" type="button" data-target="evening">The Evening</button>
+        </div>
       </div>
     </section>
 
@@ -120,30 +117,27 @@ const stages = [
       <div class="msheet-label reveal">A page from the journal</div>
       <h2 class="msheet-h reveal reveal-heading" style="--reveal-delay: 80ms">Your afternoon, in eight frames.</h2>
       <p class="msheet-lead reveal" style="--reveal-delay: 160ms">Every session becomes a page: one moment across the stocks you tried, dated and titled. Keep it, or share it exactly as it is.</p>
-      <div class="msheet-pair reveal" style="--reveal-delay: 220ms">
-        <figure class="msheet-fig">
-          <img src="/moment-contact.webp" alt="A Latent contact sheet titled This afternoon, eight frames across Portra 800, Portra 400, Ultra 100, Tri-X 400 and Vision3 250D" loading="lazy" />
-          <figcaption>The Journal</figcaption>
-        </figure>
-        <figure class="msheet-fig">
-          <img src="/moment-contact-evening.webp" alt="The same contact sheet rendered in the dark Evening theme" loading="lazy" />
-          <figcaption>The Evening</figcaption>
-        </figure>
+      <div class="mtoggle reveal" style="--reveal-delay: 220ms" data-mtoggle>
+        <div class="mtoggle-frame mtoggle-sheet">
+          <img class="mtoggle-img is-active" data-theme="journal" src="/moment-contact.webp" alt="A Latent contact sheet titled This afternoon, eight frames across Portra 800, Portra 400, Ultra 100, Tri-X 400 and Vision3 250D" loading="lazy" />
+          <img class="mtoggle-img" data-theme="evening" src="/moment-contact-evening.webp" alt="The same contact sheet rendered in the dark Evening theme" loading="lazy" />
+        </div>
+        <div class="mtoggle-btns" role="group" aria-label="Choose a theme">
+          <button class="mtoggle-btn is-active" type="button" data-target="journal">The Journal</button>
+          <button class="mtoggle-btn" type="button" data-target="evening">The Evening</button>
+        </div>
       </div>
     </section>
 
     <section class="mpage-ba-wrap">
       <div class="mba-label reveal">Another negative</div>
       <h2 class="mba-h reveal reveal-heading" style="--reveal-delay: 80ms">Every frame begins flat.</h2>
-      <div class="mba mba-portrait reveal" style="--reveal-delay: 160ms" data-ba>
-        <img class="mba-img" src="/moment-photo2.webp" alt="Queen Anne's lace at dusk, developed in Latent the Moment" loading="lazy" />
-        <img class="mba-img mba-before" src="/moment-raw2.webp" alt="The same frame, straight from the iPhone camera" loading="lazy" />
-        <div class="mba-line"><span class="mba-grip">↔</span></div>
-        <span class="mba-tag mba-tag-l">RAW</span>
-        <span class="mba-tag mba-tag-r">Latent</span>
-        <input class="mba-range" type="range" min="0" max="100" value="50" aria-label="Reveal the developed frame" data-ba-range />
-      </div>
-      <p class="mshot-cap reveal" style="--reveal-delay: 220ms">Dusk in the fields, the same negative, developed.</p>
+      <button class="mdev mdev-portrait reveal" type="button" style="--reveal-delay: 160ms" aria-label="Press and hold to see the negative">
+        <img class="mdev-before" src="/moment-raw2.webp" alt="The same frame, straight from the iPhone camera" loading="lazy" draggable="false" />
+        <img class="mdev-after" src="/moment-photo2.webp" alt="Queen Anne's lace at dusk, developed in Latent the Moment" loading="lazy" draggable="false" />
+        <span class="mdev-tag">Press and hold</span>
+      </button>
+      <p class="mshot-cap reveal" style="--reveal-delay: 220ms">Dusk in the fields, the same negative, developed. Press and hold to see the negative.</p>
     </section>
 
     <section class="mpage-take">
@@ -344,26 +338,31 @@ const stages = [
     .mthemes-label { font-family: var(--font-label); font-weight: 400; font-size: 10px; letter-spacing: 0.24em; text-transform: uppercase; color: #C06A3E; margin-bottom: 18px; }
     .mthemes-h { font-family: 'Lora', Georgia, serif; font-weight: 500; font-size: clamp(24px, 4vw, 32px); line-height: 1.2; color: #1E1814; }
     .mthemes-lead { font-family: 'Lora', Georgia, serif; font-size: 18px; line-height: 1.7; color: #7A6E62; max-width: 520px; margin: 16px auto 44px; }
-    .mthemes-pair { display: flex; gap: 28px; justify-content: center; align-items: flex-start; }
-    .mtheme { flex: 0 1 232px; margin: 0; }
-    .mtheme img { width: 100%; height: auto; display: block; border-radius: 26px; border: 1px solid #D4CBC0; box-shadow: 0 24px 50px -28px rgba(30, 24, 20, 0.4); }
-    .mtheme figcaption { font-family: var(--font-label); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: #7A6E62; margin-top: 14px; }
+    /* ── One image, a theme toggle underneath ── */
+    .mtoggle { margin: 0 auto; }
+    .mtoggle-frame { position: relative; margin: 0 auto; }
+    .mtoggle-img { width: 100%; height: auto; display: block; transition: opacity 0.35s ease; }
+    .mtoggle-img:not(.is-active) { position: absolute; top: 0; left: 0; opacity: 0; pointer-events: none; }
+    .mtoggle-phone { max-width: 248px; }
+    .mtoggle-phone .mtoggle-img { border-radius: 26px; border: 1px solid #D4CBC0; box-shadow: 0 24px 50px -28px rgba(30, 24, 20, 0.4); }
+    .mtoggle-sheet { max-width: 520px; }
+    .mtoggle-sheet .mtoggle-img { border: 1px solid #D4CBC0; border-radius: 4px; box-shadow: 0 24px 50px -30px rgba(30, 24, 20, 0.4); }
+    .mtoggle-btns { display: inline-flex; gap: 6px; margin-top: 22px; padding: 4px; border: 1px solid #D4CBC0; border-radius: 999px; }
+    .mtoggle-btn { font-family: var(--font-label); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: #7A6E62; background: none; border: 0; padding: 8px 16px; border-radius: 999px; cursor: pointer; transition: color 0.25s ease, background 0.25s ease; }
+    .mtoggle-btn.is-active { color: #1E1814; background: #E7DECF; }
 
-    /* ── Develop slider, caption note, framed export ── */
+    /* ── Press and hold to see the negative, matching The Develop on home ── */
     .mpage-ba-wrap { max-width: 1000px; margin: 0 auto; padding: 0 24px 120px; text-align: center; }
     .mba-label, .mnote-label, .mframed-label { font-family: var(--font-label); font-weight: 400; font-size: 10px; letter-spacing: 0.24em; text-transform: uppercase; color: #C06A3E; margin-bottom: 18px; }
     .mba-h, .mframed-h { font-family: 'Lora', Georgia, serif; font-weight: 500; font-size: clamp(24px, 4vw, 32px); line-height: 1.2; color: #1E1814; }
-    .mba { --p: 50%; position: relative; margin: 40px auto 0; max-width: 880px; aspect-ratio: 4 / 3; border-radius: 4px; overflow: hidden; border: 1px solid #D4CBC0; user-select: none; touch-action: pan-y; }
-    .mba-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
-    .mba-before { clip-path: inset(0 calc(100% - var(--p)) 0 0); }
-    .mba-line { position: absolute; top: 0; bottom: 0; left: var(--p); width: 2px; background: #C06A3E; transform: translateX(-1px); pointer-events: none; }
-    .mba-grip { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: #F4EFE8; border: 2px solid #C06A3E; color: #C06A3E; font-size: 15px; box-shadow: 0 2px 12px rgba(30, 24, 20, 0.25); }
-    .mba-tag { position: absolute; bottom: 12px; z-index: 2; font-family: var(--font-label); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: #F4EFE8; background: rgba(30, 24, 20, 0.5); padding: 5px 10px; border-radius: 3px; pointer-events: none; }
-    .mba-tag-l { left: 12px; }
-    .mba-tag-r { right: 12px; }
-    .mba-range { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: ew-resize; z-index: 3; -webkit-appearance: none; appearance: none; background: transparent; }
-    .mba-range::-webkit-slider-thumb { -webkit-appearance: none; width: 48px; height: 700px; cursor: ew-resize; }
-    .mba-range::-moz-range-thumb { width: 48px; height: 700px; border: 0; background: transparent; }
+    .mdev { position: relative; display: block; width: 100%; max-width: 880px; margin: 40px auto 0; padding: 0; border: 0; background: none; cursor: pointer; border-radius: 4px; overflow: hidden; border: 1px solid #D4CBC0; -webkit-touch-callout: none; user-select: none; touch-action: manipulation; }
+    .mdev-portrait { max-width: 520px; }
+    .mdev img { width: 100%; height: auto; display: block; }
+    .mdev-after { position: absolute; inset: 0; transition: opacity 0.32s ease; }
+    .mdev.is-held .mdev-after { opacity: 0; }
+    .mdev-after.is-developing { animation: develop 1100ms cubic-bezier(0.22, 1, 0.36, 1) both; }
+    .mdev-tag { position: absolute; bottom: 12px; right: 12px; z-index: 2; font-family: var(--font-label); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: #F4EFE8; background: rgba(30, 24, 20, 0.5); padding: 5px 10px; border-radius: 3px; pointer-events: none; transition: opacity 0.32s ease; }
+    .mdev.is-held .mdev-tag { opacity: 0; }
     .mpage-note { max-width: 680px; margin: 0 auto; padding: 0 24px 120px; text-align: center; }
     .mnote-quote { font-family: 'Lora', Georgia, serif; font-style: italic; font-weight: 400; font-size: clamp(22px, 3.4vw, 30px); line-height: 1.5; color: #1E1814; margin: 0; }
     .mnote-cap { font-family: 'Lora', Georgia, serif; font-size: 16px; line-height: 1.7; color: #7A6E62; max-width: 460px; margin: 24px auto 0; }
@@ -376,7 +375,6 @@ const stages = [
     .mcam-h, .mtake-h { font-family: 'Lora', Georgia, serif; font-weight: 500; font-size: clamp(24px, 4vw, 32px); line-height: 1.2; color: #1E1814; }
     .mcam-lead, .mtake-lead { font-family: 'Lora', Georgia, serif; font-size: 17px; line-height: 1.7; color: #7A6E62; max-width: 560px; margin: 16px auto 0; }
     .mcam-phone { margin-top: 40px; }
-    .mba-portrait { aspect-ratio: 3 / 4; max-width: 520px; }
     .mpage-take { max-width: 860px; margin: 0 auto; padding: 0 24px 120px; text-align: center; }
     .mtake-pair { margin-top: 40px; display: flex; gap: 28px; justify-content: center; align-items: flex-end; flex-wrap: wrap; }
     .mtake-fig { margin: 0; }
@@ -387,12 +385,6 @@ const stages = [
       .mtake-fig img { height: auto; width: 100%; }
       .mtake-pair { align-items: center; gap: 18px; }
     }
-
-    .msheet-pair { margin-top: 40px; display: flex; gap: 28px; justify-content: center; align-items: flex-start; flex-wrap: wrap; }
-    .msheet-fig { margin: 0; }
-    .msheet-fig img { height: 540px; width: auto; max-width: 100%; display: block; border: 1px solid #D4CBC0; border-radius: 4px; box-shadow: 0 24px 50px -30px rgba(30, 24, 20, 0.4); }
-    .msheet-fig figcaption { font-family: var(--font-label); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: #7A6E62; margin-top: 12px; }
-    @media (max-width: 600px) { .msheet-fig img { height: auto; width: 100%; } }
 
     .mpage-circle { max-width: 860px; margin: 0 auto; padding: 0 24px 120px; text-align: center; }
     .mcircle-label { font-family: var(--font-label); font-weight: 400; font-size: 10px; letter-spacing: 0.24em; text-transform: uppercase; color: #C06A3E; margin-bottom: 18px; }
@@ -407,17 +399,49 @@ const stages = [
     .mpage-review { max-width: 760px; margin: 0 auto; padding: 0 24px 120px; text-align: center; }
     @media (max-width: 760px) {
       .mpage-stages { grid-template-columns: 1fr; gap: 44px; }
-      .mthemes-pair { gap: 14px; }
       .mpage-prose p, .mpage-closing p { font-size: 20px; }
     }
   </style>
   <script>
-    document.querySelectorAll('[data-ba]').forEach((ba) => {
-      const range = ba.querySelector('[data-ba-range]');
-      if (!range) return;
-      const set = (v) => ba.style.setProperty('--p', v + '%');
-      set(range.value);
-      range.addEventListener('input', () => set(range.value));
+    // Press and hold a frame to drop back to its negative; release and it
+    // develops again — the same gesture as The Develop on the home page.
+    document.querySelectorAll('.mdev').forEach((dev) => {
+      const after = dev.querySelector('.mdev-after');
+      if (!(after instanceof HTMLElement)) return;
+      const hold = () => dev.classList.add('is-held');
+      const release = () => {
+        if (!dev.classList.contains('is-held')) return;
+        dev.classList.remove('is-held');
+        after.classList.remove('is-developing');
+        void after.offsetWidth; // restart the animation
+        after.classList.add('is-developing');
+        after.addEventListener('animationend', () => after.classList.remove('is-developing'), { once: true });
+      };
+      dev.addEventListener('pointerdown', hold);
+      dev.addEventListener('pointerup', release);
+      dev.addEventListener('pointercancel', release);
+      dev.addEventListener('pointerleave', release);
+      dev.addEventListener('contextmenu', (e) => e.preventDefault());
+      dev.addEventListener('keydown', (e) => {
+        if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); hold(); }
+      });
+      dev.addEventListener('keyup', (e) => {
+        if (e.key === ' ' || e.key === 'Enter') release();
+      });
+    });
+
+    // One image, a theme toggle underneath: clicking a name crossfades to
+    // that theme's screenshot.
+    document.querySelectorAll('[data-mtoggle]').forEach((group) => {
+      const imgs = group.querySelectorAll('.mtoggle-img');
+      const btns = group.querySelectorAll('.mtoggle-btn');
+      group.addEventListener('click', (e) => {
+        const btn = e.target instanceof Element && e.target.closest('.mtoggle-btn');
+        if (!(btn instanceof HTMLElement) || !btn.dataset.target) return;
+        const theme = btn.dataset.target;
+        for (const b of btns) b.classList.toggle('is-active', b === btn);
+        for (const img of imgs) img.classList.toggle('is-active', img instanceof HTMLElement && img.dataset.theme === theme);
+      });
     });
   </script>
 </Base>

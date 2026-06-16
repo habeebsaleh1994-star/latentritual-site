@@ -1277,17 +1277,17 @@ footer {
    .is-close and eases the position and scale. */
 .safelight {
   position: fixed;
-  left: -210px;
-  top: -210px;
-  width: 420px;
-  height: 420px;
+  left: -85px;
+  top: -85px;
+  width: 170px;
+  height: 170px;
   border-radius: 50%;
   pointer-events: none;
   z-index: 1;
   mix-blend-mode: screen;
-  background: radial-gradient(circle, rgba(232, 196, 160, 0.09), transparent 55%);
+  background: radial-gradient(circle, rgba(232, 196, 160, 0.12), transparent 60%);
   opacity: 0;
-  transition: opacity 700ms ease;
+  transition: opacity 500ms ease;
 }
 .safelight.is-close {
   opacity: 1;
