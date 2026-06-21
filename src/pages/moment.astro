@@ -40,30 +40,16 @@ const stages = [
     <section class="mpage-camera">
       <div class="mcam-label reveal">A camera in your pocket</div>
       <h2 class="mcam-h reveal reveal-heading" style="--reveal-delay: 80ms">Shoots raw. Nothing else.</h2>
-      <p class="mcam-lead reveal" style="--reveal-delay: 140ms">A light, fast point-and-shoot built into the app, no AI, no neural “enhancement,” no smart anything. You pick your film and see it live on the glass as you frame, switch between two real focal lengths, and shoot a clean RAW negative that lands straight in your library, ready to develop. Already have the shot? Import any RAW from your photos and develop it at full quality, on the go.</p>
-      <div class="mcam-pair reveal" style="--reveal-delay: 200ms">
-        <figure class="mcam-fig">
-          <div class="mphone">
-            <div class="mphone-screen">
-              <video autoplay muted loop playsinline preload="metadata" poster="/moment-livecam-poster.jpg" aria-label="The Latent the Moment camera, the chosen film stock previewing live in the viewfinder while scrolling through stocks">
-                <source src="/moment-livecam.webm" type="video/webm" />
-                <source src="/moment-livecam.mp4" type="video/mp4" />
-              </video>
-            </div>
+      <p class="mcam-lead reveal" style="--reveal-delay: 140ms">A light, fast point-and-shoot built into the app, no AI, no neural “enhancement,” no smart anything. You pick your film and see it live on the glass as you frame, then shoot a clean RAW negative that lands straight in your library, ready to develop. Already have the shot? Import any RAW from your photos and develop it at full quality, on the go.</p>
+      <div class="mcam-phone reveal" style="--reveal-delay: 200ms">
+        <div class="mphone">
+          <div class="mphone-screen">
+            <video autoplay muted loop playsinline preload="metadata" poster="/moment-livecam-poster.jpg" aria-label="The Latent the Moment camera, the chosen film stock previewing live in the viewfinder while scrolling through stocks">
+              <source src="/moment-livecam.webm" type="video/webm" />
+              <source src="/moment-livecam.mp4" type="video/mp4" />
+            </video>
           </div>
-          <figcaption>See the film while you shoot</figcaption>
-        </figure>
-        <figure class="mcam-fig">
-          <div class="mphone">
-            <div class="mphone-screen">
-              <video autoplay muted loop playsinline preload="metadata" poster="/moment-focal-poster.jpg" aria-label="The Latent the Moment camera switching between two focal lengths, 13mm and 26mm">
-                <source src="/moment-focal.webm" type="video/webm" />
-                <source src="/moment-focal.mp4" type="video/mp4" />
-              </video>
-            </div>
-          </div>
-          <figcaption>Two real focal lengths</figcaption>
-        </figure>
+        </div>
       </div>
     </section>
 
@@ -392,9 +378,6 @@ const stages = [
     .mcam-h, .mtake-h { font-family: 'Lora', Georgia, serif; font-weight: 500; font-size: clamp(24px, 4vw, 32px); line-height: 1.2; color: #1E1814; }
     .mcam-lead, .mtake-lead { font-family: 'Lora', Georgia, serif; font-size: 17px; line-height: 1.7; color: #7A6E62; max-width: 560px; margin: 16px auto 0; }
     .mcam-phone { margin-top: 40px; }
-    .mcam-pair { margin-top: 44px; display: flex; gap: 30px; justify-content: center; align-items: flex-start; flex-wrap: wrap; }
-    .mcam-fig { margin: 0; }
-    .mcam-fig figcaption { font-family: var(--font-label); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: #7A6E62; margin-top: 16px; text-align: center; }
     .mpage-take { max-width: 860px; margin: 0 auto; padding: 0 24px 120px; text-align: center; }
     .mtake-pair { margin-top: 40px; display: flex; gap: 28px; justify-content: center; align-items: flex-end; flex-wrap: wrap; }
     .mtake-fig { margin: 0; }
