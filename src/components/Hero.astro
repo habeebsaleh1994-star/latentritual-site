@@ -104,6 +104,7 @@ const frames = [
     min-height: 600px;
     overflow: hidden;
     background: var(--bg-deep);
+    -webkit-user-select: none;
     user-select: none;
   }
 
@@ -335,6 +336,7 @@ const frames = [
       };
       let dragging = false;
       const down = (e) => {
+        e.preventDefault(); // stop Safari from starting a text selection on drag
         cancelAnimationFrame(raf);
         const active = root.querySelector('.hd-frame.is-active');
         if (active) active.classList.remove('is-developing');
