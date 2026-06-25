@@ -1,31 +1,409 @@
 ---
+// Hero — the immersive Develop header.
+//
+// Drop-in replacement for src/components/Hero.astro. index.astro already
+// renders <Hero />, so no other change is needed. The site's fixed <Nav />
+// keeps sitting on top of this section, exactly as it does over the old hero.
+//
+// A visitor's first gesture is developing a photograph: the frame develops
+// on load, the seam drags to compare the raw negative against the print, and
+// the thumbnails switch frames. It reuses your six Develop photographs and
+// the safelight tokens already in global.css.
+//
+// Images: this references the existing /develop-N-{before,after}.webp (2048px)
+// that you already ship. On a 5K display, full-bleed, 2048 looks a touch soft.
+// To go crisp, generate 2400px versions (see scripts/generate-hero-images.mjs
+// and HERO-HANDOFF.md) and switch the two <img> blocks to the srcset variant
+// noted inline below.
+
+const frames = [
+  { id: 3, recipe: 'Fuji Pro 800Z, pulled one stop, on Crystal Archive Maxima', alt: 'A carousel spinning in front of an old stone wall, developed on Fuji Pro 800Z' },
+  { id: 6, recipe: 'Vision3 50D, pushed half a stop, on Fuji Eterna-CP',         alt: 'An older man walking past a sunlit wall carrying the shadows of two people and a fence, developed on Vision3 50D' },
+  { id: 5, recipe: 'Provia 400F, through the Lightbox',                          alt: 'A dog asleep in the middle of a village street in low golden light, developed on Provia 400F' },
+  { id: 2, recipe: 'Vision3 200T, on Kodak 2393',                               alt: 'An ice cream vendor seen through the window of his truck at dusk, developed on Vision3 200T' },
+  { id: 4, recipe: 'Portra 400, pushed one stop, on Portra Endura, Noritsu scan', alt: 'A man in a flat cap and corduroy jacket in front of a brightly painted wall, developed on Portra 400' },
+  { id: 1, recipe: 'ColorPlus 200, on Ektarcolor Edge',                         alt: 'A family gathered in a stone courtyard, a bowl of loquats in the foreground, developed on ColorPlus 200' },
+];
 ---
 
-<section class="hero">
-  <h1 class="hero-mark">LATENT</h1>
-  <div class="hero-designation">the Ritual</div>
-  <p class="hero-tagline">A photographic developer for the digital age.</p>
+<section class="hero-develop" id="hero" aria-label="Latent — a photograph developing">
+  <div class="hd-stage" data-hd-stage style="--split: 56%;">
+    {frames.map((f, i) => (
+      <div class={`hd-frame${i === 0 ? ' is-active' : ''}`} data-frame={String(f.id)}>
+        {/* The developed print (full frame). */}
+        <img
+          class="hd-after"
+          src={`/develop-${f.id}-after.webp`}
+          alt={f.alt}
+          width="2048" height="1365"
+          loading={i === 0 ? 'eager' : 'lazy'}
+          fetchpriority={i === 0 ? 'high' : 'auto'}
+          draggable="false"
+        />
+        {/* The raw scan, revealed left of the seam. */}
+        <img
+          class="hd-before"
+          src={`/develop-${f.id}-before.webp`}
+          alt=""
+          width="2048" height="1365"
+          loading={i === 0 ? 'eager' : 'lazy'}
+          draggable="false"
+        />
+        {/*
+          CRISP-ON-5K VARIANT — after running the image script, swap each
+          <img> above for this (adds the 2400px source):
 
-  <figure class="hero-reel">
-    <video
-      class="hero-video"
-      muted
-      playsinline
-      preload="auto"
-      poster="/hero-poster.jpg?v=4"
-      aria-label="Latent the Ritual, a photograph developing in the Darkroom"
-    >
-      <source src="/hero.webm?v=4" type="video/webm" />
-      <source src="/hero.mp4?v=4" type="video/mp4" />
-    </video>
-    <div class="hero-replay-overlay" data-hero-replay-overlay>
-      <button class="hero-replay" type="button" aria-label="Replay the develop">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M3 12a9 9 0 1 0 3-6.7L3 8" />
-          <path d="M3 3v5h5" />
-        </svg>
-        <span>Replay</span>
-      </button>
+          <img class="hd-after"
+               src={`/develop-${f.id}-after.webp`}
+               srcset={`/develop-${f.id}-after.webp 2048w, /develop-${f.id}-after-2400.webp 2400w`}
+               sizes="100vw" ... />
+        */}
+      </div>
+    ))}
+
+    <div class="hd-label hd-label-raw" aria-hidden="true">Raw</div>
+    <div class="hd-label hd-label-dev" aria-hidden="true">Developed</div>
+
+    <div class="hd-seam" data-hd-seam aria-hidden="true">
+      <span class="hd-grip">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 7 4 12l4 5"/><path d="m16 7 4 5-4 5"/></svg>
+      </span>
     </div>
-  </figure>
+  </div>
+
+  <div class="hd-scrim" aria-hidden="true"></div>
+
+  <div class="hd-center">
+    <h1 class="hd-mark">LATENT</h1>
+    <p class="hd-tagline">A photographic developer for the digital age.</p>
+  </div>
+
+  <div class="hd-bottom">
+    <div class="hd-thumbs" role="group" aria-label="Choose a photograph">
+      {frames.map((f, i) => (
+        <button class={`hd-thumb${i === 0 ? ' is-active' : ''}`} type="button" data-target={String(f.id)} aria-label={`Develop the frame on ${f.recipe}`}>
+          <img src={`/develop-${f.id}-thumb.webp`} alt="" loading="lazy" draggable="false" />
+        </button>
+      ))}
+    </div>
+    <div class="hd-meta">
+      <span class="hd-recipe">{frames[0].recipe}</span>
+      <span class="hd-hint">Drag the seam &middot; or tap a frame</span>
+    </div>
+  </div>
+
+  <div class="scroll-cue" aria-hidden="true">Scroll</div>
 </section>
+
+<style>
+  /* The immersive Develop header. Full-bleed photograph, the wordmark and
+     controls floating over it. Uses the safelight tokens from global.css. */
+  .hero-develop {
+    position: relative;
+    width: 100%;
+    /* This repo's global `section` rule caps width at 1400px and adds
+       padding; override so the hero is truly full-bleed on large displays. */
+    max-width: none;
+    margin: 0;
+    padding: 0;
+    height: 100svh;
+    min-height: 600px;
+    overflow: hidden;
+    background: var(--bg-deep);
+    user-select: none;
+  }
+
+  /* Stage — the draggable compare surface. --split (a %) is the seam position. */
+  .hd-stage {
+    position: absolute;
+    inset: 0;
+    cursor: ew-resize;
+    touch-action: none;
+  }
+  .hd-stage.is-dragging { cursor: grabbing; }
+
+  .hd-frame {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 420ms ease;
+  }
+  .hd-frame.is-active { opacity: 1; }
+
+  .hd-after,
+  .hd-before {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    pointer-events: none;
+  }
+  /* The raw scan is clipped to the left of the seam. */
+  .hd-before { clip-path: inset(0 calc(100% - var(--split, 56%)) 0 0); }
+
+  /* The active frame's print blooms in from a flat scan when developed. */
+  .hd-frame.is-active.is-developing .hd-after {
+    animation: hd-develop 1600ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+  @keyframes hd-develop {
+    from { filter: brightness(1.75) contrast(0.35) saturate(0.2) sepia(0.35) blur(10px); }
+    45%  { filter: brightness(1.25) contrast(0.7) saturate(0.55) sepia(0.18) blur(3px); }
+    to   { filter: none; }
+  }
+
+  .hd-label {
+    position: absolute;
+    top: 84px;
+    z-index: 3;
+    font-family: var(--font-label);
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text);
+    background: rgba(13, 11, 10, 0.45);
+    padding: 5px 10px;
+    border-radius: 3px;
+    pointer-events: none;
+  }
+  .hd-label-raw { left: 32px; }
+  .hd-label-dev { right: 32px; color: var(--amber); }
+
+  .hd-seam {
+    position: absolute;
+    top: 0; bottom: 0;
+    left: var(--split, 56%);
+    width: 2px;
+    transform: translateX(-1px);
+    background: rgba(232, 196, 160, 0.92);
+    box-shadow: 0 0 18px rgba(232, 196, 160, 0.45);
+    z-index: 3;
+    pointer-events: none;
+  }
+  .hd-grip {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 46px; height: 46px;
+    border-radius: 50%;
+    background: rgba(13, 11, 10, 0.5);
+    border: 1px solid rgba(232, 196, 160, 0.92);
+    -webkit-backdrop-filter: blur(5px);
+    backdrop-filter: blur(5px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--amber);
+  }
+
+  /* Scrims keep the wordmark and footer legible over any photograph. */
+  .hd-scrim {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+    background: linear-gradient(to bottom,
+      rgba(13, 11, 10, 0.62) 0%, rgba(13, 11, 10, 0) 22%,
+      rgba(13, 11, 10, 0) 52%, rgba(13, 11, 10, 0.78) 100%);
+  }
+
+  .hd-center {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 4;
+    width: 90%;
+    text-align: center;
+    pointer-events: none;
+  }
+  .hd-mark {
+    font-family: var(--font-display);
+    font-weight: 200;
+    font-size: clamp(40px, 7vw, 76px);
+    letter-spacing: 0.36em;
+    text-indent: 0.36em;
+    line-height: 1;
+    margin: 0;
+    color: #F2E9DA;
+    text-shadow: 0 2px 40px rgba(13, 11, 10, 0.6);
+  }
+  .hd-tagline {
+    font-family: var(--font-body);
+    font-weight: 300;
+    font-size: clamp(16px, 2.2vw, 19px);
+    line-height: 1.5;
+    color: var(--text-bright);
+    margin: 22px 0 0;
+    text-shadow: 0 1px 20px rgba(13, 11, 10, 0.7);
+  }
+
+  .hd-bottom {
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    z-index: 4;
+    padding: 0 40px 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
+  }
+  .hd-thumbs {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .hd-thumb {
+    padding: 0;
+    border: 1px solid rgba(212, 196, 176, 0.25);
+    background: none;
+    cursor: pointer;
+    border-radius: 3px;
+    overflow: hidden;
+    width: 70px; height: 46px;
+    opacity: 0.45;
+    transition: opacity 240ms ease, border-color 240ms ease;
+  }
+  .hd-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .hd-thumb:hover { opacity: 0.8; }
+  .hd-thumb.is-active { opacity: 1; border-color: var(--amber); }
+
+  .hd-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 1100px;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .hd-recipe {
+    font-family: var(--font-label);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--amber);
+  }
+  .hd-hint {
+    font-family: var(--font-label);
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--paper-mark, #9A8B72);
+  }
+
+  /* The scroll cue reuses global .scroll-cue positioning; nudge it above the bar. */
+  .hero-develop .scroll-cue { bottom: 132px; z-index: 4; }
+
+  @media (max-width: 760px) {
+    .hd-label { top: 70px; }
+    .hd-bottom { padding: 0 18px 22px; }
+    .hd-thumb { width: 54px; height: 36px; }
+    .hd-meta { justify-content: center; text-align: center; }
+    .hd-hint { display: none; }
+    .hero-develop .scroll-cue { display: none; }
+  }
+
+  /* Reduced motion: no auto-develop, no bloom. The frame simply shows
+     developed; dragging the seam still works (instantly). */
+  @media (prefers-reduced-motion: reduce) {
+    .hd-frame, .hd-frame.is-active.is-developing .hd-after { animation: none; transition: none; }
+  }
+</style>
+
+<script>
+  const root = document.querySelector('.hero-develop');
+  if (root instanceof HTMLElement) {
+    const stage = root.querySelector('[data-hd-stage]');
+    const recipeEl = root.querySelector('.hd-recipe');
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    const recipes = new Map(
+      [...root.querySelectorAll('.hd-thumb')].map((t) => [
+        t.dataset.target,
+        (t.getAttribute('aria-label') || '').replace('Develop the frame on ', ''),
+      ])
+    );
+
+    let raf = 0;
+    const setSplit = (pct) => {
+      const v = Math.max(0, Math.min(100, pct));
+      if (stage) stage.style.setProperty('--split', v + '%');
+    };
+
+    // Drag to compare.
+    if (stage instanceof HTMLElement) {
+      const pctFromX = (clientX) => {
+        const r = stage.getBoundingClientRect();
+        return ((clientX - r.left) / r.width) * 100;
+      };
+      let dragging = false;
+      const down = (e) => {
+        cancelAnimationFrame(raf);
+        const active = root.querySelector('.hd-frame.is-active');
+        if (active) active.classList.remove('is-developing');
+        dragging = true;
+        stage.classList.add('is-dragging');
+        setSplit(pctFromX(e.clientX));
+        try { stage.setPointerCapture(e.pointerId); } catch (err) {}
+      };
+      const move = (e) => { if (dragging) setSplit(pctFromX(e.clientX)); };
+      const up = () => { dragging = false; stage.classList.remove('is-dragging'); };
+      stage.addEventListener('pointerdown', down);
+      stage.addEventListener('pointermove', move);
+      stage.addEventListener('pointerup', up);
+      stage.addEventListener('pointercancel', up);
+      stage.addEventListener('pointerleave', up);
+      stage.addEventListener('contextmenu', (e) => e.preventDefault());
+    }
+
+    // Animate the seam from all-raw to all-developed, blooming the print in.
+    const develop = () => {
+      const active = root.querySelector('.hd-frame.is-active');
+      if (!(active instanceof HTMLElement)) return;
+      if (reduce) { setSplit(0); return; }
+      cancelAnimationFrame(raf);
+      active.classList.remove('is-developing');
+      void active.offsetWidth; // restart the bloom
+      active.classList.add('is-developing');
+      const dur = 1600, t0 = performance.now();
+      const tick = (now) => {
+        const p = Math.min(1, (now - t0) / dur);
+        const e = 1 - Math.pow(1 - p, 3);
+        setSplit(100 * (1 - e));
+        if (p < 1) raf = requestAnimationFrame(tick);
+      };
+      raf = requestAnimationFrame(tick);
+      active.addEventListener('animationend', () => active.classList.remove('is-developing'), { once: true });
+    };
+
+    // Switch frames.
+    root.addEventListener('click', (e) => {
+      const thumb = e.target instanceof Element && e.target.closest('.hd-thumb');
+      if (!(thumb instanceof HTMLElement) || !thumb.dataset.target) return;
+      const id = thumb.dataset.target;
+      for (const t of root.querySelectorAll('.hd-thumb')) t.classList.toggle('is-active', t === thumb);
+      for (const fr of root.querySelectorAll('.hd-frame')) {
+        fr.classList.toggle('is-active', fr instanceof HTMLElement && fr.dataset.frame === id);
+      }
+      if (recipeEl) recipeEl.textContent = recipes.get(id) || '';
+      develop();
+    });
+
+    // Develop the first frame once it's on screen.
+    if (reduce) {
+      setSplit(0);
+    } else {
+      const start = () => setTimeout(develop, 500);
+      if ('IntersectionObserver' in window) {
+        const io = new IntersectionObserver((entries) => {
+          if (entries.some((en) => en.isIntersecting)) { io.disconnect(); start(); }
+        }, { threshold: 0.4 });
+        io.observe(root);
+      } else {
+        start();
+      }
+    }
+  }
+</script>
