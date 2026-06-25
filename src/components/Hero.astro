@@ -10,11 +10,10 @@
 // the thumbnails switch frames. It reuses your six Develop photographs and
 // the safelight tokens already in global.css.
 //
-// Images: this references the existing /develop-N-{before,after}.webp (2048px)
-// that you already ship. On a 5K display, full-bleed, 2048 looks a touch soft.
-// To go crisp, generate 2400px versions (see scripts/generate-hero-images.mjs
-// and HERO-HANDOFF.md) and switch the two <img> blocks to the srcset variant
-// noted inline below.
+// Images: pristine on a 5K display. Each frame ships THREE sizes — 5120px JPEG
+// (5K/Retina), 3840px webp (laptop retina), 2048px webp (mobile) — chosen
+// automatically per screen via srcset. Copy the files in this bundle's images/
+// folder into public/ alongside the existing develop-N images. Nothing to run.
 
 const frames = [
   { id: 3, recipe: 'Fuji Pro 800Z, pulled one stop, on Crystal Archive Maxima', alt: 'A carousel spinning in front of an old stone wall, developed on Fuji Pro 800Z' },
@@ -30,12 +29,14 @@ const frames = [
   <div class="hd-stage" data-hd-stage style="--split: 56%;">
     {frames.map((f, i) => (
       <div class={`hd-frame${i === 0 ? ' is-active' : ''}`} data-frame={String(f.id)}>
-        {/* The developed print (full frame). */}
+        {/* The developed print (full frame). 2880px on large screens, 2048 on small. */}
         <img
           class="hd-after"
-          src={`/develop-${f.id}-after.webp`}
+          src={`/develop-${f.id}-after-3840.webp`}
+          srcset={`/develop-${f.id}-after.webp 2048w, /develop-${f.id}-after-3840.webp 3840w, /develop-${f.id}-after-5120.jpg 5120w`}
+          sizes="100vw"
           alt={f.alt}
-          width="2048" height="1365"
+          width="3840" height="2560"
           loading={i === 0 ? 'eager' : 'lazy'}
           fetchpriority={i === 0 ? 'high' : 'auto'}
           draggable="false"
@@ -43,21 +44,14 @@ const frames = [
         {/* The raw scan, revealed left of the seam. */}
         <img
           class="hd-before"
-          src={`/develop-${f.id}-before.webp`}
+          src={`/develop-${f.id}-before-3840.webp`}
+          srcset={`/develop-${f.id}-before.webp 2048w, /develop-${f.id}-before-3840.webp 3840w, /develop-${f.id}-before-5120.jpg 5120w`}
+          sizes="100vw"
           alt=""
-          width="2048" height="1365"
+          width="3840" height="2560"
           loading={i === 0 ? 'eager' : 'lazy'}
           draggable="false"
         />
-        {/*
-          CRISP-ON-5K VARIANT — after running the image script, swap each
-          <img> above for this (adds the 2400px source):
-
-          <img class="hd-after"
-               src={`/develop-${f.id}-after.webp`}
-               srcset={`/develop-${f.id}-after.webp 2048w, /develop-${f.id}-after-2400.webp 2400w`}
-               sizes="100vw" ... />
-        */}
       </div>
     ))}
 
@@ -66,7 +60,7 @@ const frames = [
 
     <div class="hd-seam" data-hd-seam aria-hidden="true">
       <span class="hd-grip">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 7 4 12l4 5"/><path d="m16 7 4 5-4 5"/></svg>
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 7 4 12l4 5"/><path d="m16 7 4 5-4 5"/></svg>
       </span>
     </div>
   </div>
@@ -101,8 +95,8 @@ const frames = [
   .hero-develop {
     position: relative;
     width: 100%;
-    /* This repo's global `section` rule caps width at 1400px and adds
-       padding; override so the hero is truly full-bleed on large displays. */
+    /* Override this repo's global `section` rule (max-width 1400px + padding)
+       so the hero stays truly full-bleed on large/5K displays. */
     max-width: none;
     margin: 0;
     padding: 0;
@@ -144,31 +138,32 @@ const frames = [
   .hd-before { clip-path: inset(0 calc(100% - var(--split, 56%)) 0 0); }
 
   /* The active frame's print blooms in from a flat scan when developed. */
+  /* The active frame's print emerges from a pale latent state, gaining density
+     and colour like paper in developer — no bright flash. */
   .hd-frame.is-active.is-developing .hd-after {
-    animation: hd-develop 1600ms cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation: hd-develop 2600ms cubic-bezier(0.33, 0, 0.16, 1) both;
   }
   @keyframes hd-develop {
-    from { filter: brightness(1.75) contrast(0.35) saturate(0.2) sepia(0.35) blur(10px); }
-    45%  { filter: brightness(1.25) contrast(0.7) saturate(0.55) sepia(0.18) blur(3px); }
-    to   { filter: none; }
+    0%   { filter: brightness(1.26) contrast(0.5) saturate(0.42) sepia(0.22) blur(5px); }
+    85%  { filter: brightness(1) contrast(1) saturate(1) sepia(0) blur(0); }
+    100% { filter: none; }
   }
 
+  /* Whisper-light labels — no pills, no chrome. */
   .hd-label {
     position: absolute;
-    top: 84px;
+    top: 96px;
     z-index: 3;
     font-family: var(--font-label);
-    font-size: 10px;
-    letter-spacing: 0.2em;
+    font-size: 9px;
+    letter-spacing: 0.24em;
     text-transform: uppercase;
-    color: var(--text);
-    background: rgba(13, 11, 10, 0.45);
-    padding: 5px 10px;
-    border-radius: 3px;
+    color: rgba(212, 196, 176, 0.6);
+    text-shadow: 0 1px 8px rgba(13, 11, 10, 0.7);
     pointer-events: none;
   }
-  .hd-label-raw { left: 32px; }
-  .hd-label-dev { right: 32px; color: var(--amber); }
+  .hd-label-raw { left: 40px; }
+  .hd-label-dev { right: 40px; color: rgba(232, 196, 160, 0.7); }
 
   .hd-seam {
     position: absolute;
@@ -185,17 +180,17 @@ const frames = [
     position: absolute;
     top: 50%; left: 50%;
     transform: translate(-50%, -50%);
-    width: 46px; height: 46px;
+    width: 34px; height: 34px;
     border-radius: 50%;
-    background: rgba(13, 11, 10, 0.5);
-    border: 1px solid rgba(232, 196, 160, 0.92);
-    -webkit-backdrop-filter: blur(5px);
-    backdrop-filter: blur(5px);
+    background: rgba(13, 11, 10, 0.32);
+    border: 1px solid rgba(232, 196, 160, 0.5);
     display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--amber);
+    color: rgba(232, 196, 160, 0.85);
+    transition: border-color 240ms ease, background 240ms ease;
   }
+  .hd-stage:hover .hd-grip { border-color: rgba(232, 196, 160, 0.85); background: rgba(13, 11, 10, 0.5); }
 
   /* Scrims keep the wordmark and footer legible over any photograph. */
   .hd-scrim {
@@ -367,11 +362,11 @@ const frames = [
       active.classList.remove('is-developing');
       void active.offsetWidth; // restart the bloom
       active.classList.add('is-developing');
-      const dur = 1600, t0 = performance.now();
+      const dur = 2600, t0 = performance.now();
+      const easeInOut = (p) => (p < 0.5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2);
       const tick = (now) => {
         const p = Math.min(1, (now - t0) / dur);
-        const e = 1 - Math.pow(1 - p, 3);
-        setSplit(100 * (1 - e));
+        setSplit(100 * (1 - easeInOut(p)));
         if (p < 1) raf = requestAnimationFrame(tick);
       };
       raf = requestAnimationFrame(tick);
