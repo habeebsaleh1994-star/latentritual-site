@@ -4,16 +4,19 @@ import Nav from '../components/Nav.astro';
 import Hero from '../components/Hero.astro';
 import Field from '../components/Field.astro';
 import Inscription from '../components/Inscription.astro';
+import Materials from '../components/Materials.astro';
 import FilmLightPaper from '../components/FilmLightPaper.astro';
 import PrintRoom from '../components/PrintRoom.astro';
 import Complete from '../components/Complete.astro';
 import Bridge from '../components/Bridge.astro';
 import Story from '../components/Story.astro';
-import Develop from '../components/Develop.astro';
-import Materials from '../components/Materials.astro';
 import Moment from '../components/Moment.astro';
 import Price from '../components/Price.astro';
 import Footer from '../components/Footer.astro';
+// Note: Develop.astro is intentionally no longer rendered here. The immersive
+// Hero now carries the raw -> developed comparison across the same six
+// photographs, so the separate Develop section was a duplicate. The component
+// file is kept in the repo (unused) so nothing is lost and it's reversible.
 ---
 
 <Base>
@@ -22,13 +25,12 @@ import Footer from '../components/Footer.astro';
   <Hero />
   <Field />
   <Inscription />
+  <Materials />
   <FilmLightPaper />
   <PrintRoom />
   <Complete />
   <Bridge />
   <Story />
-  <Develop />
-  <Materials />
   <Moment />
   <Price />
   </main>
