@@ -10,10 +10,15 @@
 // the thumbnails switch frames. It reuses your six Develop photographs and
 // the safelight tokens already in global.css.
 //
+// This version stays ALIVE between gestures: a slow Ken Burns drift on the
+// photograph, and — when the visitor has been still for a few seconds — the
+// seam breathes on its own, gently revealing and re-developing the print.
+// Any drag or tap stops the breathing at once; it resumes after stillness.
+// Both idle motions honour prefers-reduced-motion (they switch fully off).
+//
 // Images: pristine on a 5K display. Each frame ships THREE sizes — 5120px JPEG
 // (5K/Retina), 3840px webp (laptop retina), 2048px webp (mobile) — chosen
-// automatically per screen via srcset. Copy the files in this bundle's images/
-// folder into public/ alongside the existing develop-N images. Nothing to run.
+// automatically per screen via srcset.
 
 const frames = [
   { id: 3, recipe: 'Fuji Pro 800Z, pulled one stop, on Crystal Archive Maxima', alt: 'A carousel spinning in front of an old stone wall, developed on Fuji Pro 800Z' },
@@ -55,15 +60,16 @@ const frames = [
       </div>
     ))}
 
-    <div class="hd-label hd-label-raw" aria-hidden="true">Raw</div>
-    <div class="hd-label hd-label-dev" aria-hidden="true">Developed</div>
-
     <div class="hd-seam" data-hd-seam aria-hidden="true">
       <span class="hd-grip">
         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 7 4 12l4 5"/><path d="m16 7 4 5-4 5"/></svg>
       </span>
     </div>
   </div>
+
+  {/* Labels live OUTSIDE the stage so the Ken Burns drift doesn't carry them. */}
+  <div class="hd-label hd-label-raw" aria-hidden="true">Raw</div>
+  <div class="hd-label hd-label-dev" aria-hidden="true">Developed</div>
 
   <div class="hd-scrim" aria-hidden="true"></div>
 
@@ -108,14 +114,24 @@ const frames = [
     user-select: none;
   }
 
-  /* Stage — the draggable compare surface. --split (a %) is the seam position. */
+  /* Stage — the draggable compare surface. --split (a %) is the seam position.
+     A slow Ken Burns drift lives here, on the whole stage, so the seam line and
+     the raw/developed clip ride it together and stay perfectly aligned (and the
+     drag math, which is relative to the stage's own box, is unaffected). */
   .hd-stage {
     position: absolute;
     inset: 0;
     cursor: ew-resize;
     touch-action: none;
+    animation: hd-kenburns 36s ease-in-out infinite alternate;
+    will-change: transform;
   }
   .hd-stage.is-dragging { cursor: grabbing; }
+
+  @keyframes hd-kenburns {
+    from { transform: scale(1.045) translate3d(0%, 0%, 0); }
+    to   { transform: scale(1.075) translate3d(-1%, -0.8%, 0); }
+  }
 
   .hd-frame {
     position: absolute;
@@ -138,7 +154,6 @@ const frames = [
   /* The raw scan is clipped to the left of the seam. */
   .hd-before { clip-path: inset(0 calc(100% - var(--split, 56%)) 0 0); }
 
-  /* The active frame's print blooms in from a flat scan when developed. */
   /* The active frame's print emerges from a pale latent state, gaining density
      and colour like paper in developer — no bright flash. */
   .hd-frame.is-active.is-developing .hd-after {
@@ -150,7 +165,8 @@ const frames = [
     100% { filter: none; }
   }
 
-  /* Whisper-light labels — no pills, no chrome. */
+  /* Whisper-light labels — no pills, no chrome. Siblings of the stage now, so
+     they hold still while the photograph drifts beneath them. */
   .hd-label {
     position: absolute;
     top: 96px;
@@ -301,9 +317,10 @@ const frames = [
     .hero-develop .scroll-cue { display: none; }
   }
 
-  /* Reduced motion: no auto-develop, no bloom. The frame simply shows
-     developed; dragging the seam still works (instantly). */
+  /* Reduced motion: no auto-develop, no bloom, no drift, no breathing. The
+     frame simply shows developed; dragging the seam still works (instantly). */
   @media (prefers-reduced-motion: reduce) {
+    .hd-stage { animation: none; transform: none; }
     .hd-frame, .hd-frame.is-active.is-developing .hd-after { animation: none; transition: none; }
   }
 </style>
@@ -322,22 +339,61 @@ const frames = [
       ])
     );
 
+    const easeInOut = (p) => (p < 0.5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2);
+
     let raf = 0;
+    let splitVal = 56;
+    let developing = false;
     const setSplit = (pct) => {
       const v = Math.max(0, Math.min(100, pct));
+      splitVal = v;
       if (stage) stage.style.setProperty('--split', v + '%');
+    };
+
+    /* Idle breathing — when the visitor has been still for a moment, the seam
+       drifts on its own, gently revealing and re-developing the print, so the
+       header never sits dead. The first gesture stops it instantly. */
+    const IDLE_DELAY = 3500;    // ms of stillness before breathing begins
+    const IDLE_PERIOD = 12000;  // ms per breath
+    const IDLE_BASE = 28;       // centre of the drift (% raw showing)
+    const IDLE_AMP = 20;        // how far it breathes each way
+    let idleRaf = 0, idleTimer = 0, idleStart = 0, idleFrom = 56;
+
+    const stopIdle = () => {
+      cancelAnimationFrame(idleRaf); idleRaf = 0;
+      clearTimeout(idleTimer); idleTimer = 0;
+    };
+    const startIdle = () => {
+      if (reduce || idleRaf || developing) return;
+      idleStart = performance.now();
+      idleFrom = splitVal;
+      const loop = (now) => {
+        const e = now - idleStart;
+        const target = IDLE_BASE + IDLE_AMP * Math.sin((2 * Math.PI * e) / IDLE_PERIOD);
+        const blend = easeInOut(Math.min(1, e / 1800)); // ease in from where the seam was left
+        setSplit(idleFrom * (1 - blend) + target * blend);
+        idleRaf = requestAnimationFrame(loop);
+      };
+      idleRaf = requestAnimationFrame(loop);
+    };
+    const scheduleIdle = () => {
+      if (reduce) return;
+      clearTimeout(idleTimer);
+      idleTimer = setTimeout(startIdle, IDLE_DELAY);
     };
 
     // Drag to compare.
     if (stage instanceof HTMLElement) {
       const pctFromX = (clientX) => {
         const r = stage.getBoundingClientRect();
-        return ((clientX - r.left) / r.width) * 100;
+        return ((clientX - r.left) / r.width) * 100; // robust to the Ken Burns transform
       };
       let dragging = false;
       const down = (e) => {
         e.preventDefault(); // stop Safari from starting a text selection on drag
         cancelAnimationFrame(raf);
+        developing = false;
+        stopIdle();
         const active = root.querySelector('.hd-frame.is-active');
         if (active) active.classList.remove('is-developing');
         dragging = true;
@@ -346,7 +402,12 @@ const frames = [
         try { stage.setPointerCapture(e.pointerId); } catch (err) {}
       };
       const move = (e) => { if (dragging) setSplit(pctFromX(e.clientX)); };
-      const up = () => { dragging = false; stage.classList.remove('is-dragging'); };
+      const up = () => {
+        if (!dragging) return;
+        dragging = false;
+        stage.classList.remove('is-dragging');
+        scheduleIdle(); // resume breathing after a few seconds of stillness
+      };
       stage.addEventListener('pointerdown', down);
       stage.addEventListener('pointermove', move);
       stage.addEventListener('pointerup', up);
@@ -359,17 +420,23 @@ const frames = [
     const develop = () => {
       const active = root.querySelector('.hd-frame.is-active');
       if (!(active instanceof HTMLElement)) return;
+      stopIdle();
       if (reduce) { setSplit(0); return; }
       cancelAnimationFrame(raf);
+      developing = true;
       active.classList.remove('is-developing');
       void active.offsetWidth; // restart the bloom
       active.classList.add('is-developing');
       const dur = 2600, t0 = performance.now();
-      const easeInOut = (p) => (p < 0.5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2);
       const tick = (now) => {
         const p = Math.min(1, (now - t0) / dur);
         setSplit(100 * (1 - easeInOut(p)));
-        if (p < 1) raf = requestAnimationFrame(tick);
+        if (p < 1) {
+          raf = requestAnimationFrame(tick);
+        } else {
+          developing = false;
+          scheduleIdle(); // hand off to the idle breathing
+        }
       };
       raf = requestAnimationFrame(tick);
       active.addEventListener('animationend', () => active.classList.remove('is-developing'), { once: true });
@@ -387,6 +454,17 @@ const frames = [
       if (recipeEl) recipeEl.textContent = recipes.get(id) || '';
       develop();
     });
+
+    // Pause the breathing loop while the hero is scrolled off-screen.
+    if ('IntersectionObserver' in window) {
+      const vis = new IntersectionObserver((entries) => {
+        for (const en of entries) {
+          if (en.isIntersecting) scheduleIdle();
+          else stopIdle();
+        }
+      }, { threshold: 0.25 });
+      vis.observe(root);
+    }
 
     // Develop the first frame once it's on screen.
     if (reduce) {
