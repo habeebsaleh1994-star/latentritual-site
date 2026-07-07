@@ -60,12 +60,20 @@ export const onRequestPost = async ({ request, env }) => {
     return json({ ok: false, error: "upstream_unreachable" }, 502);
   }
 
-  if (res.ok) return json({ ok: true });
+  if (res.ok) return json({ ok: true, created: true });
 
-  // Already on the list → Buttondown returns 400; that's a success for the visitor.
+  const status = res.status;
   const body = await res.text();
-  if (res.status === 400 && /already|exist|subscrib/i.test(body)) {
+  let code = "";
+  try { code = JSON.parse(body).code || ""; } catch { /* non-JSON body */ }
+
+  // Already on the list → Buttondown returns 400 with code "email_already_exists".
+  // Match on the explicit code (not a loose word) so real failures aren't masked.
+  if (status === 400 && (code === "email_already_exists" || /already (exists|subscribed)/i.test(body))) {
     return json({ ok: true, already: true });
   }
-  return json({ ok: false, error: "buttondown_error", status: res.status }, 502);
+
+  // Any other non-2xx is a genuine failure — surface Buttondown's own reason so
+  // it can never silently look like success again.
+  return json({ ok: false, error: "buttondown_error", status, code, detail: body.slice(0, 300) }, 502);
 };
