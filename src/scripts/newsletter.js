@@ -1,8 +1,11 @@
-// Newsletter subscribe progressive enhancement. No-JS path already
-// works (native form POST to Buttondown). This adds an intercepted
-// submit with an on-brand inline confirmation, and a graceful fallback.
-// Supports multiple independent forms on a page (the footer newsletter
-// plus any page-level waitlist), each wrapped in its own [data-newsletter].
+// Newsletter / waitlist subscribe — progressive enhancement.
+//
+// Posts to our own same-origin /api/subscribe (a Cloudflare Pages Function) which
+// relays to Buttondown's authenticated API. Because it's same-origin we can READ
+// the real result and show an honest success/error — unlike the old cross-origin
+// `mode:'no-cors'` POST, whose response was unreadable, so a rejected signup still
+// resolved and showed a false "It's on its way". Supports multiple independent
+// forms, each wrapped in its own [data-newsletter].
 
 (() => {
   const roots = document.querySelectorAll('[data-newsletter]');
@@ -10,47 +13,56 @@
 
   roots.forEach((root) => {
     const form = root.querySelector('[data-newsletter-form]');
+    if (!form) return;
+    const input = form.querySelector('input[type="email"]');
+    if (!input) return;
     const errorEl = root.querySelector('[data-newsletter-error]');
-    const input = form ? form.querySelector('input[type="email"]') : null;
-    if (!form || !input) return;
+    const doneEl = root.querySelector('[data-newsletter-done]');
+    const submitBtn = form.querySelector('[type="submit"]');
 
-    form.addEventListener('submit', (e) => {
+    const showError = (msg) => {
+      if (errorEl) {
+        if (msg) errorEl.textContent = msg;
+        errorEl.hidden = false;
+      }
+      if (submitBtn) submitBtn.disabled = false;
+    };
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
       if (!input.checkValidity()) {
-        e.preventDefault();
-        if (errorEl) errorEl.hidden = false;
+        showError("That email doesn't look right.");
         input.focus();
         return;
       }
       if (errorEl) errorEl.hidden = true;
+      if (submitBtn) submitBtn.disabled = true;
 
-      // If the Buttondown action is still the placeholder, let the native
-      // submit happen so nothing silently no-ops in dev.
-      const action = form.getAttribute('action') || '';
-      if (action.includes('REPLACE_WITH_BUTTONDOWN')) return;
+      const action = form.getAttribute('action') || '/api/subscribe';
+      const tagField = form.querySelector('input[name="tag"]');
+      const hpField = form.querySelector('input[name="website"]');
 
-      e.preventDefault();
-
-      const finish = () => {
-        const done = root.querySelector('[data-newsletter-done]');
-        if (done) done.hidden = false;
-        root.classList.add('is-done');
-      };
-
-      // Optimistic confirmation: mode:'no-cors' yields an opaque response,
-      // so Buttondown's actual result is unreadable. We treat a completed
-      // request as success - a duplicate subscribe is idempotent on their
-      // side, so the user's perceived outcome stays true. A hard network
-      // failure falls through to a native submit so the address still
-      // reaches Buttondown's hosted page.
-      fetch(action, {
-        method: 'POST',
-        body: new FormData(form),
-        mode: 'no-cors',
-      })
-        .then(finish)
-        .catch(() => {
-          form.submit();
+      try {
+        const res = await fetch(action, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            email: input.value.trim(),
+            tag: tagField ? tagField.value : '',
+            website: hpField ? hpField.value : '',
+          }),
         });
+        const data = await res.json().catch(() => ({}));
+        if (res.ok && data.ok) {
+          if (doneEl) doneEl.hidden = false;
+          root.classList.add('is-done');
+        } else {
+          showError('Something went wrong — please try again in a moment.');
+        }
+      } catch {
+        showError("Couldn't reach us — check your connection and try again.");
+      }
     });
   });
 })();

@@ -1,9 +1,11 @@
 ---
 import Base from '../layouts/Base.astro';
 
-// Same Buttondown list as the footer letter; a hidden tag marks these as
-// beta requests so they can be handed a TestFlight invitation.
-const BUTTONDOWN_ACTION = 'https://buttondown.com/api/emails/embed-subscribe/habeebsaleh1994';
+// Signups POST to our same-origin /api/subscribe proxy (a Cloudflare Pages
+// Function) which relays to Buttondown's API — bypassing the Turnstile gate on
+// the public embed form. The hidden `tag` marks these as beta requests so they
+// can be handed a TestFlight invitation.
+const SUBSCRIBE_ENDPOINT = '/api/subscribe';
 ---
 
 <Base
@@ -30,9 +32,8 @@ const BUTTONDOWN_ACTION = 'https://buttondown.com/api/emails/embed-subscribe/hab
 
       <form
         class="beta-form"
-        action={BUTTONDOWN_ACTION}
+        action={SUBSCRIBE_ENDPOINT}
         method="post"
-        target="_blank"
         data-newsletter-form
       >
         <label class="visually-hidden" for="beta-email">Email address</label>
@@ -47,6 +48,8 @@ const BUTTONDOWN_ACTION = 'https://buttondown.com/api/emails/embed-subscribe/hab
           placeholder="your email"
         />
         <input type="hidden" name="tag" value="moment-beta" />
+        <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true"
+               style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0;pointer-events:none" />
         <button type="submit" class="beta-submit">Request an invitation</button>
       </form>
 
