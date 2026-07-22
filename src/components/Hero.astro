@@ -31,7 +31,18 @@ const frames = [
 ---
 
 <section class="hero-develop" id="hero" aria-label="Latent — a photograph developing">
-  <div class="hd-stage" data-hd-stage style="--split: 56%;">
+  <div
+    class="hd-stage"
+    data-hd-stage
+    style="--split: 56%;"
+    tabindex="0"
+    role="slider"
+    aria-label="Reveal the raw scan against the developed print"
+    aria-valuemin="0"
+    aria-valuemax="100"
+    aria-valuenow="56"
+    aria-valuetext="56% raw scan showing"
+  >
     {frames.map((f, i) => (
       <div class={`hd-frame${i === 0 ? ' is-active' : ''}`} data-frame={String(f.id)}>
         {/* The developed print (full frame). 2880px on large screens, 2048 on small. */}
@@ -76,6 +87,7 @@ const frames = [
   <div class="hd-center">
     <h1 class="hd-mark">LATENT</h1>
     <p class="hd-tagline">A photographic developer for the digital age.</p>
+    <p class="hd-sub">Three instruments, one negative-to-print engine &mdash; for the photographs you catch, the ones you sit with, and the frames you carry through motion.</p>
   </div>
 
   <div class="hd-bottom">
@@ -239,6 +251,8 @@ const frames = [
     margin: 0;
     color: #F2E9DA;
     text-shadow: 0 2px 40px rgba(13, 11, 10, 0.6);
+    opacity: 0;
+    animation: hd-rise 1.4s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
   }
   .hd-tagline {
     font-family: var(--font-body);
@@ -248,6 +262,26 @@ const frames = [
     color: var(--text-bright);
     margin: 22px 0 0;
     text-shadow: 0 1px 20px rgba(13, 11, 10, 0.7);
+    opacity: 0;
+    animation: hd-rise 1.4s cubic-bezier(0.16, 1, 0.3, 1) 0.6s forwards;
+  }
+  /* The house framing — the third line, quieter than the tagline. */
+  .hd-sub {
+    font-family: var(--font-body);
+    font-weight: 300;
+    font-size: 15px;
+    line-height: 1.6;
+    color: rgba(212, 196, 176, 0.85);
+    max-width: 540px;
+    margin: 18px auto 0;
+    text-shadow: 0 1px 16px rgba(13, 11, 10, 0.8);
+    opacity: 0;
+    animation: hd-rise 1.4s cubic-bezier(0.16, 1, 0.3, 1) 1s forwards;
+  }
+
+  @keyframes hd-rise {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
   }
 
   .hd-bottom {
@@ -259,6 +293,14 @@ const frames = [
     flex-direction: column;
     align-items: center;
     gap: 18px;
+    opacity: 0;
+    animation: hd-rise 1.4s cubic-bezier(0.16, 1, 0.3, 1) 1.3s forwards;
+  }
+
+  /* Keyboard focus on the seam stage — a visible amber ring. */
+  .hd-stage:focus-visible {
+    outline: 2px solid var(--amber);
+    outline-offset: -2px;
   }
   .hd-thumbs {
     display: flex;
@@ -322,6 +364,7 @@ const frames = [
   @media (prefers-reduced-motion: reduce) {
     .hd-stage { animation: none; transform: none; }
     .hd-frame, .hd-frame.is-active.is-developing .hd-after { animation: none; transition: none; }
+    .hd-mark, .hd-tagline, .hd-sub, .hd-bottom { animation: none; opacity: 1; }
   }
 </style>
 
@@ -347,7 +390,11 @@ const frames = [
     const setSplit = (pct) => {
       const v = Math.max(0, Math.min(100, pct));
       splitVal = v;
-      if (stage) stage.style.setProperty('--split', v + '%');
+      if (stage) {
+        stage.style.setProperty('--split', v + '%');
+        stage.setAttribute('aria-valuenow', String(Math.round(v)));
+        stage.setAttribute('aria-valuetext', Math.round(v) + '% raw scan showing');
+      }
     };
 
     /* Idle breathing — when the visitor has been still for a moment, the seam
@@ -414,6 +461,23 @@ const frames = [
       stage.addEventListener('pointercancel', up);
       stage.addEventListener('pointerleave', up);
       stage.addEventListener('contextmenu', (e) => e.preventDefault());
+
+      // The seam under arrow keys — same gesture, no pointer. Left and right
+      // nudge; Home shows the print whole, End the raw scan whole.
+      stage.addEventListener('keydown', (e) => {
+        const steps = { ArrowLeft: -4, ArrowRight: 4, Home: null, End: null };
+        if (!(e.key in steps)) return;
+        e.preventDefault();
+        cancelAnimationFrame(raf);
+        developing = false;
+        stopIdle();
+        const active = root.querySelector('.hd-frame.is-active');
+        if (active) active.classList.remove('is-developing');
+        if (e.key === 'Home') setSplit(0);
+        else if (e.key === 'End') setSplit(100);
+        else setSplit(splitVal + steps[e.key]);
+        scheduleIdle();
+      });
     }
 
     // Animate the seam from all-raw to all-developed, blooming the print in.

@@ -4,40 +4,42 @@
 
 (() => {
   // Respect prefers-reduced-motion. The CSS already shows the static
-  // final state under that media query, so we just bail.
+  // final state under that media query, so we just bail (after wiring the
+  // lamplight, which is a tone shift, not motion).
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
 
-  // Hero develop-reveal + replay. Plays once and rests on the resolved frame;
-  // a quiet "Replay" control then lets the photograph develop again. Reduced-
-  // motion visitors get no autoplay — the control becomes their opt-in to watch
-  // the develop once, on demand. Same control covers blocked autoplay.
-  const heroVideo = document.querySelector('.hero-video');
-  const heroOverlay = document.querySelector('[data-hero-replay-overlay]');
-  const heroReplay = document.querySelector('.hero-replay');
-  if (heroVideo instanceof HTMLVideoElement) {
-    const showReplay = () => { if (heroOverlay) heroOverlay.classList.add('is-visible'); };
-    const hideReplay = () => { if (heroOverlay) heroOverlay.classList.remove('is-visible'); };
-
-    heroVideo.addEventListener('ended', showReplay);
-
-    if (heroReplay) {
-      heroReplay.addEventListener('click', () => {
-        hideReplay();
-        heroVideo.currentTime = 0;
-        const p = heroVideo.play();
-        if (p !== undefined) p.catch(showReplay);
-      });
-    }
-
-    if (reduce.matches) {
-      showReplay(); // no autoplay; offer the develop on demand
-    } else {
-      const p = heroVideo.play();
-      if (p !== undefined) p.catch(showReplay); // blocked → let them trigger it
-    }
+  // ---------- The lamplit evening -------------------------------------------
+  // Base.astro sets html.is-evening before first paint (after local sunset,
+  // or per the visitor's stored choice). Here we only wire the footer lamp:
+  // one press warms the room, another puts the lamp out, and the choice is
+  // kept for next time.
+  const LAMP_KEY = 'latent-lamp';
+  const lamp = document.querySelector('[data-lamp]');
+  if (lamp instanceof HTMLElement) {
+    const sync = () => {
+      lamp.setAttribute(
+        'aria-pressed',
+        String(document.documentElement.classList.contains('is-evening'))
+      );
+    };
+    sync();
+    lamp.addEventListener('click', () => {
+      const on = document.documentElement.classList.toggle('is-evening');
+      try { localStorage.setItem(LAMP_KEY, on ? 'on' : 'off'); } catch {}
+      sync();
+    });
   }
 
-  if (reduce.matches) return;
+  if (reduce.matches) {
+    // Reduced motion: ambient loops don't run themselves. Posters stand,
+    // and the native controls become the visitor's opt-in to watch.
+    for (const video of document.querySelectorAll('video[autoplay], video[data-autoplay]')) {
+      video.removeAttribute('autoplay');
+      video.pause();
+      video.controls = true;
+    }
+    return;
+  }
 
   // ---------- Safelight ------------------------------------------------------
   // A faint amber pool that trails the pointer, the one light a darkroom
@@ -123,14 +125,20 @@
     });
   }
 
-  // ---------- Story videos play/pause --------------------------------------
-  // Two autoplay-muted videos on the same page can collide with browser
-  // autoplay heuristics; the second one (below the fold at page load) is
-  // often silently skipped. Calling .play() explicitly when the video
-  // enters viewport gets around that, and pausing when it leaves saves
-  // CPU/battery on phones.
-  const storyVideos = document.querySelectorAll('.story-clip video, .stage-panel video, .stage-image video');
-  if ('IntersectionObserver' in window && storyVideos.length) {
+  // ---------- Autoplay loop discipline --------------------------------------
+  // Several autoplay-muted videos on one page can collide with browser
+  // autoplay heuristics; anything below the fold at page load is often
+  // silently skipped. Calling .play() explicitly when a loop enters the
+  // viewport gets around that, and pausing when it leaves saves CPU and
+  // battery on phones. Applies to every declared autoplay loop on the page
+  // (the Lab hero reel, the Ritual Story reader, and whatever follows).
+  //
+  // `data-autoplay` is the deferred variant: Chrome fetches a video whose
+  // markup carries the real `autoplay` attribute even with preload="none",
+  // so a below-the-fold loop declares itself here instead and stays entirely
+  // unfetched until it is scrolled to. No JS: the poster simply stands.
+  const loopVideos = document.querySelectorAll('video[autoplay], video[data-autoplay]');
+  if ('IntersectionObserver' in window && loopVideos.length) {
     const videoIO = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
@@ -146,34 +154,6 @@
       { threshold: 0.25 }
     );
 
-    for (const video of storyVideos) videoIO.observe(video);
-  }
-
-  // ---------- Complete section workspace tabs ------------------------------
-  // Tabs in the section label AND items in the description grid both toggle
-  // which screenshot is shown. Click either, both highlight, screen crossfades.
-  const complete = document.querySelector('.complete');
-  if (complete) {
-    const tabs = complete.querySelectorAll('.complete-tab');
-    const screens = complete.querySelectorAll('.complete-screen');
-    const items = complete.querySelectorAll('.complete-item');
-
-    const activate = (id) => {
-      if (!id) return;
-      for (const tab of tabs) tab.classList.toggle('is-active', tab.dataset.target === id);
-      for (const screen of screens) screen.classList.toggle('is-active', screen.dataset.screen === id);
-      for (const item of items) item.classList.toggle('is-active', item.dataset.item === id);
-    };
-
-    complete.addEventListener('click', (e) => {
-      const target = /** @type {HTMLElement} */ (e.target);
-      const tab = target.closest('.complete-tab');
-      const item = target.closest('.complete-item');
-      if (tab instanceof HTMLElement && tab.dataset.target) {
-        activate(tab.dataset.target);
-      } else if (item instanceof HTMLElement && item.dataset.item) {
-        activate(item.dataset.item);
-      }
-    });
+    for (const video of loopVideos) videoIO.observe(video);
   }
 })();

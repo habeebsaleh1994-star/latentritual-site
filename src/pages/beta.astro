@@ -1,31 +1,34 @@
 ---
 import Base from '../layouts/Base.astro';
 
+// One door for all three instruments. The page is static; a small script
+// reads ?app=ritual|moment|lab and re-dresses the card — lockup, kicker,
+// copy, hidden tag, foot link. Without JS (or without the parameter) it
+// stands as The Moment's door, which is where the existing links point.
+//
 // Signups POST to our same-origin /api/subscribe proxy (a Cloudflare Pages
-// Function) which relays to Buttondown's API — bypassing the Turnstile gate on
-// the public embed form. The hidden `tag` marks these as beta requests so they
-// can be handed a TestFlight invitation.
+// Function) which relays to Buttondown's API. The hidden `tag` marks which
+// instrument the request belongs to.
 const SUBSCRIBE_ENDPOINT = '/api/subscribe';
 ---
 
 <Base
-  title="The Moment — join the beta"
-  description="The Moment, Latent on iPhone, is in beta. Leave your address and the invitation follows."
-  ogImage="/og-moment.png?v=1"
-  ogImageAlt="The Moment — Latent for iPhone, now in beta"
+  title="Join the beta — Latent"
+  description="Latent's instruments are let out quietly. Leave your address and the invitation follows by letter."
+  ogImageAlt="Latent — join the beta"
 >
   <main class="beta" id="main">
     <div class="beta-glow" aria-hidden="true"></div>
 
     <div class="beta-lockup">
-      <img class="beta-icon" src="/moment-icon.png" width="64" height="64" alt="" />
-      <div class="beta-wordmark">The&nbsp;Moment</div>
+      <img class="beta-icon" src="/moment-icon.png" width="64" height="64" alt="" data-beta-icon />
+      <div class="beta-wordmark" data-beta-wordmark>The&nbsp;Moment</div>
     </div>
 
     <section class="beta-card" data-newsletter>
-      <div class="beta-kicker">Now in beta</div>
-      <h1 class="beta-title">Ready for its first eyes.</h1>
-      <p class="beta-lead">
+      <div class="beta-kicker" data-beta-kicker>Now in beta</div>
+      <h1 class="beta-title" data-beta-title>Ready for its first eyes.</h1>
+      <p class="beta-lead" data-beta-lead>
         The Moment has been developing quietly. A few photographers are being
         let in early, to hold it, to use it, to tell us what they keep.
       </p>
@@ -47,22 +50,83 @@ const SUBSCRIBE_ENDPOINT = '/api/subscribe';
           inputmode="email"
           placeholder="your email"
         />
-        <input type="hidden" name="tag" value="moment-beta" />
+        <input type="hidden" name="tag" value="moment-beta" data-beta-tag />
         <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true"
                style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0;pointer-events:none" />
-        <button type="submit" class="beta-submit">Request an invitation</button>
+        <button type="submit" class="beta-submit" data-beta-submit>Request an invitation</button>
       </form>
 
-      <p class="beta-fine">The invitation arrives by letter, alongside the occasional word from Latent.</p>
+      <p class="beta-fine" data-beta-fine>The invitation arrives by letter, alongside the occasional word from Latent.</p>
 
       <p class="beta-error" data-newsletter-error hidden role="alert">That email doesn't look right.</p>
-      <p class="beta-done" data-newsletter-done hidden role="status" aria-live="polite">
+      <p class="beta-done" data-newsletter-done hidden role="status" aria-live="polite" data-beta-done>
         It's on its way. Your invitation will arrive by letter.
       </p>
     </section>
 
-    <p class="beta-foot">Soon, on iPhone. &nbsp;·&nbsp; <a href="/moment">See what it does</a></p>
+    <p class="beta-foot"><span data-beta-foot>Soon, on iPhone.</span> &nbsp;·&nbsp; <a href="/moment" data-beta-foot-link>See what it does</a></p>
   </main>
+
+  <script>
+    // Re-dress the door for the instrument named in the URL.
+    const doors = {
+      ritual: {
+        icon: false,
+        wordmark: 'The Ritual',
+        kicker: 'Now in private beta',
+        title: 'The workroom opens quietly.',
+        lead:
+          'The Ritual has been taking shape on Mac and iPad. A few photographers are being let in early — to bring a body of work and stay a while.',
+        submit: 'Request an invitation',
+        tag: 'ritual-beta',
+        fine: 'The invitation arrives by letter, alongside the occasional word from Latent.',
+        done: "It's on its way. Your invitation will arrive by letter.",
+        foot: 'Soon, on Mac and iPad.',
+        footLink: { href: '/ritual', label: 'See the workroom' },
+      },
+      moment: null, // the page as served
+      lab: {
+        icon: false,
+        wordmark: 'The Lab',
+        kicker: 'In development',
+        title: 'The word, when it is real.',
+        lead:
+          'The Lab is in active development — the engine inside DaVinci Resolve, and the whole lab on iPhone. The waitlist gets the word when each one is ready, and nothing is sold before it is real.',
+        submit: 'Join the waitlist',
+        tag: 'lab-waitlist',
+        fine: 'The word arrives by letter, alongside the occasional note from Latent.',
+        done: "You're on the list. The word will arrive by letter.",
+        foot: 'Soon, in DaVinci Resolve and on iPhone.',
+        footLink: { href: '/lab', label: 'See the Lab' },
+      },
+    };
+
+    const app = new URLSearchParams(window.location.search).get('app');
+    const door = app && doors[app];
+    if (door) {
+      const set = (sel, value) => {
+        const el = document.querySelector(sel);
+        if (el && value != null) el.textContent = value;
+      };
+      const icon = document.querySelector('[data-beta-icon]');
+      if (icon && !door.icon) icon.remove();
+      set('[data-beta-wordmark]', door.wordmark);
+      set('[data-beta-kicker]', door.kicker);
+      set('[data-beta-title]', door.title);
+      set('[data-beta-lead]', door.lead);
+      set('[data-beta-submit]', door.submit);
+      set('[data-beta-fine]', door.fine);
+      set('[data-beta-done]', door.done);
+      const tag = document.querySelector('[data-beta-tag]');
+      if (tag instanceof HTMLInputElement) tag.value = door.tag;
+      set('[data-beta-foot]', door.foot);
+      const footLink = document.querySelector('[data-beta-foot-link]');
+      if (footLink instanceof HTMLAnchorElement) {
+        footLink.href = door.footLink.href;
+        footLink.textContent = door.footLink.label;
+      }
+    }
+  </script>
 
   <style>
     .beta {
@@ -95,8 +159,9 @@ const SUBSCRIBE_ENDPOINT = '/api/subscribe';
       gap: 16px;
       margin-bottom: 52px;
     }
-    /* The Moment's app mark, presented as the same cream tile as the launch
-       story so the tap-through feels continuous. */
+    /* The app mark, presented as the same cream tile as the launch story so
+       the tap-through feels continuous. Instruments without a public icon
+       stand on the wordmark alone. */
     .beta-icon {
       display: block;
       width: 64px;
@@ -114,9 +179,9 @@ const SUBSCRIBE_ENDPOINT = '/api/subscribe';
       color: var(--text-bright);
     }
 
-    /* Override the global `section { padding: 160px 24px }` — this card is a
-       <section>, and that inherited padding otherwise opens a huge gap above
-       the kicker and pushes the CTA off the first screen. */
+    /* Override the global `section` padding — this card is a <section>, and
+       that inherited padding otherwise opens a huge gap above the kicker and
+       pushes the CTA off the first screen. */
     .beta-card { position: relative; width: 100%; max-width: 540px; padding: 0; }
 
     .beta-kicker {

@@ -1,0 +1,687 @@
+---
+// The Lab — the moving-image print engine, in DaVinci Resolve.
+//
+// One node, the same negative-to-print engine as the apps, carried through a
+// Resolve timeline. The hero media is the reel — the only instrument page
+// whose hero moves. Release truth comes only from src/config/truth.ts.
+import Base from '../layouts/Base.astro';
+import Nav from '../components/Nav.astro';
+import FooterMini from '../components/FooterMini.astro';
+import StatusChip from '../components/StatusChip.astro';
+import { truth } from '../config/truth';
+
+// The controlled fixture: one frame, developed several ways, with the decoded
+// source kept alongside. looks[0] leads and doubles as the frame's thumbnail;
+// the switcher holds the chosen look BY NAME when you step between frames, so
+// RAW stays put and you can walk the three sources in a row.
+const frames = [
+  {
+    name: 'Portrait 1',
+    looks: [
+      { name: 'Vision3 200T + 2393 Print', img: '/lab/portrait-1-vision3-200t-2393.webp' },
+      { name: 'ColorPlus 200 + Endura Metallic Print', img: '/lab/portrait-1-colorplus-200-endura-metallic.webp' },
+      { name: 'Tri-X 400 + Forte Polywarmtone Print', img: '/lab/portrait-1-trix-400-forte-polywarmtone.webp' },
+      { name: 'RAW', img: '/lab/portrait-1-raw.webp' },
+    ],
+  },
+  {
+    name: 'Garden 1',
+    looks: [
+      { name: 'Vision3 250D + Fuji Eterna-CP Print', img: '/lab/garden-1-vision3-250d-fuji-eterna.webp' },
+      { name: 'Ektar 100 + Portra Endura Print', img: '/lab/garden-1-ektar-100-portra-endura.webp' },
+      { name: 'Superia Reala + Crystal Archive Print', img: '/lab/garden-1-reala-crystal-archive.webp' },
+      { name: 'RAW', img: '/lab/garden-1-raw.webp' },
+    ],
+  },
+  {
+    name: 'Portrait 2',
+    looks: [
+      { name: 'Vision3 50D + Kodak 2383 Print', img: '/lab/portrait-2-vision3-50d-2383.webp' },
+      { name: 'Provia 400F + Lightbox Scan', img: '/lab/portrait-2-provia-400f-lightbox.webp' },
+      { name: 'Portra 400 + Supra Endura Print', img: '/lab/portrait-2-portra-400-supra-endura.webp' },
+      { name: 'RAW', img: '/lab/portrait-2-raw.webp' },
+    ],
+  },
+];
+---
+
+<Base
+  title="The Lab — the moving-image print engine"
+  description="Develop a moving-image negative, print it, scan it, and carry it back — in one node inside your grade in DaVinci Resolve, or on the phone that shot it. The Lab."
+  ogImage="/og-lab.png?v=1"
+  ogImageAlt="The Lab — the moving-image print engine, in DaVinci Resolve and on iPhone"
+>
+  <Nav cta={{ label: 'Join the waitlist', href: '#join' }} />
+  <main id="main">
+
+    <!-- HERO -->
+    <section class="lab-hero">
+      <div class="safelight-pulse" aria-hidden="true"></div>
+      <div class="eyebrow hero-eyebrow">The Lab &middot; DaVinci Resolve and iPhone</div>
+      <h1 class="hero-title">The moving-image print engine.</h1>
+      <p class="hero-lead">
+        Develop a moving-image negative, print it, scan it, and carry it back
+        &mdash; in one node inside your grade, or on the phone that shot it.
+      </p>
+      <div class="hero-frame">
+        {/* Web-weight derivatives of the 4K master: the hero used to pull ~13 MB
+            of a 31 MB source set before a visitor had read a line. */}
+        <video
+          autoplay
+          muted
+          loop
+          playsinline
+          preload="metadata"
+          poster="/lab-reel-poster.webp"
+          width="1920"
+          height="1080"
+          aria-label="A reel of moving images developed through the Latent print engine"
+        >
+          <source src="/lab-reel-1920.webm" type="video/webm" />
+          <source src="/lab-reel-1920.mp4" type="video/mp4" />
+        </video>
+      </div>
+    </section>
+
+    <!-- ONE NODE -->
+    <section class="node">
+      <div class="eyebrow reveal">One node</div>
+      <h2 class="lab-h2 reveal reveal-heading" style="--reveal-delay: 80ms">Source to delivery,<br />without leaving the grade.</h2>
+      <p class="lab-body node-body reveal" style="--reveal-delay: 200ms">
+        The same negative-to-print engine as The Ritual and The Moment, carried
+        through a Resolve timeline. Managed-timeline and camera-log input paths
+        in, explicit delivery transforms out.
+      </p>
+      <div class="node-chain reveal" style="--reveal-delay: 280ms">
+        <span class="chain-step">Negative</span>
+        <span class="chain-arrow" aria-hidden="true">&rarr;</span>
+        <span class="chain-step">Print</span>
+        <span class="chain-arrow" aria-hidden="true">&rarr;</span>
+        <span class="chain-step">Scan</span>
+        <span class="chain-arrow" aria-hidden="true">&rarr;</span>
+        <span class="chain-step">Texture</span>
+        <span class="chain-arrow" aria-hidden="true">&rarr;</span>
+        <span class="chain-step">Transport</span>
+      </div>
+      <p class="node-install reveal" style="--reveal-delay: 360ms">Installed as &ldquo;Latent Print Engine&rdquo; &middot; Open FX &rarr; Film Emulation</p>
+    </section>
+
+    <!-- THE MATERIAL -->
+    <section class="material">
+      <div class="eyebrow reveal">The material</div>
+      <h2 class="lab-h2 reveal reveal-heading" style="--reveal-delay: 80ms">Film as behavior,<br />frame after frame.</h2>
+      <p class="lab-body reveal" style="--reveal-delay: 200ms">
+        Spectral negative response, the print and view path, scanner character,
+        fall-off, halation, and animated photographic grain &mdash; the same
+        continuous field The Ritual develops a still through, built for the
+        timeline.
+      </p>
+      <div class="fixture reveal" style="--reveal-delay: 200ms" data-fixture>
+        <div class="material-frame reveal-media is-visible" role="img" data-fixture-stage
+             aria-label={`${frames[0].name} — ${frames[0].looks[0].name}`}>
+          {frames.map((fr, fi) => fr.looks.map((lk, li) => (
+            <img
+              class:list={['fixture-img', fi === 0 && li === 0 && 'is-active']}
+              data-frame={fi}
+              data-look={li}
+              src={lk.img}
+              alt=""
+              width="1600"
+              height="900"
+              loading="lazy"
+              draggable="false"
+            />
+          )))}
+          <span class="fixture-cap" data-fixture-cap>{frames[0].looks[0].name}</span>
+        </div>
+
+        {frames.map((fr, fi) => (
+          <div
+            class:list={['fixture-looks', fi === 0 && 'is-active']}
+            data-look-group={fi}
+            role="group"
+            aria-label={`Emulsion for ${fr.name}`}
+          >
+            {fr.looks.map((lk, li) => (
+              <button
+                type="button"
+                class:list={['fixture-look', li === 0 && 'is-active']}
+                data-frame={fi}
+                data-look={li}
+              >{lk.name}</button>
+            ))}
+          </div>
+        ))}
+
+        <div class="fixture-thumbs" role="group" aria-label="Choose a frame">
+          {frames.map((fr, fi) => (
+            <button
+              type="button"
+              class:list={['fixture-thumb', fi === 0 && 'is-active']}
+              data-frame-btn={fi}
+              aria-label={fr.name}
+            >
+              <img src={fr.looks[0].img} alt="" width="1600" height="900" loading="lazy" draggable="false" />
+            </button>
+          ))}
+        </div>
+
+        <p class="fixture-hint">Choose an emulsion &middot; RAW shows the source it came from</p>
+      </div>
+    </section>
+
+    <!-- BUILT FOR THE TIMELINE -->
+    <section class="timeline">
+      <div class="eyebrow reveal">Built for the timeline</div>
+      <h2 class="lab-h2 reveal reveal-heading" style="--reveal-delay: 80ms">Your color pipeline,<br />respected.</h2>
+      <p class="lab-body timeline-body reveal" style="--reveal-delay: 200ms">
+        A managed timeline or a camera-log source comes in; an explicit delivery
+        transform goes out. The node renders the whole frame &mdash; halation,
+        grain, and fall-off don&rsquo;t stop at tile edges &mdash; and heavy
+        texture is honest about the playback it costs.
+      </p>
+      <div class="timeline-items reveal" style="--reveal-delay: 280ms">
+        <span class="timeline-item">Managed timeline</span>
+        <span class="timeline-dot" aria-hidden="true">&middot;</span>
+        <span class="timeline-item">Camera log</span>
+        <span class="timeline-dot" aria-hidden="true">&middot;</span>
+        <span class="timeline-item">Explicit delivery</span>
+      </div>
+    </section>
+
+    <!-- THE POCKET LAB -->
+    <section class="pocket">
+      <div class="eyebrow reveal">Two ways in</div>
+      <h2 class="lab-h2 reveal reveal-heading" style="--reveal-delay: 80ms">The same Lab,<br />in the timeline or in your pocket.</h2>
+      <p class="lab-body reveal" style="--reveal-delay: 200ms">
+        In Resolve the engine takes a node inside your grade. On iPhone the
+        whole lab travels: a cinema negative caught frame by frame, a room to
+        cut and score it, the same colour, and a master that agrees with what
+        you watched.
+      </p>
+      <p class="pocket-law reveal" style="--reveal-delay: 280ms">
+        Every frame it catches is a negative of its own &mdash; a roll is a
+        folder of numbered photographs, not a video file.
+      </p>
+      {/* Two rooms, in the order the film moves through them — one frame could
+          not show that the whole lab travels. */}
+      <div class="pocket-phones reveal reveal-media" style="--reveal-delay: 200ms">
+        <div class="pocket-phone">
+          <img
+            src="/lab-cut-900.webp"
+            srcset="/lab-cut-600.webp 600w, /lab-cut-900.webp 900w"
+            sizes="(max-width: 720px) 42vw, 300px"
+            width="900"
+            height="1956"
+            loading="lazy"
+            alt="The Cut room in The Lab on iPhone — three clips and a music lane on a 2.39:1 timeline at 24 frames a second, cut from a RAW reel"
+          />
+        </div>
+        <div class="pocket-phone">
+          <img
+            src="/lab-color-900.webp"
+            srcset="/lab-color-600.webp 600w, /lab-color-900.webp 900w"
+            sizes="(max-width: 720px) 42vw, 300px"
+            width="900"
+            height="1956"
+            loading="lazy"
+            alt="The Colour room in The Lab on iPhone — the raw negative and the Portra 400 grade split across the viewer, over the house emulsions and a waveform"
+          />
+        </div>
+      </div>
+    </section>
+
+    <!-- NO DRIFT -->
+    <section class="drift">
+      <div class="eyebrow reveal">One look, one engine</div>
+      <h2 class="lab-h2 reveal reveal-heading" style="--reveal-delay: 80ms">There is no second Latent.</h2>
+      <p class="lab-body reveal" style="--reveal-delay: 200ms">
+        The Lab runs the exact spectral nodes the apps run &mdash; deliberately,
+        there is no simplified approximation of them anywhere. A negative
+        developed in Resolve, one developed on the phone, and one developed in
+        The Ritual pass through the same emulsion, the same print, the same
+        scanner. The look cannot drift.
+      </p>
+    </section>
+
+    <!-- CLOSE -->
+    <section class="close" id="join">
+      <h2 class="close-heading reveal reveal-heading">In development, honestly.</h2>
+      <p class="close-body reveal" style="--reveal-delay: 80ms">
+        The Lab is in active beta. The waitlist gets the word when the signed
+        installer is ready &mdash; and nothing is sold before it is real.
+      </p>
+      <div class="close-actions reveal" style="--reveal-delay: 160ms">
+        <StatusChip label={truth.labStatus} />
+        <a class="btn-amber" href="/beta?app=lab">Join the waitlist</a>
+      </div>
+    </section>
+  </main>
+  <FooterMini
+    links={[
+      { label: 'The Ritual', href: '/ritual' },
+      { label: 'The Moment', href: '/moment' },
+    ]}
+  />
+
+  <style>
+    /* Shared eyebrow — mono caps in dim amber. Every eyebrow here sits 32px
+       above its heading, the hero's included. */
+    .eyebrow {
+      font-family: var(--font-label);
+      font-weight: 300;
+      font-size: 10px;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--amber-dim);
+      margin-bottom: 32px;
+    }
+
+    /* HERO */
+    .lab-hero {
+      padding: 200px 24px 120px;
+      max-width: 1400px;
+      margin: 0 auto;
+      text-align: center;
+      position: relative;
+    }
+    .hero-eyebrow {
+      opacity: 0;
+      animation: lt-rise 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.1s forwards;
+    }
+    .hero-title {
+      font-family: var(--font-display);
+      font-weight: 300;
+      font-size: clamp(40px, 5.5vw, 64px);
+      line-height: 1.1;
+      letter-spacing: -0.01em;
+      color: var(--text-bright);
+      margin: 0 0 36px;
+      opacity: 0;
+      animation: lt-rise 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
+    }
+    .hero-lead {
+      font-family: var(--font-body);
+      font-weight: 300;
+      font-size: 20px;
+      line-height: 1.65;
+      color: var(--text-muted);
+      max-width: 640px;
+      margin: 0 auto;
+      opacity: 0;
+      animation: lt-rise 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.5s forwards;
+    }
+    .hero-frame {
+      margin: 80px auto 0;
+      max-width: 1240px;
+      aspect-ratio: 16 / 9;
+      border-radius: 6px;
+      overflow: hidden;
+      box-shadow: 0 60px 120px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(232, 196, 160, 0.05);
+      background: var(--bg-deep);
+      opacity: 0;
+      animation: lt-rise 1.4s cubic-bezier(0.16, 1, 0.3, 1) 0.7s forwards;
+    }
+    .hero-frame video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      background: var(--bg-deep);
+    }
+
+    @keyframes lt-rise {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* SECTIONS — centered 980px columns under a hairline. */
+    .node,
+    .material,
+    .timeline,
+    .pocket,
+    .drift {
+      padding: 140px 24px;
+      max-width: 980px;
+      margin: 0 auto;
+      text-align: center;
+      border-top: 1px solid var(--border);
+    }
+    .lab-h2 {
+      font-family: var(--font-display);
+      font-weight: 300;
+      font-size: 48px;
+      line-height: 1.15;
+      letter-spacing: -0.01em;
+      color: var(--text);
+      margin: 0 0 40px;
+    }
+    .lab-body {
+      font-family: var(--font-body);
+      font-weight: 300;
+      font-size: 19px;
+      line-height: 1.75;
+      color: var(--text-muted);
+      max-width: 660px;
+      margin: 0 auto;
+    }
+    .node-body { margin: 0 auto 56px; }
+    .timeline-body { margin: 0 auto 48px; }
+
+    /* ONE NODE — the chain, then where it lives. */
+    .node-chain {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+    .chain-step {
+      font-family: var(--font-label);
+      font-weight: 300;
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text);
+    }
+    .chain-arrow { color: var(--text-ghost); }
+    .node-install {
+      font-family: var(--font-label);
+      font-weight: 300;
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text-ghost);
+      margin: 56px 0 0;
+    }
+
+    /* THE MATERIAL — one frame, developed several ways. A still can't show
+       behaviour; the same negative through four emulsions can. */
+    .material-frame {
+      position: relative;
+      margin: 72px auto 0;
+      max-width: 1080px;
+      aspect-ratio: 16 / 9;
+      border-radius: 6px;
+      overflow: hidden;
+      box-shadow: 0 40px 90px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(232, 196, 160, 0.06);
+      background: var(--bg-deep);
+    }
+
+    /* The looks sit stacked in one frame and cross-develop between each other,
+       so the negative holds still and only the emulsion changes. */
+    .fixture-img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      opacity: 0;
+      transition: opacity 420ms cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .fixture-img.is-active { opacity: 1; }
+
+    .fixture-cap {
+      position: absolute;
+      left: 16px;
+      bottom: 14px;
+      z-index: 2;
+      font-family: var(--font-label);
+      font-weight: 300;
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(232, 196, 160, 0.85);
+      text-shadow: 0 1px 8px rgba(13, 11, 10, 0.85);
+      pointer-events: none;
+    }
+
+    .fixture-looks {
+      display: none;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px 22px;
+      margin-top: 26px;
+    }
+    .fixture-looks.is-active { display: flex; }
+
+    .fixture-look {
+      background: none;
+      border: 0;
+      padding: 4px 2px;
+      cursor: pointer;
+      font-family: var(--font-label);
+      font-weight: 300;
+      font-size: 10px;
+      letter-spacing: 0.06em;
+      color: var(--text-muted);
+      transition: color 240ms ease;
+    }
+    .fixture-look:hover { color: var(--text); }
+    .fixture-look.is-active { color: var(--amber); }
+
+    .fixture-thumbs {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 26px;
+    }
+    .fixture-thumb {
+      padding: 0;
+      border: 1px solid rgba(212, 196, 176, 0.25);
+      background: none;
+      cursor: pointer;
+      border-radius: 3px;
+      overflow: hidden;
+      width: 70px;
+      height: 40px;
+      opacity: 0.45;
+      transition: opacity 240ms ease, border-color 240ms ease;
+    }
+    .fixture-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .fixture-thumb:hover { opacity: 0.8; }
+    .fixture-thumb.is-active { opacity: 1; border-color: var(--amber); }
+
+    .fixture-hint {
+      font-family: var(--font-label);
+      font-weight: 300;
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text-ghost);
+      margin: 22px 0 0;
+    }
+
+    .fixture-look:focus-visible,
+    .fixture-thumb:focus-visible {
+      outline: 2px solid var(--amber);
+      outline-offset: 2px;
+    }
+
+    /* THE POCKET LAB — the same instrument, the other surface. */
+    .pocket-law {
+      font-family: var(--font-body);
+      font-weight: 300;
+      font-style: italic;
+      font-size: 21px;
+      line-height: 1.5;
+      color: var(--text-bright);
+      max-width: 620px;
+      margin: 40px auto 0;
+    }
+    .pocket-phones {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      margin: 72px auto 0;
+    }
+    .pocket-phone {
+      width: min(300px, 42vw);
+      aspect-ratio: 9 / 19.5;
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 0 40px 80px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(232, 196, 160, 0.07);
+      background: var(--bg-deep);
+    }
+    .pocket-phone img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* BUILT FOR THE TIMELINE — the three quiet facts. */
+    .timeline-items {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      flex-wrap: wrap;
+    }
+    .timeline-item {
+      font-family: var(--font-label);
+      font-weight: 300;
+      font-size: 10px;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+    .timeline-dot { color: var(--text-ghost); }
+
+    /* CLOSE */
+    .close {
+      padding: 160px 24px 180px;
+      max-width: 720px;
+      margin: 0 auto;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 36px;
+      border-top: 1px solid var(--border);
+    }
+    .close-heading {
+      font-family: var(--font-display);
+      font-weight: 300;
+      font-size: 38px;
+      line-height: 1.2;
+      letter-spacing: -0.005em;
+      color: var(--text-bright);
+      margin: 0;
+    }
+    .close-body {
+      font-family: var(--font-body);
+      font-weight: 300;
+      font-size: 17px;
+      line-height: 1.7;
+      color: var(--text-muted);
+      margin: 0;
+    }
+    .close-actions {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    /* Responsive — the old repo's breakpoint discipline. */
+    @media (max-width: 900px) {
+      .lab-h2 { font-size: 36px; }
+      .close-heading { font-size: 32px; }
+    }
+
+    @media (max-width: 640px) {
+      .lab-hero { padding: 160px 20px 100px; }
+      .node,
+      .material,
+      .timeline,
+      .drift { padding: 100px 20px; }
+      .close { padding: 100px 20px 140px; }
+      .lab-h2 { font-size: 34px; }
+    }
+
+    /* Reduced motion: the hero simply is. */
+    @media (prefers-reduced-motion: reduce) {
+      .hero-eyebrow,
+      .hero-title,
+      .hero-lead,
+      .hero-frame {
+        animation: none;
+        opacity: 1;
+      }
+    }
+  </style>
+
+  <script>
+    // Frame × emulsion switcher. Stepping between frames keeps the look you
+    // were on BY NAME — so RAW holds, and you can walk the three sources in a
+    // row to see what each engine path adds to them.
+    const root = document.querySelector('[data-fixture]');
+    if (root instanceof HTMLElement) {
+      const stage = root.querySelector('[data-fixture-stage]');
+      const cap = root.querySelector('[data-fixture-cap]');
+      const imgs = root.querySelectorAll('.fixture-img');
+      const groups = root.querySelectorAll('[data-look-group]');
+      const lookBtns = root.querySelectorAll('.fixture-look');
+      const frameBtns = root.querySelectorAll('[data-frame-btn]');
+
+      const btnFor = (f, l) =>
+        root.querySelector(`.fixture-look[data-frame="${f}"][data-look="${l}"]`);
+      const nameFor = (f, l) => (btnFor(f, l)?.textContent || '').trim();
+      const frameName = (f) => frameBtns[f]?.getAttribute('aria-label') || '';
+
+      let frame = 0;
+      let look = 0;
+
+      const update = () => {
+        for (const im of imgs) {
+          im.classList.toggle(
+            'is-active',
+            Number(im.dataset.frame) === frame && Number(im.dataset.look) === look
+          );
+        }
+        for (const g of groups) {
+          g.classList.toggle('is-active', Number(g.dataset.lookGroup) === frame);
+        }
+        for (const b of lookBtns) {
+          const on = Number(b.dataset.frame) === frame && Number(b.dataset.look) === look;
+          b.classList.toggle('is-active', on);
+          b.setAttribute('aria-pressed', String(on));
+        }
+        for (const b of frameBtns) {
+          const on = Number(b.dataset.frameBtn) === frame;
+          b.classList.toggle('is-active', on);
+          b.setAttribute('aria-pressed', String(on));
+        }
+        const name = nameFor(frame, look);
+        if (cap) cap.textContent = name;
+        if (stage) stage.setAttribute('aria-label', `${frameName(frame)} — ${name}`);
+      };
+
+      for (const b of lookBtns) {
+        b.addEventListener('click', () => {
+          frame = Number(b.dataset.frame);
+          look = Number(b.dataset.look);
+          update();
+        });
+      }
+
+      for (const b of frameBtns) {
+        b.addEventListener('click', () => {
+          const next = Number(b.dataset.frameBtn);
+          const keep = nameFor(frame, look);
+          let nextLook = 0;
+          for (const c of root.querySelectorAll(`.fixture-look[data-frame="${next}"]`)) {
+            if ((c.textContent || '').trim() === keep) nextLook = Number(c.dataset.look);
+          }
+          frame = next;
+          look = nextLook;
+          update();
+        });
+      }
+
+      update();
+    }
+  </script>
+</Base>

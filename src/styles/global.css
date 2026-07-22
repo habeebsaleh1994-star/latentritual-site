@@ -21,6 +21,26 @@
   --font-whisper: 'JetBrains Mono', monospace;
 }
 
+/* ─── THE LAMPLIT EVENING ──────────────────────────────────────────── */
+
+/* After local sunset (quiet.js sets the class; the footer lamp overrides it)
+   the ambient tone warms and dims a shade — ground darker, text toward the
+   muted end, hairlines softer — while photographs keep full density, so they
+   become the brightest things on the page. One token layer, no second design.
+   Subtle enough to feel rather than notice. */
+html.is-evening {
+  --bg: #171310;
+  --bg-deep: #0f0d0b;
+  --bg-elev: #1e1815;
+  --text: #c9b9a6;
+  --text-bright: #ded2c2;
+  --text-muted: #81746a;
+  --text-ghost: #453a31;
+  --amber: #e5bf9a;
+  --border: #241e1a;
+  --border-light: #372e27;
+}
+
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
 html { scroll-behavior: smooth; }
@@ -89,6 +109,74 @@ nav ul a:focus-visible {
 }
 nav ul a.cta { color: var(--amber); }
 
+/* The page you're on holds the amber, a shade heavier. */
+nav ul a.is-active {
+  color: var(--amber);
+  font-weight: 400;
+}
+
+/* Mobile menu — hidden above 640px; below it the link row gives way to a
+   wordmark + Menu disclosure that opens a full-screen overlay. */
+.nav-menu-btn {
+  display: none;
+  background: none;
+  border: 0;
+  padding: 6px 2px;
+  cursor: pointer;
+  font-family: var(--font-label);
+  font-weight: 300;
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  transition: color 0.3s ease;
+}
+.nav-menu-btn:hover,
+.nav-menu-btn:focus-visible { color: var(--text); }
+
+.nav-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 99;
+  background: rgba(26, 22, 20, 0.97);
+  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.nav-overlay[hidden] { display: none; }
+.nav-overlay ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+  margin: 0;
+  padding: 0;
+}
+.nav-overlay a {
+  font-family: var(--font-label);
+  font-weight: 300;
+  font-size: 12px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: color 0.3s ease, text-shadow 0.6s ease;
+}
+.nav-overlay a:hover,
+.nav-overlay a:focus-visible {
+  color: var(--text);
+  text-shadow: 0 0 16px rgba(232, 196, 160, 0.55);
+}
+.nav-overlay a.cta,
+.nav-overlay a.is-active { color: var(--amber); }
+
+/* Body scroll stays put while the overlay is up. */
+html.nav-locked,
+html.nav-locked body { overflow: hidden; }
+
 /* Keyboard skip link — hidden above the viewport until focused. */
 .skip-link {
   position: fixed;
@@ -110,139 +198,10 @@ nav ul a.cta { color: var(--amber); }
 
 /* ─── HERO ─────────────────────────────────────────────────────────── */
 
-.hero {
-  max-width: none;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding: 92px 24px 48px;
-  position: relative;
-  overflow: hidden;
-}
-
-.hero::before {
-  content: '';
-  position: absolute;
-  top: 50%; left: 50%;
-  transform: translate(-50%, -50%);
-  width: 800px; height: 800px;
-  background: radial-gradient(circle, rgba(232, 196, 160, 0.06) 0%, transparent 60%);
-  pointer-events: none;
-  animation: safelight 8s ease-in-out infinite;
-}
-
 @keyframes safelight {
   0%, 100% { opacity: 0.55; }
   50% { opacity: 1; }
 }
-
-.hero-mark {
-  font-family: var(--font-display);
-  font-weight: 200;
-  font-size: 60px;
-  letter-spacing: 0.32em;
-  color: var(--text);
-  margin-bottom: 22px;
-  margin-left: 0.32em;
-  opacity: 0;
-  animation: rise 1.4s cubic-bezier(0.16, 1, 0.3, 1) 0.2s forwards;
-}
-
-.hero-designation {
-  font-family: var(--font-label);
-  font-weight: 300;
-  font-size: 11px;
-  letter-spacing: 0.22em;
-  text-transform: lowercase;
-  color: var(--text-ghost);
-  margin-bottom: 40px;
-  opacity: 0;
-  animation: rise 1.4s cubic-bezier(0.16, 1, 0.3, 1) 0.5s forwards;
-}
-
-.hero-tagline {
-  font-family: var(--font-body);
-  font-weight: 300;
-  font-size: 19px;
-  color: var(--text-bright);
-  max-width: 600px;
-  line-height: 1.5;
-  margin-bottom: 56px;
-  opacity: 0;
-  animation: rise 1.4s cubic-bezier(0.16, 1, 0.3, 1) 0.8s forwards;
-}
-
-.hero-reel {
-  position: relative;
-  width: fit-content;
-  max-width: 92vw;
-  margin: 0 auto;
-  border-radius: 10px;
-  overflow: hidden;
-  background: var(--bg-deep);
-  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.25), 0 54px 130px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(232, 196, 160, 0.05);
-  opacity: 0;
-  animation: rise 1.6s cubic-bezier(0.16, 1, 0.3, 1) 0.9s forwards;
-}
-
-.hero-reel video {
-  display: block;
-  max-width: 92vw;
-  max-height: 68vh;
-  width: auto;
-  height: auto;
-  background: var(--bg-deep);
-}
-
-.hero-replay-overlay {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(26, 22, 20, 0.5);
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 700ms ease;
-}
-
-.hero-replay-overlay.is-visible {
-  opacity: 1;
-  pointer-events: auto;
-}
-
-.hero-replay {
-  display: inline-flex;
-  align-items: center;
-  gap: 9px;
-  padding: 12px 22px;
-  font-family: var(--font-label);
-  font-weight: 400;
-  font-size: 12px;
-  letter-spacing: 0.24em;
-  text-transform: uppercase;
-  color: var(--text-bright);
-  background: rgba(26, 22, 20, 0.45);
-  -webkit-backdrop-filter: blur(6px);
-  backdrop-filter: blur(6px);
-  border: 1px solid rgba(232, 196, 160, 0.45);
-  border-radius: 999px;
-  cursor: pointer;
-  transform: translateY(8px);
-  transition: color 220ms ease, border-color 220ms ease, transform 700ms cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.hero-replay-overlay.is-visible .hero-replay { transform: translateY(0); }
-
-.hero-replay:hover {
-  color: var(--amber);
-  border-color: var(--amber);
-}
-
-.hero-replay svg { display: block; }
 
 .scroll-cue {
   position: absolute;
@@ -299,92 +258,6 @@ section {
   margin-bottom: 36px;
 }
 
-.section-heading.center { text-align: center; }
-
-.section-body {
-  font-family: var(--font-body);
-  font-weight: 300;
-  font-size: 21px;
-  line-height: 1.6;
-  color: var(--text-muted);
-  max-width: 720px;
-}
-
-.section-body strong {
-  color: var(--text);
-  font-weight: 400;
-}
-
-/* The Catalog Bridge — a quiet aside on honesty, under the main body. */
-.bridge { text-align: center; }
-.bridge-coda {
-  font-family: var(--font-body);
-  font-weight: 300;
-  font-size: 16px;
-  line-height: 1.7;
-  color: var(--text-ghost);
-  max-width: 600px;
-  margin: 28px auto 0;
-}
-.bridge-shots {
-  display: flex;
-  gap: 48px;
-  justify-content: center;
-  align-items: flex-start;
-  flex-wrap: wrap;
-  max-width: 1240px;
-  margin: 72px auto 0;
-}
-.bridge-shot {
-  margin: 0;
-  flex: 0 1 560px;
-}
-.bridge-shot img {
-  width: 100%;
-  height: auto;
-  filter: drop-shadow(0 40px 70px rgba(0, 0, 0, 0.5));
-}
-.bridge-shot figcaption {
-  font-family: var(--font-label);
-  font-weight: 300;
-  font-size: 11px;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--text-muted);
-  margin-top: 22px;
-}
-
-/* ─── CONTINUOUS FIELD ─────────────────────────────────────────────── */
-
-.field {
-  text-align: center;
-  padding: 200px 24px;
-  max-width: 980px;
-}
-
-.field-headline {
-  font-family: var(--font-display);
-  font-weight: 300;
-  font-size: 52px;
-  line-height: 1.2;
-  letter-spacing: -0.005em;
-  color: var(--text);
-  margin-bottom: 56px;
-}
-
-.field-headline span { display: block; }
-.field-headline .accent { color: var(--amber); }
-
-.field-body {
-  font-family: var(--font-body);
-  font-weight: 300;
-  font-size: 19px;
-  line-height: 1.75;
-  color: var(--text-muted);
-  max-width: 680px;
-  margin: 0 auto 28px;
-}
-
 /* ─── INSCRIPTION ──────────────────────────────────────────────────── */
 
 /* A single quoted line, bracketed by hairlines. Sits between the Field
@@ -416,251 +289,7 @@ section {
   margin: 0;
 }
 
-/* ─── FILM LIGHT PAPER ─────────────────────────────────────────────── */
-
-.ritual {
-  padding: 160px 24px;
-  max-width: 1400px;
-  margin: 0 auto;
-}
-
-.ritual-header {
-  text-align: center;
-  margin-bottom: 96px;
-}
-
-.ritual-stages {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 120px;
-}
-
-.stage {
-  display: grid;
-  grid-template-columns: 1fr 1.4fr;
-  gap: 80px;
-  align-items: center;
-}
-
-.stage:nth-child(even) { direction: rtl; }
-.stage:nth-child(even) > * { direction: ltr; }
-
-.stage-text { padding: 0 24px; }
-
-.stage-marker {
-  font-family: var(--font-label);
-  font-weight: 300;
-  font-size: 10px;
-  letter-spacing: 0.28em;
-  text-transform: uppercase;
-  color: var(--amber-dim);
-  margin-bottom: 24px;
-}
-
-.stage-name {
-  font-family: var(--font-display);
-  font-weight: 300;
-  font-size: 60px;
-  letter-spacing: -0.01em;
-  line-height: 1;
-  color: var(--text);
-  margin-bottom: 16px;
-}
-
-.stage-subtitle {
-  font-family: var(--font-body);
-  font-weight: 300;
-  font-style: italic;
-  font-size: 18px;
-  color: var(--text-muted);
-  margin-bottom: 32px;
-}
-
-.stage-body {
-  font-family: var(--font-body);
-  font-weight: 300;
-  font-size: 18px;
-  line-height: 1.7;
-  color: var(--text-muted);
-}
-
-.stage-image {
-  border-radius: 6px;
-  overflow: hidden;
-  box-shadow: 0 40px 80px rgba(0,0,0,0.5), 0 0 0 1px rgba(232, 196, 160, 0.05);
-}
-.stage-image video {
-  display: block;
-  width: 100%;
-  height: auto;
-}
-
-/* Stage panel loops — a living slice of the app's control column. The clip
-   is taller than the window; object-position holds the top and the scroll
-   moves the controls through the frame. */
-.stage-panel { display: flex; justify-content: center; }
-.stage-panel video {
-  display: block;
-  width: min(320px, 76vw);
-  max-height: 640px;
-  object-fit: cover;
-  object-position: top;
-  border-radius: 10px;
-  background: var(--bg-deep);
-  box-shadow: 0 40px 80px rgba(0,0,0,0.5), 0 0 0 1px rgba(232, 196, 160, 0.07);
-}
-
-/* ─── PRINT ROOM ───────────────────────────────────────────────────── */
-
-.printroom {
-  padding: 160px 24px;
-  max-width: 1400px;
-  margin: 0 auto;
-  text-align: center;
-}
-
-.printroom-clip {
-  max-width: 1080px;
-  margin: 64px auto 0;
-  border-radius: 6px;
-  overflow: hidden;
-  box-shadow: 0 40px 90px rgba(0,0,0,0.5), 0 0 0 1px rgba(232, 196, 160, 0.06);
-  background: var(--bg-deep);
-}
-
-.printroom-clip video {
-  display: block;
-  width: 100%;
-  height: auto;
-}
-
-/* ─── COMPLETE DARKROOM ────────────────────────────────────────────── */
-
-.complete {
-  padding: 160px 24px;
-  max-width: 1400px;
-  margin: 0 auto;
-  text-align: center;
-}
-
-/* Interactive tab row that swaps the screenshot below. */
-.complete-tabs {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
-.complete-tab {
-  background: none;
-  border: 0;
-  padding: 4px 2px;
-  cursor: pointer;
-  font: inherit;
-  font-family: var(--font-label);
-  font-weight: 300;
-  font-size: 10px;
-  letter-spacing: 0.28em;
-  text-transform: uppercase;
-  color: var(--text-muted);
-  transition: color 200ms ease;
-}
-
-.complete-tab:hover { color: var(--text); }
-.complete-tab.is-active { color: var(--amber); }
-
-.complete-tab-divider {
-  color: var(--text-ghost);
-  font-family: var(--font-label);
-  font-size: 10px;
-  user-select: none;
-}
-
-/* Screen stack: all four images live on top of each other, only the
-   active one is opaque. Click a tab → crossfade. */
-.complete-screens {
-  position: relative;
-  margin-top: 80px;
-  border-radius: 6px;
-  overflow: hidden;
-  box-shadow: 0 60px 120px rgba(0,0,0,0.6), 0 0 0 1px rgba(232, 196, 160, 0.05);
-  aspect-ratio: 4832 / 2580;
-}
-
-.complete-screen {
-  position: absolute;
-  inset: 0;
-  opacity: 0;
-  transition: opacity 500ms cubic-bezier(0.22, 1, 0.36, 1);
-  pointer-events: none;
-}
-
-.complete-screen.is-active {
-  opacity: 1;
-  pointer-events: auto;
-}
-
-.complete-screen picture,
-.complete-screen picture img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
-.complete-list {
-  margin-top: 72px;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 32px;
-  max-width: 1000px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.complete-item {
-  text-align: left;
-  padding-top: 24px;
-  border-top: 1px solid var(--border);
-  transition: border-color 300ms ease;
-  cursor: pointer;
-}
-
-.complete-item:hover { border-top-color: var(--border-light); }
-
-.complete-item.is-active {
-  border-top-color: var(--amber);
-}
-
-.complete-item.is-active .complete-item-label { color: var(--amber); }
-
-.complete-item-label {
-  font-family: var(--font-label);
-  font-weight: 300;
-  font-size: 9px;
-  letter-spacing: 0.24em;
-  text-transform: uppercase;
-  color: var(--amber-dim);
-  margin-bottom: 10px;
-}
-
-.complete-item-name {
-  font-family: var(--font-body);
-  font-weight: 300;
-  font-size: 15px;
-  color: var(--text);
-  line-height: 1.4;
-}
-
 /* ─── STORY ────────────────────────────────────────────────────────── */
-
-.story {
-  padding: 160px 24px;
-  max-width: 1400px;
-  margin: 0 auto;
-  text-align: center;
-}
 
 /* The arranging timelapse — a contained panoramic strip. Secondary weight:
    modest width, lighter shadow. It is the workshop, not the work. */
@@ -711,7 +340,6 @@ section {
 }
 
 @media (max-width: 760px) {
-  .story { padding: 96px 16px; }
   .story-canvas { margin-top: 48px; }
   .story-connector { margin: 64px auto; font-size: 26px; }
   .story-reader { margin-top: 0; }
@@ -728,17 +356,6 @@ section {
 .materials-header {
   text-align: center;
   margin-bottom: 80px;
-}
-
-.materials-subhead {
-  font-family: var(--font-label);
-  font-weight: 300;
-  font-size: 11px;
-  letter-spacing: 0.28em;
-  text-transform: uppercase;
-  color: var(--amber-dim);
-  text-align: center;
-  margin: 0 0 28px;
 }
 
 .stocks-grid {
@@ -786,278 +403,109 @@ section {
   margin-top: 3px;
 }
 
-.scanner-line {
-  text-align: center;
-  font-family: var(--font-body);
-  font-weight: 300;
-  font-style: italic;
-  font-size: 19px;
-  color: var(--text);
-  max-width: 760px;
-  margin: 0 auto;
-  line-height: 1.6;
-}
-
-.scanner-line .accent {
-  font-family: var(--font-label);
-  font-weight: 300;
-  font-style: normal;
-  font-size: 14px;
-  letter-spacing: 0.12em;
-  color: var(--amber);
-}
-
-/* ─── MOMENT TEASER ────────────────────────────────────────────────── */
-
-/* The Moment is the journal sibling — same dark room as the Ritual (the app's
-   own "Evening" theme deliberately shares the #1A1614 ground + amber accent),
-   but spoken in Lora serif. Differentiated by voice, not brightness. */
-.moment {
-  max-width: none;
-  padding: 160px 24px;
-  background: var(--bg);
-  color: var(--text-bright);
-  text-align: center;
-}
-
-.moment-inner { max-width: 680px; margin: 0 auto; }
-
-.moment-mark {
-  font-family: 'Lora', Georgia, serif;
-  font-weight: 500;
-  font-size: clamp(44px, 9vw, 60px);
-  line-height: 1;
-  letter-spacing: -0.01em;
-  color: var(--text-bright);
-  margin-bottom: 10px;
-}
-
-.moment-sub {
-  font-family: 'Lora', Georgia, serif;
-  font-weight: 400;
-  font-size: 16px;
-  letter-spacing: 0.2em;
-  color: var(--amber-dim);
-  margin-bottom: 56px;
-}
-
-.moment-heading {
-  font-family: 'Lora', Georgia, serif;
-  font-weight: 400;
-  font-size: clamp(26px, 5vw, 34px);
-  line-height: 1.2;
-  letter-spacing: -0.005em;
-  color: var(--text-bright);
-  margin-bottom: 26px;
-}
-
-.moment-body {
-  font-family: 'Lora', Georgia, serif;
-  font-weight: 400;
-  font-size: 19px;
-  line-height: 1.65;
-  color: var(--text);
-}
-
-.moment-link { display: block; text-decoration: none; }
-
-.moment-cta {
-  display: inline-block;
-  margin-top: 44px;
-  font-family: var(--font-label);
-  font-weight: 400;
-  font-size: 11px;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--amber);
-}
-
-.moment-cta .arrow { display: inline-block; transition: transform 300ms ease; }
-.moment-link:hover .moment-cta { color: var(--text-bright); }
-.moment-link:hover .arrow { transform: translateX(5px); }
-
-/* ─── PRICE ────────────────────────────────────────────────────────── */
-
-.price {
-  padding: 160px 24px;
-  max-width: 1100px;
-  margin: 0 auto;
-  text-align: center;
-}
-
-.price-heading {
-  font-family: var(--font-display);
-  font-weight: 300;
-  font-size: 44px;
-  letter-spacing: -0.01em;
-  color: var(--text);
-  margin-bottom: 24px;
-}
-
-.price-sub {
-  font-family: var(--font-body);
-  font-weight: 300;
-  font-style: italic;
-  font-size: 18px;
-  color: var(--text-muted);
-  margin-bottom: 80px;
-}
-
-.price-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
-  margin-bottom: 56px;
-}
-
-.price-card {
-  padding: 48px 32px;
-  border: 1px solid var(--border);
-  text-align: center;
-  transition: border-color 0.3s ease;
-}
-
-.price-card:hover { border-color: var(--border-light); }
-
-.price-card.featured {
-  border-color: var(--amber);
-  background: rgba(232, 196, 160, 0.03);
-}
-
-.price-tier {
-  font-family: var(--font-label);
-  font-weight: 300;
-  font-size: 10px;
-  letter-spacing: 0.28em;
-  text-transform: uppercase;
-  color: var(--amber-dim);
-  margin-bottom: 24px;
-}
-
-.price-amount {
-  font-family: var(--font-display);
-  font-weight: 300;
-  font-size: 44px;
-  color: var(--text);
-  margin-bottom: 6px;
-}
-
-.price-unit {
-  font-family: var(--font-label);
-  font-weight: 300;
-  font-size: 11px;
-  letter-spacing: 0.1em;
-  color: var(--text-muted);
-  margin-bottom: 32px;
-}
-
-.price-note {
-  font-family: var(--font-body);
-  font-weight: 300;
-  font-size: 13px;
-  color: var(--text-muted);
-  line-height: 1.5;
-  margin-bottom: 32px;
-  min-height: 40px;
-}
-
-.price-button {
-  display: inline-block;
-  width: 100%;
-  padding: 14px;
-  font-family: var(--font-label);
-  font-weight: 300;
-  font-size: 10px;
-  letter-spacing: 0.28em;
-  text-transform: uppercase;
-  text-decoration: none;
-  color: var(--text);
-  border: 1px solid var(--border-light);
-  transition: all 0.3s ease;
-}
-
-.price-card.featured .price-button {
-  background: var(--amber);
-  color: var(--bg);
-  border-color: var(--amber);
-}
-
-.price-button:hover {
-  border-color: var(--amber);
-  color: var(--amber);
-}
-
-.price-card.featured .price-button:hover {
-  background: var(--amber-dim);
-  border-color: var(--amber-dim);
-}
-
-.trial-line {
-  font-family: var(--font-body);
-  font-weight: 300;
-  font-style: italic;
-  font-size: 15px;
-  color: var(--text-muted);
-}
-
 /* ─── FOOTER ───────────────────────────────────────────────────────── */
 
-footer {
-  padding: 80px 24px 56px;
+footer#letters {
+  padding: 120px 24px 80px;
   border-top: 1px solid var(--border);
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 28px;
 }
 
 .footer-mark {
   font-family: var(--font-display);
-  font-weight: 300;
-  font-size: 14px;
+  font-weight: 200;
+  font-size: 22px;
   letter-spacing: 0.32em;
+  text-indent: 0.32em;
   color: var(--text);
-  margin-bottom: 24px;
 }
 
 .footer-line {
   font-family: var(--font-body);
   font-weight: 300;
-  font-style: italic;
-  font-size: 14px;
+  font-size: 15px;
   color: var(--text-muted);
-  margin-bottom: 28px;
+  margin: 0;
 }
 
 .footer-links {
   display: flex;
   justify-content: center;
-  gap: 32px;
+  gap: 28px;
   flex-wrap: wrap;
-  margin-bottom: 40px;
 }
 
 .footer-links a {
+  font-family: var(--font-label);
+  font-weight: 300;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.footer-links a:hover,
+.footer-links a:focus-visible {
+  color: var(--text);
+}
+
+.footer-meta {
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: 13px;
+  color: var(--text-ghost);
+  margin: 24px 0 0;
+}
+
+/* The lamplight toggle — a whisper at the very bottom. It overrides the
+   after-dark automatic warming either way; quiet.js keeps the choice. */
+.footer-lamp {
+  background: none;
+  border: 0;
+  padding: 4px 2px;
+  cursor: pointer;
   font-family: var(--font-label);
   font-weight: 300;
   font-size: 9px;
   letter-spacing: 0.24em;
   text-transform: uppercase;
   color: var(--text-ghost);
-  text-decoration: none;
-  transition: color 0.3s ease, text-shadow 0.6s ease;
+  transition: color 0.3s ease;
+}
+.footer-lamp:hover,
+.footer-lamp:focus-visible { color: var(--text-muted); }
+.footer-lamp[aria-pressed="true"] { color: var(--amber-dim); }
+
+/* ─── MINI FOOTER (instrument pages) ───────────────────────────────── */
+
+.footer-mini {
+  padding: 60px 24px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: center;
+  gap: 28px;
+  flex-wrap: wrap;
 }
 
-.footer-links a:hover,
-.footer-links a:focus-visible {
-  color: var(--text-muted);
-  text-shadow: 0 0 14px rgba(232, 196, 160, 0.5);
-}
-
-.footer-meta {
+.footer-mini a {
   font-family: var(--font-label);
   font-weight: 300;
   font-size: 10px;
-  color: var(--text-ghost);
-  letter-spacing: 0.04em;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: color 0.3s ease;
 }
+
+.footer-mini a:hover,
+.footer-mini a:focus-visible { color: var(--text); }
 
 /* ─── RESPONSIVE ───────────────────────────────────────────────────── */
 
@@ -1066,150 +514,17 @@ footer {
   nav ul { gap: 20px; }
   nav ul a { font-size: 9px; }
 
-  .hero-mark { font-size: 40px; letter-spacing: 0.28em; margin-left: 0.28em; }
-  .hero-designation { font-size: 10px; }
-  .hero-tagline { font-size: 17px; }
+  .section-heading { font-size: 36px; }
 
-  .section-heading,
-  .field-headline,
-  .moment-heading,
-  .price-heading { font-size: 36px; }
-
-  .stage { grid-template-columns: 1fr; gap: 40px; }
-  .stage:nth-child(even) { direction: ltr; }
-  .stage-name { font-size: 46px; }
-
-  .complete-list { grid-template-columns: repeat(2, 1fr); }
   .stocks-grid { grid-template-columns: repeat(2, 1fr); }
-  .price-grid { grid-template-columns: 1fr; }
 }
 
-/* Narrow phones: let the nav links wrap to their own centered row below the
-   wordmark instead of overflowing the bar. No JS menu — the link set is small
-   enough to wrap tidily, and this keeps every page's header intact on mobile. */
-@media (max-width: 600px) {
-  nav { flex-wrap: wrap; row-gap: 9px; padding: 14px 20px; }
-  nav ul { width: 100%; gap: 12px 16px; flex-wrap: wrap; justify-content: center; }
-  nav ul a { font-size: 9px; letter-spacing: 0.12em; }
-}
-
-/* ─── THE DEVELOP ──────────────────────────────────────────────────── */
-
-/* Press and hold a photograph and it returns to the flat scan it came
-   from; release and it develops back. The after sits over the before in
-   the same cell — the hold is only an opacity drop, the release rides
-   the develop keyframes. */
-.develop-room {
-  padding: 160px 24px;
-  max-width: 1400px;
-  margin: 0 auto;
-  text-align: center;
-}
-
-.develop-stage {
-  max-width: 1200px;
-  margin: 64px auto 0;
-}
-
-.develop-print {
-  display: block;
-  width: 100%;
-  padding: 0;
-  border: 0;
-  background: none;
-  cursor: pointer;
-  border-radius: 6px;
-  overflow: hidden;
-  box-shadow: 0 40px 90px rgba(0,0,0,0.5), 0 0 0 1px rgba(232, 196, 160, 0.06);
-  -webkit-touch-callout: none;
-  user-select: none;
-  touch-action: manipulation;
-}
-
-.develop-pair {
-  display: none;
-  position: relative;
-}
-.develop-pair.is-active {
-  display: block;
-}
-
-.develop-pair img {
-  display: block;
-  width: 100%;
-  height: auto;
-}
-
-.develop-after {
-  position: absolute;
-  inset: 0;
-  transition: opacity 320ms ease;
-}
-.develop-print.is-held .develop-pair.is-active .develop-after {
-  opacity: 0;
-}
-.develop-after.is-developing {
-  animation: develop 1100ms cubic-bezier(0.22, 1, 0.36, 1) both;
-}
-
-.develop-caption {
-  display: flex;
-  justify-content: space-between;
-  gap: 16px;
-  flex-wrap: wrap;
-  margin-top: 18px;
-  font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-}
-.develop-recipe {
-  color: var(--amber-dim);
-}
-.develop-hint {
-  color: var(--text-muted);
-}
-
-.develop-thumbs {
-  display: flex;
-  justify-content: center;
-  gap: 14px;
-  margin-top: 36px;
-}
-.develop-thumb {
-  padding: 0;
-  border: 1px solid transparent;
-  background: none;
-  cursor: pointer;
-  border-radius: 4px;
-  overflow: hidden;
-  opacity: 0.45;
-  transition: opacity 240ms ease, border-color 240ms ease;
-}
-.develop-thumb img {
-  display: block;
-  width: 96px;
-  height: auto;
-}
-.develop-thumb:hover {
-  opacity: 0.8;
-}
-.develop-thumb.is-active {
-  opacity: 1;
-  border-color: rgba(232, 196, 160, 0.4);
-}
-
+/* Narrow phones: the nav collapses to wordmark + Menu disclosure. The link
+   row hides; the Menu button opens the full-screen overlay (Nav.astro). */
 @media (max-width: 640px) {
-  .develop-room {
-    padding: 110px 20px;
-  }
-  .develop-caption {
-    justify-content: center;
-    text-align: center;
-  }
-  .develop-thumb img {
-    width: 64px;
-  }
+  nav { padding: 14px 20px; }
+  nav ul { display: none; }
+  .nav-menu-btn { display: block; }
 }
 
 /* ─── QUIET MOTION ─────────────────────────────────────────────────── */
@@ -1260,13 +575,10 @@ footer {
   }
 }
 
-.stage-panel.is-visible video,
-.stage-image.is-visible img,
-.stage-image.is-visible video,
-.printroom-clip.is-visible video,
 .story-canvas.is-visible video,
 .story-reader.is-visible video,
-.complete-screens.is-visible {
+.reveal-media.is-visible img,
+.reveal-media.is-visible video {
   animation: develop 1700ms cubic-bezier(0.22, 1, 0.36, 1) var(--reveal-delay, 0ms) both;
 }
 
@@ -1312,17 +624,6 @@ footer {
   transition: color 200ms ease;
 }
 
-/* The Founding price card breathes — quiet differentiation without a
-   shouting "MOST POPULAR" tag. */
-.price-card.featured {
-  animation: card-breath 5s ease-in-out infinite;
-}
-
-@keyframes card-breath {
-  0%, 100% { border-color: var(--amber); }
-  50% { border-color: rgba(232, 196, 160, 0.55); }
-}
-
 /* Reduced-motion override. The site becomes fully static for users who
    ask for it — including disabling the hero rise-in. The static layout
    is the gold standard here. */
@@ -1341,12 +642,6 @@ footer {
     transform: none;
     letter-spacing: inherit;
   }
-  .hero-mark,
-  .hero-designation,
-  .hero-tagline,
-  .hero-reel {
-    opacity: 1;
-  }
 }
 
 /* ─── FOOTER SUBSCRIBE ─────────────────────────────────────────────── */
@@ -1358,71 +653,82 @@ footer {
    rule needed — the global block already covers all transitions. */
 
 .footer-subscribe {
-  max-width: 460px;
-  margin: 0 auto 40px;
+  max-width: 440px;
+  width: 100%;
+  margin-top: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
 }
 
 .footer-subscribe-line {
   font-family: var(--font-body);
   font-weight: 300;
-  font-size: 13px;
-  line-height: 1.6;
+  font-size: 14px;
+  line-height: 1.7;
   color: var(--text-muted);
-  margin-bottom: 18px;
+  margin: 0;
 }
 
 .footer-subscribe-form {
   display: flex;
-  gap: 8px;
-  justify-content: center;
-  align-items: stretch;
+  gap: 10px;
+  width: 100%;
 }
 
 .footer-subscribe-input {
-  flex: 1 1 auto;
-  max-width: 260px;
-  background: var(--bg-elev);
-  border: 1px solid var(--border);
+  flex: 1;
+  padding: 13px 16px;
+  font-family: var(--font-label);
+  font-weight: 300;
+  font-size: 12px;
   color: var(--text-bright);
-  font-family: var(--font-body);
-  font-size: 14px;
-  padding: 10px 12px;
-  border-radius: 2px;
+  background: var(--bg-deep);
+  border: 1px solid var(--border-light);
+  border-radius: 3px;
   transition: border-color 200ms ease;
 }
 .footer-subscribe-input::placeholder { color: var(--text-ghost); }
 .footer-subscribe-input:focus { outline: none; border-color: var(--amber-dim); }
 
 .footer-subscribe-submit {
+  padding: 13px 22px;
   font-family: var(--font-label);
   font-weight: 300;
-  font-size: 9px;
-  letter-spacing: 0.24em;
+  font-size: 10px;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: var(--text);
-  background: none;
-  border: 1px solid var(--border-light);
-  padding: 0 18px;
-  border-radius: 2px;
+  color: var(--bg);
+  background: var(--amber);
+  border: 1px solid var(--amber);
+  border-radius: 3px;
   cursor: pointer;
-  transition: color 0.3s ease, border-color 0.3s ease;
+  transition: background 0.3s ease;
 }
-.footer-subscribe-submit:hover { color: var(--amber); border-color: var(--amber); }
+.footer-subscribe-submit:hover {
+  background: var(--amber-dim);
+  border-color: var(--amber-dim);
+}
 
+/* Errors speak in mono caps — quiet, factual. */
 .footer-subscribe-error {
-  font-family: var(--font-body);
-  font-style: italic;
-  font-size: 12px;
+  font-family: var(--font-label);
+  font-weight: 300;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
   color: var(--amber-dim);
-  margin-top: 12px;
+  margin: 0;
 }
 
 .footer-subscribe-done {
   font-family: var(--font-body);
+  font-weight: 300;
   font-style: italic;
-  font-size: 13px;
-  color: var(--text-muted);
-  margin-top: 4px;
+  font-size: 15px;
+  color: var(--amber);
+  margin: 0;
 }
 
 .footer-subscribe.is-done .footer-subscribe-form,
@@ -1440,3 +746,136 @@ footer {
   white-space: nowrap;
   border: 0;
 }
+
+/* ─── HOUSE UTILITIES ──────────────────────────────────────────────── */
+
+/* Status chip — amber dot + mono caps in a hairline pill. Labels come from
+   src/config/truth.ts only. */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-label);
+  font-weight: 300;
+  font-size: 9px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+  padding: 7px 14px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+.chip-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--amber);
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+/* Solid amber door — the close-section CTA on instrument pages. */
+.btn-amber {
+  display: inline-block;
+  padding: 14px 28px;
+  font-family: var(--font-label);
+  font-weight: 400;
+  font-size: 10px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--bg);
+  background: var(--amber);
+  border-radius: 3px;
+  transition: background 0.3s ease;
+}
+.btn-amber:hover,
+.btn-amber:focus-visible { background: var(--amber-dim); }
+
+/* Quiet mono door link — "Enter the workroom →". */
+.door-link {
+  font-family: var(--font-label);
+  font-weight: 400;
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--amber);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+.door-link:hover,
+.door-link:focus-visible { color: var(--text-bright); }
+
+/* Capture slot — space and language until a current capture exists. The
+   parent element owns aspect-ratio, radius, and shadow. */
+.capture-slot {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: var(--bg-deep);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.capture-slot::before {
+  content: '';
+  position: absolute;
+  inset: 12px;
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  pointer-events: none;
+}
+.capture-slot-label {
+  font-family: var(--font-label);
+  font-weight: 300;
+  font-size: 9px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--text-ghost);
+  text-align: center;
+  line-height: 2;
+  padding: 0 32px;
+  max-width: 46ch;
+}
+
+/* Safelight pulse behind instrument-page heroes — the 800px amber pool,
+   breathing 0.55 ↔ 1 over 8s (keyframes above, under HERO). */
+.safelight-pulse {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 800px;
+  height: 800px;
+  background: radial-gradient(circle, rgba(232, 196, 160, 0.06) 0%, transparent 60%);
+  pointer-events: none;
+  animation: safelight 8s ease-in-out infinite;
+}
+
+/* ─── THE RECIPE CAPTION ───────────────────────────────────────────── */
+
+/* Every real photograph carries its recipe. Hovering (or focusing into) a
+   frame with data-recipe brings up a grease-pencil mono note in the corner,
+   like a note on a contact sheet. Photographs without a recipe stay silent. */
+[data-recipe] { position: relative; }
+[data-recipe]::after {
+  content: attr(data-recipe);
+  position: absolute;
+  left: 16px;
+  bottom: 14px;
+  z-index: 3;
+  font-family: var(--font-label);
+  font-weight: 300;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(232, 196, 160, 0.85);
+  text-shadow: 0 1px 8px rgba(13, 11, 10, 0.8);
+  opacity: 0;
+  transition: opacity 400ms ease;
+  pointer-events: none;
+}
+[data-recipe]:hover::after,
+[data-recipe]:focus-visible::after,
+[data-recipe]:focus-within::after { opacity: 1; }

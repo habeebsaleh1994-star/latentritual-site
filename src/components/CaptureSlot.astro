@@ -1,0 +1,15 @@
+---
+// Capture slot — an honest placeholder for a current app capture that hasn't
+// been made yet. Per the media truth plan, no outdated screenshot may stand in
+// for the present product: the slot holds the space and names what belongs in
+// it. Swap for a real <img>/<video> as captures land; the parent element owns
+// the aspect ratio, radius, and shadow.
+interface Props {
+  label: string;
+}
+const { label } = Astro.props;
+---
+
+<div class="capture-slot" role="img" aria-label={label}>
+  <span class="capture-slot-label" aria-hidden="true">{label}</span>
+</div>

@@ -1,24 +1,52 @@
 ---
-// Nav — global navigation.
+// Nav — global navigation for the house of three instruments.
 //
 // Over the homepage's full-bleed Develop hero, the nav sits transparent (no
 // dark band) and its small wordmark steps aside, because the giant hero
 // wordmark is right there. The moment you scroll past the hero, the nav fogs
 // in to its normal frosted bar and the wordmark fades up. On every other page
 // (no full-bleed hero) the nav behaves exactly as before — frosted from the top.
-const isHome = Astro.url.pathname === '/';
+//
+// The CTA is configurable per page: the house pages send visitors to /beta
+// with the truth.ts label; each instrument page anchors to its own close
+// section instead (label per its register — "Join the waitlist" on the Lab).
+import { truth } from '../config/truth';
+
+interface Props {
+  cta?: { label: string; href: string };
+}
+
+const { cta = { label: truth.ctaLabel, href: '/beta' } } = Astro.props;
+const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+const isHome = path === '/';
+
+const links = [
+  { label: 'The Ritual', href: '/ritual' },
+  { label: 'The Moment', href: '/moment' },
+  { label: 'The Lab', href: '/lab' },
+  { label: 'About', href: '/about' },
+];
 ---
 
 <nav class={isHome ? 'over-hero' : ''} data-nav>
   <a class="wordmark" href="/">LATENT</a>
   <ul>
-    <li><a href="/ritual">The Ritual</a></li>
-    <li><a href="/moment">The Moment</a></li>
-    <li><a href="/resolve">The Lab</a></li>
-    <li><a href="/about">About</a></li>
-    <li><a href="/#price" class="cta">Buy</a></li>
+    {links.map((l) => (
+      <li><a href={l.href} class={path === l.href ? 'is-active' : ''} aria-current={path === l.href ? 'page' : undefined}>{l.label}</a></li>
+    ))}
+    <li><a href={cta.href} class="cta">{cta.label}</a></li>
   </ul>
+  <button class="nav-menu-btn" type="button" aria-expanded="false" aria-controls="nav-overlay" data-nav-menu>Menu</button>
 </nav>
+
+<div class="nav-overlay" id="nav-overlay" hidden data-nav-overlay>
+  <ul>
+    {links.map((l) => (
+      <li><a href={l.href} class={path === l.href ? 'is-active' : ''} aria-current={path === l.href ? 'page' : undefined}>{l.label}</a></li>
+    ))}
+    <li><a href={cta.href} class="cta">{cta.label}</a></li>
+  </ul>
+</div>
 
 <style>
   /* Homepage, at the very top: dissolve the frosted bar so the photograph
@@ -45,5 +73,28 @@ const isHome = Astro.url.pathname === '/';
     const sync = () => nav.classList.toggle('is-scrolled', window.scrollY > 80);
     sync();
     window.addEventListener('scroll', sync, { passive: true });
+  }
+
+  // Mobile menu — wordmark + a Menu disclosure that opens a full-screen
+  // overlay of the same mono links, with the body scroll locked behind it.
+  const btn = document.querySelector('[data-nav-menu]');
+  const overlay = document.querySelector('[data-nav-overlay]');
+  if (btn instanceof HTMLElement && overlay instanceof HTMLElement) {
+    const setOpen = (open) => {
+      btn.setAttribute('aria-expanded', String(open));
+      btn.textContent = open ? 'Close' : 'Menu';
+      overlay.hidden = !open;
+      document.documentElement.classList.toggle('nav-locked', open);
+    };
+    btn.addEventListener('click', () => setOpen(btn.getAttribute('aria-expanded') !== 'true'));
+    overlay.addEventListener('click', (e) => {
+      if (e.target instanceof Element && e.target.closest('a')) setOpen(false);
+    });
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && btn.getAttribute('aria-expanded') === 'true') {
+        setOpen(false);
+        btn.focus();
+      }
+    });
   }
 </script>

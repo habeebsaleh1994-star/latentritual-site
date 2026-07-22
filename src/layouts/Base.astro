@@ -9,10 +9,10 @@ interface Props {
 }
 
 const {
-  title = 'Latent the Ritual — A photographic developer for the digital age',
-  description = 'A complete digital darkroom for serious photographers. Film, light, paper. Develop, retouch, proof, print — in one place.',
-  ogImage = '/og.png?v=3',
-  ogImageAlt = 'Latent the Ritual — a photographic developer for the digital age',
+  title = 'Latent — a photographic developer for the digital age',
+  description = 'A house of three instruments, one negative-to-print engine: The Ritual on Mac and iPad, The Moment on iPhone, The Lab in DaVinci Resolve.',
+  ogImage = '/og.png?v=4',
+  ogImageAlt = 'Latent — one house, three instruments',
 } = Astro.props;
 
 const ogImageURL = `https://latentritual.com${ogImage}`;
@@ -21,7 +21,7 @@ const canonicalURL = new URL(Astro.url.pathname, 'https://latentritual.com').hre
 const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'SoftwareApplication',
-  name: 'Latent the Ritual',
+  name: 'Latent',
   applicationCategory: 'MultimediaApplication',
   operatingSystem: 'macOS, iPadOS, iOS',
   description,
@@ -57,7 +57,22 @@ const jsonLd = {
 
     <!-- Fonts are self-hosted (styles/fonts.css) — no third-party requests. -->
     <link rel="preload" as="font" type="font/woff2" crossorigin href="/fonts/outfit-latin.woff2" />
+    <slot name="head" />
     <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+
+    <!-- The lamplit evening, decided before first paint: the visitor's stored
+         choice wins; otherwise the room warms after local sunset. quiet.js
+         wires the footer lamp that overrides this. -->
+    <script is:inline>
+      (() => {
+        try {
+          var stored = localStorage.getItem('latent-lamp');
+          var hour = new Date().getHours();
+          var evening = stored ? stored === 'on' : (hour >= 19 || hour < 6);
+          if (evening) document.documentElement.classList.add('is-evening');
+        } catch (e) {}
+      })();
+    </script>
   </head>
 
   <body>

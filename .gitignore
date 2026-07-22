@@ -15,6 +15,11 @@ pnpm-debug.log*
 .env
 .env.production
 
+# capture masters — kept outside the repo per docs/media-manifest.md.
+# Back these up separately; only the encoded derivatives in public/ ship.
+original assets/
+docs/captures/
+
 # macOS
 .DS_Store
 

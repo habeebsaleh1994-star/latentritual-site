@@ -1,0 +1,13 @@
+---
+// Mini footer for the instrument pages — the way back to the house and the
+// doors to the two sibling instruments.
+interface Props {
+  links: { label: string; href: string }[];
+}
+const { links } = Astro.props;
+---
+
+<footer class="footer-mini">
+  <a href="/">&larr; Latent</a>
+  {links.map((l) => <a href={l.href}>{l.label}</a>)}
+</footer>

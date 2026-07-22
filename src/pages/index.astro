@@ -1,38 +1,536 @@
 ---
+// The Latent house homepage — one house, three instruments.
+//
+// The hero is the Develop seam (Hero.astro); below it the page introduces the
+// principle, the three instruments, the shared engine, and the shared world.
+// Release truth (status chips, CTA label, community gate) comes only from
+// src/config/truth.ts.
 import Base from '../layouts/Base.astro';
 import Nav from '../components/Nav.astro';
 import Hero from '../components/Hero.astro';
-import Field from '../components/Field.astro';
 import Inscription from '../components/Inscription.astro';
-import Materials from '../components/Materials.astro';
-import FilmLightPaper from '../components/FilmLightPaper.astro';
-import PrintRoom from '../components/PrintRoom.astro';
-import Complete from '../components/Complete.astro';
-import Bridge from '../components/Bridge.astro';
-import Story from '../components/Story.astro';
-import Moment from '../components/Moment.astro';
-import Price from '../components/Price.astro';
 import Footer from '../components/Footer.astro';
-// Note: Develop.astro is intentionally no longer rendered here. The immersive
-// Hero now carries the raw -> developed comparison across the same six
-// photographs, so the separate Develop section was a duplicate. The component
-// file is kept in the repo (unused) so nothing is lost and it's reversible.
+import StatusChip from '../components/StatusChip.astro';
+import { truth } from '../config/truth';
 ---
 
-<Base>
+<Base
+  title="Latent — a photographic developer for the digital age"
+  description="A house of three instruments, one negative-to-print engine: The Ritual on Mac and iPad, The Moment on iPhone, The Lab in DaVinci Resolve."
+>
+  <Fragment slot="head">
+    {/* The hero's first frame is the LCP image — fetch it before layout asks. */}
+    <link
+      rel="preload"
+      as="image"
+      href="/develop-3-after-3840.webp"
+      imagesrcset="/develop-3-after.webp 2048w, /develop-3-after-3840.webp 3840w, /develop-3-after-5120.jpg 5120w"
+      imagesizes="100vw"
+      fetchpriority="high"
+    />
+  </Fragment>
+
   <Nav />
   <main id="main">
-  <Hero />
-  <Field />
-  <Inscription />
-  <Materials />
-  <FilmLightPaper />
-  <PrintRoom />
-  <Complete />
-  <Bridge />
-  <Story />
-  <Moment />
-  <Price />
+    <Hero />
+
+    <!-- THE PRINCIPLE -->
+    <section class="principle">
+      <div class="eyebrow reveal">The principle</div>
+      <h2 class="principle-heading reveal reveal-heading" style="--reveal-delay: 80ms">The photograph is already there.</h2>
+      <p class="principle-body reveal" style="--reveal-delay: 200ms">
+        Latent does not correct it into something else. It develops what was
+        latent in the negative: first through light, then through emulsion,
+        then onto paper.
+      </p>
+    </section>
+
+    <!-- THE INSTRUMENTS -->
+    <section class="instruments">
+      <div class="instruments-header">
+        <div class="eyebrow reveal">The instruments</div>
+        <h2 class="instruments-heading reveal reveal-heading" style="--reveal-delay: 80ms">One house. Three instruments.</h2>
+      </div>
+
+      <div class="row" id="ritual">
+        <div class="row-text">
+          <div class="eyebrow reveal">The Ritual &middot; Mac and iPad</div>
+          <h3 class="row-title reveal reveal-heading" style="--reveal-delay: 80ms">The Ritual</h3>
+          <p class="row-role reveal" style="--reveal-delay: 140ms">The complete photographic workroom.</p>
+          <p class="row-body reveal" style="--reveal-delay: 200ms">
+            Live with a body of work from the first import to the finished
+            print. Remember it, gather it, decide what matters, develop the
+            negative, mend the light, make the print, and send it out.
+          </p>
+          <div class="row-foot reveal" style="--reveal-delay: 260ms">
+            <StatusChip label={truth.ritualStatus} />
+            <a class="door-link" href="/ritual">Enter the workroom &rarr;</a>
+          </div>
+        </div>
+        <div class="row-media capture-ritual reveal reveal-media" style="--reveal-delay: 200ms">
+          <img
+            src="/ritual-darkroom-2560.webp"
+            srcset="/ritual-darkroom-1280.webp 1280w, /ritual-darkroom-2560.webp 2560w"
+            sizes="(max-width: 900px) 100vw, 56vw"
+            width="5120"
+            height="2598"
+            loading="lazy"
+            alt="The Darkroom in The Ritual on Mac — a photograph from Joun developing on Supra Endura, among its develop controls"
+          />
+        </div>
+      </div>
+
+      <div class="row row-moment" id="moment">
+        <div class="row-media phone-media reveal reveal-media" style="--reveal-delay: 200ms">
+          <div class="capture-phone">
+            {/* The journal, not the viewfinder: this row is the whole
+                instrument's one image, and a camera is the half you'd assume. */}
+            <img
+              src="/moment-journal-900.webp"
+              srcset="/moment-journal-600.webp 600w, /moment-journal-900.webp 900w"
+              sizes="(max-width: 428px) 70vw, 300px"
+              width="900"
+              height="1956"
+              loading="lazy"
+              alt="A day in the journal of The Moment on iPhone — Friday, 17 July, “a summer evening”, with the day’s photographs gathered beneath the note"
+            />
+          </div>
+        </div>
+        <div class="row-text">
+          <div class="eyebrow reveal">The Moment &middot; iPhone</div>
+          <h3 class="row-title moment-voice reveal reveal-heading" style="--reveal-delay: 80ms">The Moment</h3>
+          <p class="row-role moment-voice reveal" style="--reveal-delay: 140ms">A camera and photographer&rsquo;s journal.</p>
+          <p class="row-body moment-voice reveal" style="--reveal-delay: 200ms">
+            Begin at First Light, catch a still photograph or a moving print,
+            and keep the place, the words, and the people around it. The
+            journal opens onto a wider bench on iPad.
+          </p>
+          <div class="row-foot reveal" style="--reveal-delay: 260ms">
+            <StatusChip label={truth.momentStatus} />
+            <a class="door-link" href="/moment">Open the journal &rarr;</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="row row-lab" id="lab">
+        <div class="row-text">
+          <div class="eyebrow reveal">The Lab &middot; DaVinci Resolve and iPhone</div>
+          <h3 class="row-title reveal reveal-heading" style="--reveal-delay: 80ms">The Lab</h3>
+          <p class="row-role reveal" style="--reveal-delay: 140ms">The moving-image print engine.</p>
+          <p class="row-body reveal" style="--reveal-delay: 200ms">
+            Develop a moving-image negative, print it, scan it, and carry it
+            back to the timeline in one node. Or carry the whole lab: a pocket
+            cinema camera and a room to cut, colour, and deliver the film.
+          </p>
+          <div class="row-foot reveal" style="--reveal-delay: 260ms">
+            <StatusChip label={truth.labStatus} />
+            <a class="door-link" href="/lab">See the Lab &rarr;</a>
+          </div>
+        </div>
+        {/* The one moving frame on the page, and it belongs to the instrument
+            that carries the process through motion. A web-weight derivative of
+            the Lab reel — preload="none" so it costs nothing until you reach
+            it; quiet.js starts it on entry and pauses it on the way out. */}
+        <div class="row-media capture-lab reveal reveal-media" style="--reveal-delay: 200ms">
+          <video
+            data-autoplay
+            muted
+            loop
+            playsinline
+            preload="none"
+            poster="/lab-reel-poster.webp"
+            width="1280"
+            height="720"
+            aria-label="A reel of moving images developed through the Latent print engine"
+          >
+            <source src="/lab-reel-1280.webm" type="video/webm" />
+            <source src="/lab-reel-1280.mp4" type="video/mp4" />
+          </video>
+        </div>
+      </div>
+    </section>
+
+    <Inscription />
+
+    <!-- ONE ENGINE -->
+    <section
+      class="engine"
+      data-recipe="Vision3 50D, pushed half a stop, on Fuji Eterna-CP"
+    >
+      <img
+        class="engine-photo"
+        src="/develop-6-after-3840.webp"
+        srcset="/develop-6-after.webp 2048w, /develop-6-after-3840.webp 3840w"
+        sizes="100vw"
+        width="3840"
+        height="2560"
+        loading="lazy"
+        alt=""
+        draggable="false"
+      />
+      <div class="engine-scrim" aria-hidden="true"></div>
+      <div class="engine-inner">
+        <div class="engine-rule reveal" aria-hidden="true"></div>
+        <div class="eyebrow engine-eyebrow reveal" style="--reveal-delay: 80ms">One engine &middot; three relationships to time</div>
+        <p class="engine-lines reveal" style="--reveal-delay: 160ms">
+          The Moment catches.<br />
+          The Ritual lets you sit with the work.<br />
+          The Lab carries the process through motion.
+        </p>
+        <div class="engine-rule reveal" style="--reveal-delay: 240ms" aria-hidden="true"></div>
+      </div>
+    </section>
+
+    <!-- THE SHARED WORLD -->
+    {truth.showCommunity && (
+      <section class="world">
+        <div class="eyebrow reveal">The shared world</div>
+        <h2 class="world-heading reveal reveal-heading" style="--reveal-delay: 80ms">
+          A finished photograph can stay with you.<br />Or it can be handed on.
+        </h2>
+        <p class="world-body reveal" style="--reveal-delay: 200ms">
+          Keep work among invited people in a <strong>Circle</strong>, or place
+          it in the open <strong>Field</strong>. No endless performance, no
+          invented score &mdash; prints, notes, and the people who stopped to
+          look.
+        </p>
+        <p class="world-doors reveal" style="--reveal-delay: 280ms">The doors open with the beta</p>
+      </section>
+    )}
+
+    <!-- CODA -->
+    <section class="coda" id="house">
+      <div class="coda-rule reveal" aria-hidden="true"></div>
+      <h2 class="coda-line reveal" style="--reveal-delay: 80ms">Made slowly, in Joun.</h2>
+      <p class="coda-body reveal" style="--reveal-delay: 160ms">
+        Latent is an independent photographic house founded by photographer
+        Habib Saleh in Joun, Lebanon. It makes instruments for developing
+        photographs and places for keeping them.
+      </p>
+      <div class="coda-rule reveal" style="--reveal-delay: 240ms" aria-hidden="true"></div>
+    </section>
   </main>
   <Footer />
+
+  <style>
+    /* Shared eyebrow — mono caps in dim amber. */
+    .eyebrow {
+      font-family: var(--font-label);
+      font-weight: 300;
+      font-size: 10px;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--amber-dim);
+    }
+
+    /* THE PRINCIPLE */
+    .principle {
+      padding: 200px 24px 160px;
+      max-width: 980px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .principle .eyebrow { margin-bottom: 32px; }
+    .principle-heading {
+      font-family: var(--font-display);
+      font-weight: 300;
+      font-size: 52px;
+      line-height: 1.2;
+      letter-spacing: -0.005em;
+      color: var(--text);
+      margin: 0 0 48px;
+    }
+    .principle-body {
+      font-family: var(--font-body);
+      font-weight: 300;
+      font-size: 19px;
+      line-height: 1.75;
+      color: var(--text-muted);
+      max-width: 680px;
+      margin: 0 auto;
+    }
+
+    /* THE INSTRUMENTS */
+    .instruments {
+      padding: 100px 24px 160px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    .instruments-header {
+      text-align: center;
+      margin-bottom: 110px;
+    }
+    .instruments-header .eyebrow { margin-bottom: 32px; }
+    .instruments-heading {
+      font-family: var(--font-display);
+      font-weight: 300;
+      font-size: 56px;
+      line-height: 1.1;
+      letter-spacing: -0.01em;
+      color: var(--text);
+      margin: 0;
+    }
+
+    .row {
+      display: grid;
+      grid-template-columns: 1fr 1.4fr;
+      gap: 80px;
+      align-items: center;
+      margin-bottom: 140px;
+    }
+    .row-moment { grid-template-columns: 1.4fr 1fr; }
+    .row-lab { margin-bottom: 0; }
+    .row-text { padding: 0 24px; }
+    .row-text .eyebrow { margin-bottom: 24px; }
+    .row-title {
+      font-family: var(--font-display);
+      font-weight: 300;
+      font-size: 52px;
+      letter-spacing: -0.01em;
+      line-height: 1;
+      color: var(--text);
+      margin: 0 0 16px;
+    }
+    .row-role {
+      font-family: var(--font-body);
+      font-weight: 300;
+      font-style: italic;
+      font-size: 18px;
+      color: var(--text-muted);
+      margin: 0 0 28px;
+    }
+    .row-body {
+      font-family: var(--font-body);
+      font-weight: 300;
+      font-size: 18px;
+      line-height: 1.7;
+      color: var(--text-muted);
+      margin: 0 0 32px;
+    }
+    .row-foot {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    /* The Moment speaks Lora. */
+    .row-title.moment-voice {
+      font-family: 'Lora', Georgia, serif;
+      font-weight: 500;
+      font-size: 48px;
+      color: var(--text-bright);
+    }
+    .row-role.moment-voice,
+    .row-body.moment-voice {
+      font-family: 'Lora', Georgia, serif;
+      font-weight: 400;
+    }
+
+    .capture-ritual {
+      aspect-ratio: 5120 / 2598;
+      border-radius: 6px;
+      overflow: hidden;
+      box-shadow: 0 40px 80px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(232, 196, 160, 0.05);
+      background: var(--bg-deep);
+    }
+    .capture-ritual img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .phone-media {
+      display: flex;
+      justify-content: center;
+      gap: 32px;
+    }
+    .capture-phone {
+      width: min(300px, 70vw);
+      aspect-ratio: 9 / 19.5;
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 0 40px 80px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(232, 196, 160, 0.07);
+      background: var(--bg-deep);
+    }
+    .capture-phone img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .capture-lab {
+      aspect-ratio: 16 / 9;
+      border-radius: 6px;
+      overflow: hidden;
+      box-shadow: 0 40px 80px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(232, 196, 160, 0.05);
+      background: var(--bg-deep);
+    }
+    .capture-lab video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* ONE ENGINE */
+    .engine {
+      position: relative;
+      padding: 0;
+      overflow: hidden;
+      background: var(--bg-deep);
+    }
+    .engine-photo {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.35;
+      display: block;
+    }
+    .engine-scrim {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to bottom,
+        var(--bg) 0%,
+        rgba(26, 22, 20, 0.35) 30%,
+        rgba(26, 22, 20, 0.35) 70%,
+        var(--bg) 100%
+      );
+    }
+    .engine-inner {
+      position: relative;
+      z-index: 2;
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 220px 24px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 40px;
+    }
+    .engine-rule {
+      width: 60px;
+      height: 1px;
+      background: rgba(232, 196, 160, 0.4);
+    }
+    .engine-eyebrow { color: var(--amber-dim); }
+    .engine-lines {
+      font-family: var(--font-display);
+      font-weight: 300;
+      font-size: clamp(26px, 4vw, 38px);
+      line-height: 1.4;
+      letter-spacing: -0.005em;
+      color: var(--text-bright);
+      margin: 0;
+      text-shadow: 0 1px 24px rgba(13, 11, 10, 0.8);
+    }
+
+    /* THE SHARED WORLD */
+    .world {
+      padding: 200px 24px;
+      max-width: 980px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .world .eyebrow { margin-bottom: 32px; }
+    .world-heading {
+      font-family: var(--font-display);
+      font-weight: 300;
+      font-size: 44px;
+      line-height: 1.25;
+      letter-spacing: -0.005em;
+      color: var(--text);
+      margin: 0 0 48px;
+    }
+    .world-body {
+      font-family: var(--font-body);
+      font-weight: 300;
+      font-size: 19px;
+      line-height: 1.75;
+      color: var(--text-muted);
+      max-width: 680px;
+      margin: 0 auto 40px;
+    }
+    .world-body strong {
+      color: var(--text);
+      font-weight: 400;
+    }
+    .world-doors {
+      font-family: var(--font-label);
+      font-weight: 300;
+      font-size: 10px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--text-ghost);
+      margin: 0;
+    }
+
+    /* CODA */
+    .coda {
+      padding: 60px 24px 180px;
+      max-width: 720px;
+      margin: 0 auto;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 36px;
+    }
+    .coda-rule {
+      width: 60px;
+      height: 1px;
+      background: var(--border-light);
+    }
+    .coda-line {
+      font-family: var(--font-display);
+      font-weight: 300;
+      font-style: italic;
+      font-size: 26px;
+      letter-spacing: 0.005em;
+      color: var(--text-bright);
+      margin: 0;
+    }
+    .coda-body {
+      font-family: var(--font-body);
+      font-weight: 300;
+      font-size: 16px;
+      line-height: 1.7;
+      color: var(--text-muted);
+      max-width: 520px;
+      margin: 0;
+    }
+
+    /* Responsive — the old repo's breakpoint discipline. */
+    @media (max-width: 900px) {
+      .row,
+      .row-moment {
+        grid-template-columns: 1fr;
+        gap: 40px;
+        margin-bottom: 100px;
+      }
+      .row-lab { margin-bottom: 0; }
+      /* Single column: capture first, text second — except the Ritual row,
+         which leads with its text. */
+      .row-lab .row-media { order: -1; }
+      .row-text { padding: 0; }
+      .principle-heading { font-size: 38px; }
+      .instruments-heading { font-size: 40px; }
+      .row-title { font-size: 42px; }
+      .row-title.moment-voice { font-size: 40px; }
+      .world-heading { font-size: 34px; }
+      .instruments-header { margin-bottom: 72px; }
+      .engine-inner { padding: 160px 24px; }
+    }
+
+    @media (max-width: 640px) {
+      .principle { padding: 140px 20px 100px; }
+      .instruments { padding: 60px 20px 100px; }
+      .world { padding: 140px 20px; }
+      .coda { padding: 40px 20px 120px; }
+    }
+  </style>
 </Base>

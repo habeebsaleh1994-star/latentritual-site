@@ -1,0 +1,10 @@
+---
+// Status chip — a hairline pill with the amber dot. The label always comes
+// from src/config/truth.ts, never from page copy.
+interface Props {
+  label: string;
+}
+const { label } = Astro.props;
+---
+
+<span class="chip"><span class="chip-dot" aria-hidden="true"></span>{label}</span>
