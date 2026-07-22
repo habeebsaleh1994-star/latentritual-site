@@ -6,7 +6,7 @@ import Footer from '../components/Footer.astro';
 
 <Base
   title="Privacy — Latent"
-  description="What little Latent collects, and why. We ask for as little as possible and never sell your information."
+  description="Privacy should be simple. Latent collects as little as possible, uses it only when necessary, and never sells your information."
 >
   <Nav />
   <main class="legal" id="main">
@@ -14,34 +14,50 @@ import Footer from '../components/Footer.astro';
     <h1>Privacy Policy</h1>
     <p class="legal-updated">Last updated 9 June 2026</p>
 
-    <p>Latent is made by one person, Habib Saleh, in Joun, Lebanon. This policy explains what little we collect, and why. The short version: we ask for as little as possible, we don't track you, and we never sell your information.</p>
+    <p class="legal-lead">Privacy should be simple. We collect as little as possible, use it only when necessary, and never sell your information.</p>
 
     <h2>What we collect</h2>
-    <p>The only thing we ever ask for is your email address, and only if you choose to subscribe to our newsletter. If you write to us, we also receive your message and your email address. That is all. This website uses no analytics, no advertising, and no tracking cookies.</p>
+    <p>The only information we ask for is your email address, and only if you choose to subscribe to our newsletter or contact us directly.</p>
+    <p>This website uses no analytics, no advertising, and no tracking cookies.</p>
 
     <h2>The newsletter</h2>
-    <p>If you subscribe, your email address is stored and managed by Buttondown, our email provider, and used only to send occasional updates about Latent. Every email includes an unsubscribe link, and you can leave at any time.</p>
+    <p>If you subscribe, your email address is managed by Buttondown, our email provider, and used only to send occasional updates about Latent.</p>
+    <p>Every email includes an unsubscribe link, and you can leave at any time.</p>
 
     <h2>Your photographs</h2>
-    <p>Latent is a darkroom, not a cloud service. The app develops your photographs on your own device, and we never receive, store, or have any access to them. If you keep your photos in iCloud or save your library to iCloud Drive, that syncing runs through your own Apple account, under your control, not ours.</p>
+    <p>Latent is a darkroom, not a cloud service.</p>
+    <p>Your photographs remain on your device. We do not receive, store, or have access to them.</p>
+    <p>If you choose to use iCloud Photos or iCloud Drive, that synchronization is provided by Apple through your own account and remains under your control.</p>
 
     <h2>Payments</h2>
-    <p>Purchases for the Latent apps on the App Store are handled by Apple. Website purchases, including The Lab / OFX plugin, are handled by Paddle. We do not receive your full payment card details. Paddle may provide us with purchase records such as your name, email address, product purchased, transaction ID, country, and tax or billing status so we can fulfill the purchase and provide support.</p>
+    <p>Purchases made through the App Store are processed by Apple.</p>
+    <p>Purchases made through our website, including The Lab / OFX plugin, are processed by Paddle.</p>
+    <p>We never receive your full payment card details.</p>
+    <p>We may receive limited purchase information, such as your name, email address, product purchased, transaction ID, country, and billing or tax status, solely to fulfill your purchase and provide support.</p>
 
-    <h2>The services we rely on</h2>
-    <p>We keep our tools few: Buttondown for the newsletter, Apple for App Store purchases, Paddle for website checkout and payments, and Cloudflare for website hosting and our domain. Each maintains its own privacy practices.</p>
+    <h2>Services we rely on</h2>
+    <p>We keep our tools few.</p>
+    <ul class="legal-list">
+      <li>Buttondown for newsletters.</li>
+      <li>Apple for App Store purchases.</li>
+      <li>Paddle for website payments.</li>
+      <li>Cloudflare for hosting and domain services.</li>
+    </ul>
+    <p>Each service maintains its own privacy policy.</p>
 
     <h2>Your choices</h2>
-    <p>You can unsubscribe at any time, and you can ask us to delete anything we hold about you by writing to <a href="mailto:contact@latentritual.com">contact@latentritual.com</a>. Depending on where you live (for example the EU, the UK, or California) you may have additional rights over your data, and we will honor them.</p>
+    <p>You may unsubscribe from our newsletter at any time.</p>
+    <p>You may also ask us to delete any personal information we hold by writing to <a href="mailto:contact@latentritual.com">contact@latentritual.com</a>.</p>
+    <p>Depending on where you live, you may have additional rights over your personal information. We will honor those rights where applicable.</p>
 
     <h2>Children</h2>
-    <p>Latent is not directed at children, and we do not knowingly collect information from anyone under 16.</p>
+    <p>Latent is not intended for children under the age of 16, and we do not knowingly collect personal information from them.</p>
 
     <h2>Changes</h2>
-    <p>If this policy changes, we will update this page and the date above.</p>
+    <p>If this policy changes, we will update this page and revise the date above.</p>
 
     <h2>Contact</h2>
-    <p>Questions about privacy? Email <a href="mailto:contact@latentritual.com">contact@latentritual.com</a>.</p>
+    <p>Questions about privacy? <a href="mailto:contact@latentritual.com">contact@latentritual.com</a></p>
 
     <a class="legal-back" href="/">← Back to Latent</a>
   </main>
@@ -52,6 +68,9 @@ import Footer from '../components/Footer.astro';
     .legal-label { font-family: var(--font-label); font-weight: 300; font-size: 10px; letter-spacing: 0.28em; text-transform: uppercase; color: var(--amber-dim); margin-bottom: 20px; }
     .legal h1 { font-family: var(--font-display); font-weight: 300; font-size: 40px; letter-spacing: -0.01em; color: var(--text-bright); margin-bottom: 12px; }
     .legal-updated { font-family: var(--font-body); font-style: italic; font-size: 14px; color: var(--text-ghost); margin-bottom: 48px; }
+    .legal-lead { font-size: 18px !important; line-height: 1.75 !important; color: var(--text) !important; }
+    .legal-list { margin: 0 0 14px; padding-left: 20px; }
+    .legal-list li { font-family: var(--font-body); font-weight: 300; font-size: 16px; line-height: 1.7; color: var(--text-muted); margin-bottom: 6px; }
     .legal h2 { font-family: var(--font-display); font-weight: 400; font-size: 21px; color: var(--text-bright); margin: 40px 0 12px; }
     .legal p { font-family: var(--font-body); font-weight: 300; font-size: 16px; line-height: 1.7; color: var(--text-muted); margin-bottom: 14px; }
     .legal a { color: var(--amber); text-decoration: none; border-bottom: 1px solid var(--border-light); transition: color 0.3s ease, text-shadow 0.6s ease, border-color 0.6s ease; }
