@@ -2,81 +2,124 @@
 import Base from '../layouts/Base.astro';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
+
+// The house's statement of principle. It reads as one essay, so the three
+// raised lines — the turn, the rule, and the question — are set apart from the
+// prose rather than folded into it, and the question is given the Inscription's
+// treatment because the page is built to arrive there.
 ---
 
 <Base
   title="About — Latent"
-  ogImageAlt="Latent — a photographic developer"
-  description="Latent is an independent photographic house in Joun, Lebanon. It makes developers, instruments for bringing a photograph up from its negative: the Ritual on Mac and iPad, the Moment on iPhone, the Lab in DaVinci Resolve."
+  description="Every photograph exists twice: first as light, then as an image brought into view through development. Latent builds tools that keep photographers closer to their photographs."
+  ogImageAlt="Latent — one house, three instruments"
 >
   <Nav />
   <main class="about" id="main">
 
-    <!-- OPENING -->
     <section class="about-hero">
       <div class="section-label reveal">About</div>
-      <h1 class="about-title reveal reveal-heading" style="--reveal-delay: 80ms">A darkroom,<br />rebuilt in software.</h1>
-      <p class="about-lead reveal" style="--reveal-delay: 200ms">Latent develops a photograph the way a darkroom does: it builds a negative, then prints it onto paper. A developer, in the old sense of the word.</p>
+      <h1 class="about-title reveal reveal-heading" style="--reveal-delay: 80ms">Every photograph<br />exists twice.</h1>
+      <p class="about-lead reveal" style="--reveal-delay: 200ms">
+        First as light, gathered for a fraction of a second. Then as an image,
+        slowly brought into view through the act of development.
+      </p>
     </section>
 
-    <!-- THE HOUSE -->
     <section class="about-block">
-      <div class="section-label reveal">The house</div>
-      <div class="about-prose reveal" style="--reveal-delay: 80ms">
-        <p>Latent is an independent photographic house, founded by a photographer, in Joun, Lebanon. It makes developers, instruments for bringing a photograph up from its negative, and it makes them slowly, one hand on the enlarger.</p>
+      <div class="about-prose reveal">
+        <p>
+          Between those two moments lies a quiet conversation between what the
+          camera recorded and what the photographer sees. We believe that
+          conversation deserves more attention than it often receives.
+        </p>
+        <p>
+          Latent was founded from a simple observation: developing a photograph
+          has gradually become an act of correction. Images are sharpened before
+          they are understood, colors are pushed before they are seen, and the
+          photograph is often asked to become something other than itself.
+        </p>
       </div>
     </section>
 
-    <!-- THE PRINCIPLES -->
+    <section class="about-turn">
+      <p class="about-raised reveal">We think development begins elsewhere.</p>
+    </section>
+
     <section class="about-block">
-      <div class="section-label reveal">The principles</div>
-      <div class="about-prose reveal" style="--reveal-delay: 80ms">
-        <p>A photograph is developed, not corrected. The materials are real, spectral models of film and paper, studied from the originals, and a small line of emulsions of the house's own. Nothing is invented by a machine, the camera shoots RAW, and the one neural tool in the building fills the space behind what you chose to remove, nothing more.</p>
-        <p>What you photographed is what develops.</p>
+      <div class="about-prose reveal">
+        <p>
+          Before interpretation comes understanding. Before style comes
+          structure. Before expression comes the patient work of revealing what
+          is already there.
+        </p>
+        <p>
+          This belief shapes every part of Latent. We study how light behaves,
+          how photographic materials respond to it, and how images acquire their
+          character &mdash; not to imitate the past, but to understand the
+          principles that have always guided photography. Technology changes.
+          Those principles do not.
+        </p>
+        <p>
+          Our ambition is not simply to build another RAW developer. It is to
+          build tools that help photographers remain closer to their
+          photographs. Tools that feel coherent, deliberate, and quiet enough
+          that attention returns to the image itself.
+        </p>
       </div>
     </section>
 
-    <!-- THE FAMILY -->
-    <section class="about-block">
-      <div class="section-label reveal">The family</div>
-      <h2 class="about-h2 reveal reveal-heading" style="--reveal-delay: 80ms">One engine, three places.</h2>
-      <ul class="about-apps reveal" style="--reveal-delay: 160ms">
+    <section class="about-turn">
+      <p class="about-raised reveal">
+        Software should not compete with the photograph.<br />It should accompany it.
+      </p>
+    </section>
+
+    <!-- THE QUESTION — the page is built to arrive here. -->
+    <section class="about-question">
+      <p class="about-question-lead reveal">Every decision we make begins with the same question:</p>
+      <div class="about-rule reveal" style="--reveal-delay: 80ms" aria-hidden="true"></div>
+      <p class="about-quote reveal" style="--reveal-delay: 160ms">
+        What does the photograph already know<br />that we have not yet learned to see?
+      </p>
+      <div class="about-rule reveal" style="--reveal-delay: 240ms" aria-hidden="true"></div>
+      <p class="about-question-close reveal" style="--reveal-delay: 320ms">That question continues to guide our work.</p>
+    </section>
+
+    <!-- The three doors, kept quiet — the nav carries them on every page. -->
+    <section class="about-block about-family">
+      <div class="section-label reveal">The instruments</div>
+      <ul class="about-apps reveal" style="--reveal-delay: 80ms">
         <li class="about-app">
           <a href="/ritual">
             <span class="about-app-name">The Ritual</span>
             <span class="about-app-where">Mac &amp; iPad</span>
-            <span class="about-app-go" aria-hidden="true">→</span>
+            <span class="about-app-go" aria-hidden="true">&rarr;</span>
           </a>
         </li>
         <li class="about-app">
           <a href="/moment">
             <span class="about-app-name">The Moment</span>
             <span class="about-app-where">iPhone</span>
-            <span class="about-app-go" aria-hidden="true">→</span>
+            <span class="about-app-go" aria-hidden="true">&rarr;</span>
           </a>
         </li>
         <li class="about-app">
           <a href="/lab">
             <span class="about-app-name">The Lab</span>
             <span class="about-app-where">DaVinci Resolve &amp; iPhone</span>
-            <span class="about-app-go" aria-hidden="true">→</span>
+            <span class="about-app-go" aria-hidden="true">&rarr;</span>
           </a>
         </li>
       </ul>
-      <p class="about-note reveal" style="--reveal-delay: 240ms">The same negative-to-print core, wherever you work.</p>
-    </section>
-
-    <!-- CODA -->
-    <section class="about-coda">
-      <div class="about-rule reveal"></div>
-      <p class="about-quote reveal" style="--reveal-delay: 80ms">Made slowly, in Joun.</p>
+      <p class="about-note reveal" style="--reveal-delay: 160ms">Made slowly, in Joun.</p>
     </section>
 
   </main>
   <Footer />
 
   <style>
-    .about-hero { max-width: 820px; padding: 172px 24px 64px; text-align: center; }
+    .about-hero { max-width: 820px; padding: 172px 24px 72px; text-align: center; }
     .about-title {
       font-family: var(--font-display);
       font-weight: 300;
@@ -87,32 +130,75 @@ import Footer from '../components/Footer.astro';
       margin: 0;
     }
     .about-lead {
-      font-size: 18px;
-      line-height: 1.7;
+      font-size: 19px;
+      line-height: 1.75;
       color: var(--text-muted);
-      max-width: 600px;
-      margin: 26px auto 0;
+      max-width: 620px;
+      margin: 30px auto 0;
     }
 
-    .about-block { max-width: 700px; padding: 0 24px 92px; }
-    .about-h2 {
-      font-family: var(--font-display);
-      font-weight: 300;
-      font-size: clamp(26px, 4.2vw, 38px);
-      line-height: 1.16;
-      letter-spacing: -0.01em;
-      color: var(--text-bright);
-      margin: 0 0 18px;
-    }
+    .about-block { max-width: 660px; margin: 0 auto; padding: 0 24px 72px; }
     .about-prose p {
-      font-size: 17px;
-      line-height: 1.78;
-      color: var(--text);
-      margin: 0 0 1.05em;
+      font-size: 18px;
+      line-height: 1.8;
+      color: var(--text-muted);
+      margin: 0 0 1.15em;
     }
     .about-prose p:last-child { margin-bottom: 0; }
-    .about-prose strong { color: var(--text-bright); font-weight: 600; }
 
+    /* The two raised lines. Larger than the prose, lighter in colour, given
+       their own air — the essay pauses on them. */
+    .about-turn { max-width: 760px; margin: 0 auto; padding: 24px 24px 88px; text-align: center; }
+    .about-raised {
+      font-family: var(--font-display);
+      font-weight: 300;
+      font-size: clamp(24px, 3.4vw, 32px);
+      line-height: 1.4;
+      letter-spacing: -0.005em;
+      color: var(--text-bright);
+      margin: 0;
+    }
+
+    /* The question, between hairlines — the Inscription's treatment, because
+       this is the line the whole page is walking toward. */
+    .about-question {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 16px 24px 96px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 32px;
+    }
+    .about-question-lead {
+      font-family: var(--font-body);
+      font-weight: 300;
+      font-size: 17px;
+      line-height: 1.7;
+      color: var(--text-muted);
+      margin: 0;
+    }
+    .about-rule { width: 60px; height: 1px; background: var(--border-light); }
+    .about-quote {
+      font-family: var(--font-display);
+      font-weight: 300;
+      font-style: italic;
+      font-size: clamp(24px, 3.8vw, 34px);
+      line-height: 1.45;
+      color: var(--text-bright);
+      margin: 0;
+    }
+    .about-question-close {
+      font-family: var(--font-body);
+      font-weight: 300;
+      font-size: 16px;
+      color: var(--text-muted);
+      margin: 0;
+    }
+
+    .about-family { padding-bottom: 140px; }
+    .about-family .section-label { margin-bottom: 28px; }
     .about-apps { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--border); }
     .about-app a {
       display: flex;
@@ -128,21 +214,19 @@ import Footer from '../components/Footer.astro';
     .about-app-name { font-family: var(--font-display); font-weight: 300; font-size: 24px; }
     .about-app-where { font-family: var(--font-label); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-muted); }
     .about-app-go { margin-left: auto; color: var(--amber); }
-    .about-note { font-family: var(--font-label); font-size: 12px; letter-spacing: 0.06em; color: var(--text-muted); margin: 22px 0 0; }
-
-    .about-coda { max-width: 700px; padding: 8px 24px 140px; text-align: center; }
-    .about-rule { width: 40px; height: 1px; background: var(--amber); opacity: 0.5; margin: 0 auto 28px; }
-    .about-quote {
-      font-family: 'Lora', Georgia, serif;
+    .about-note {
+      font-family: var(--font-body);
+      font-weight: 300;
       font-style: italic;
-      font-size: clamp(22px, 3.6vw, 30px);
-      line-height: 1.4;
-      color: var(--text-bright);
-      margin: 0;
+      font-size: 15px;
+      color: var(--text-muted);
+      margin: 26px 0 0;
     }
 
     @media (max-width: 600px) {
       .about-hero { padding-top: 132px; }
+      .about-turn { padding-bottom: 64px; }
+      .about-question { padding-bottom: 72px; }
       .about-app a { gap: 10px; }
       .about-app-name { font-size: 21px; }
     }
