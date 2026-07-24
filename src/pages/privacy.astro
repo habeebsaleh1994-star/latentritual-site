@@ -34,6 +34,7 @@ import Footer from '../components/Footer.astro';
     <p>A <strong>Circle</strong> is a small, private shared album. Everything a Circle holds &mdash; its members, photographs, videos, notes, and keeps &mdash; is looked after by Latent&rsquo;s own community service, and only the people invited into that Circle can see it. Like any shared album that delivers photographs between phones, the service can read what it carries; ordinary Circle content is private to its members, not encrypted end-to-end.</p>
     <p><strong>Envelopes</strong> &mdash; the Circle&rsquo;s private messages &mdash; are sealed on the sender&rsquo;s device before they travel. Our service delivers them without holding the keys; only Circle members can open them.</p>
     <p>The <strong>Field</strong> is the Moment&rsquo;s public space. Joining it creates a community account with a handle and a display name, and anything you publish there &mdash; photographs, titles, captions, notes &mdash; becomes visible to other members, associated with your handle. Latent&rsquo;s community service keeps only what the feature needs: your account, your profile, what you publish, and the notes, keeps, appreciations, and follows you place.</p>
+    <p>Field and Circle content is stored by Latent&rsquo;s community service on Cloudflare. It is not stored in iCloud and does not use your iCloud space.</p>
     <p>Photographs you publish carry no location data, even if location was recorded when they were taken &mdash; that stays on your device.</p>
     <p>If you turn on community notifications, your device&rsquo;s delivery address for them (its push token) is registered with our service and used only for delivery. If you report content or a member, the report comes to us and is used only to look after the community. Blocking someone is remembered so their work stays out of your view.</p>
     <p>You can take back a published post at any time, close a Circle you own, leave a Circle, and delete your community account entirely from inside the app. What you take back is removed from our service; a copy someone already saved to their own device is beyond our reach &mdash; as with anything shared.</p>
@@ -48,7 +49,7 @@ import Footer from '../components/Footer.astro';
     <p>We keep our tools few.</p>
     <ul class="legal-list">
       <li>Buttondown for newsletters.</li>
-      <li>Apple for Sign in with Apple, push notifications, App Store services, and any Apple Photos or iCloud features you choose to use.</li>
+      <li>Apple for Sign in with Apple, push notifications, App Store services, and any Apple Photos or iCloud features you choose to use. Apple does not host Field or Circle content for Latent.</li>
       <li>Paddle for website payments.</li>
       <li>Cloudflare, whose infrastructure runs this website and the community service behind the Field and Circles.</li>
     </ul>
