@@ -31,11 +31,12 @@ import Footer from '../components/Footer.astro';
 
     <h2>The Moment&rsquo;s community</h2>
     <p>The Moment offers two ways to share, and both are opt-in. Nothing is shared unless you choose to share it.</p>
-    <p>A <strong>Circle</strong> is a small, private shared album. It runs on Apple&rsquo;s iCloud (CloudKit), using the private and shared storage attached to the members&rsquo; own Apple accounts. We do not operate a server that can read your Circle; its contents are accessible only to its members. Envelopes &mdash; the Circle&rsquo;s private messages &mdash; are additionally end-to-end encrypted.</p>
-    <p>The <strong>Field</strong> is the Moment&rsquo;s public space. Joining it creates a community account with a handle and a display name, and anything you publish there &mdash; photographs, titles, captions, notes &mdash; becomes visible to other members, associated with your handle. Published work and community accounts are stored on Apple&rsquo;s iCloud (CloudKit) and on our community service, hosted on Cloudflare. We store only what the feature needs: your account, your profile, what you publish, and the notes, keeps, appreciations, and follows you place.</p>
+    <p>A <strong>Circle</strong> is a small, private shared album. Circle accounts, membership, photographs, videos, notes, keeps, and other activity are stored by our community service, hosted on Cloudflare. Access is limited to the people invited into that Circle. Ordinary Circle content is not end-to-end encrypted, which means our service must be able to process it in order to store and deliver it.</p>
+    <p><strong>Envelopes</strong> &mdash; the Circle&rsquo;s private messages &mdash; are end-to-end encrypted before they leave the sender&rsquo;s device. Our service stores and delivers the encrypted contents and the routing information needed to carry them, but it does not hold the keys needed to open the contents.</p>
+    <p>The <strong>Field</strong> is the Moment&rsquo;s public space. Joining it creates a community account with a handle and a display name, and anything you publish there &mdash; photographs, titles, captions, notes &mdash; becomes visible to other members, associated with your handle. Published work and community accounts are stored by our community service, hosted on Cloudflare. We store only what the feature needs: your account, your profile, what you publish, and the notes, keeps, appreciations, and follows you place.</p>
     <p>Photographs you publish carry no location data, even if location was recorded when they were taken &mdash; that stays on your device.</p>
-    <p>If you enable community notifications, your device&rsquo;s push token is registered with our notification service, used only for delivery. If you report content or a member, the report is sent to us and used only for moderation.</p>
-    <p>You can take back a published post at any time, and you can delete your community account entirely from inside the app; deletion removes your profile and your published work.</p>
+    <p>If you enable community notifications, your device&rsquo;s push token is registered with our notification service, used only for delivery. If you report content or a member, the report is sent to us and used only for moderation. Blocking someone is recorded so the app can keep their work out of your view.</p>
+    <p>You can take back a published post at any time, close a Circle you own, leave a Circle, and delete your community account entirely from inside the app. These actions remove the active copies held by our service, but cannot remove copies another person already saved or shared outside the app.</p>
 
     <h2>Payments</h2>
     <p>Purchases made through the App Store are processed by Apple.</p>
@@ -47,15 +48,15 @@ import Footer from '../components/Footer.astro';
     <p>We keep our tools few.</p>
     <ul class="legal-list">
       <li>Buttondown for newsletters.</li>
-      <li>Apple for App Store purchases, and iCloud (CloudKit) for the Moment&rsquo;s community.</li>
+      <li>Apple for Sign in with Apple, push notifications, App Store services, and any Apple Photos or iCloud features you choose to use.</li>
       <li>Paddle for website payments.</li>
-      <li>Cloudflare for hosting, domain services, and the Moment&rsquo;s community service.</li>
+      <li>Cloudflare for hosting, domain services, and the Moment&rsquo;s Field and Circle community service.</li>
     </ul>
     <p>Each service maintains its own privacy policy.</p>
 
     <h2>Your choices</h2>
     <p>You may unsubscribe from our newsletter at any time.</p>
-    <p>You may also ask us to delete any personal information we hold by writing to <a href="mailto:contact@latentritual.com">contact@latentritual.com</a>.</p>
+    <p>You may also ask us to delete any personal information we hold by writing to <a href="mailto:support@latentritual.com">support@latentritual.com</a>.</p>
     <p>Depending on where you live, you may have additional rights over your personal information. We will honor those rights where applicable.</p>
 
     <h2>Children</h2>
@@ -65,7 +66,7 @@ import Footer from '../components/Footer.astro';
     <p>If this policy changes, we will update this page and revise the date above.</p>
 
     <h2>Contact</h2>
-    <p>Questions about privacy? <a href="mailto:contact@latentritual.com">contact@latentritual.com</a></p>
+    <p>Questions about privacy? <a href="mailto:support@latentritual.com">support@latentritual.com</a></p>
 
     <a class="legal-back" href="/">← Back to Latent</a>
   </main>
